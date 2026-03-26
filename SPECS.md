@@ -15,6 +15,7 @@ Feature specs with testable acceptance criteria. Each spec follows the SDD forma
 
 | Spec | Purpose |
 |---|---|
+| [Architecture](specs/architecture.spec.md) | Ports & Adapters pattern, layer definitions, dependency rules, domain model, extension playbook |
 | [Tech Stack](specs/tech-stack.spec.md) | Stack choices, feature rationale, synergy map |
 | [Integration Boundaries](specs/integration-boundaries.spec.md) | Backend swap interfaces, migration paths |
 

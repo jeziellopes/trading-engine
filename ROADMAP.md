@@ -117,5 +117,6 @@ The frontend interfaces are delivered with P0/P1. Backend implementations are a 
 - [`docs/PRD.md`](docs/PRD.md) — Business context, user flows, quality criteria
 - [`SPECS.md`](SPECS.md) — Spec index with dependency graph
 - [`CLAUDE.md`](CLAUDE.md) — Agent conventions, commands, anti-patterns
+- [`specs/architecture.spec.md`](specs/architecture.spec.md) — Hexagonal architecture, layers, dependency rules, domain model
 - [`specs/tech-stack.spec.md`](specs/tech-stack.spec.md) — Stack feature rationale
 - [`specs/integration-boundaries.spec.md`](specs/integration-boundaries.spec.md) — Backend swap interfaces
