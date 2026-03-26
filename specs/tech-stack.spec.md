@@ -67,7 +67,7 @@ The React Compiler has shipped as `babel-plugin-react-compiler` v1.0. We enable 
 | **Automatic memoization** | Compiler memoizes all components and hooks at build time. No manual `useMemo`, `useCallback`, or `React.memo`. | The entire order book render path — BidTable, AskTable, SpreadBar, DepthChart — is automatically memoized. Zero developer overhead. |
 | **Conditional memoization** | Compiler memoizes code after early returns — impossible to express with `useMemo`. | Components that guard on `connectionStatus` or empty data can still memoize their main render path. |
 | **Optional chain tracking** | `order?.price?.display` tracked as a memoization dependency. | Fewer unnecessary re-renders in components reading nested order data. |
-| **Compiler ESLint rules** | `set-state-in-render`, `set-state-in-effect`, `refs` rules via `eslint-plugin-react-hooks@latest`. | Catches bugs before they hit the real-time render path. `setState` during render = render loop in a 60fps book. |
+| **Compiler lint rules** | `set-state-in-render`, `set-state-in-effect`, `refs` rules via `eslint-plugin-react-hooks@latest`. ESLint retained solely for these compiler-specific rules; all other linting/formatting handled by Biome. | Catches bugs before they hit the real-time render path. `setState` during render = render loop in a 60fps book. |
 
 **Configuration (Vite 8):**
 ```js
@@ -85,16 +85,107 @@ export default {
 };
 ```
 
-**ESLint (flat config):**
+**Linting & Formatting (Biome + ESLint):**
+
+Biome handles formatting, general lint rules, import sorting, and architectural boundary enforcement. ESLint is retained solely for React Compiler rules — no other ESLint plugins are used.
+
+```jsonc
+// biome.json
+{
+  "$schema": "https://biomejs.dev/schemas/2.0/schema.json",
+  "organizeImports": { "enabled": true },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
+      },
+      "style": {
+        "noNonNullAssertion": "warn",
+        "useImportType": "error"
+      },
+      "nursery": {
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {}
+          }
+        }
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["src/domain/**"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/infra": "Domain must not import infrastructure",
+                  "@/stores": "Domain must not import application layer",
+                  "@/features": "Domain must not import presentation",
+                  "@/routes": "Domain must not import routes",
+                  "@/ui": "Domain must not import UI primitives"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/features/**"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/infra": "Features must not import infrastructure. Use stores."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
 ```js
-// eslint.config.js
+// eslint.config.js — React Compiler rules ONLY
 import reactHooks from 'eslint-plugin-react-hooks';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
-  reactHooks.configs['flat/recommended'],
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ...reactHooks.configs['flat/recommended'],
+  },
+  {
+    // Ignore formatting/style — Biome handles that
+    rules: {
+      'no-unused-vars': 'off',
+      'no-console': 'off',
+    },
+  },
 ]);
 ```
+
+**Why two tools:** React Compiler ships its validation rules exclusively as an ESLint plugin (`eslint-plugin-react-hooks`). Biome has no equivalent. Since the entire project premise is "zero manual memoization — Compiler handles it," these rules are load-bearing. Biome handles everything else — formatting, general TypeScript rules, import ordering, and architectural boundary enforcement — at Rust speed.
 
 ### Performance Strategy with React 19.2 + Compiler
 
@@ -338,7 +429,13 @@ React 19.2
 React Compiler 1.0
   └─► auto memoization ─► zero useMemo/useCallback in codebase
   └─► conditional memo ─► works after early returns (connection guards)
-  └─► ESLint rules ─► catches setState-in-render before it ships
+  └─► ESLint rules ─► catches setState-in-render before it ships (sole ESLint use)
+
+Biome
+  └─► Rust-speed formatting + linting ─► sub-100ms on full codebase
+  └─► import sorting ─► consistent module ordering
+  └─► noRestrictedImports ─► enforces hexagonal layer boundaries
+  └─► replaces Prettier + most ESLint rules ─► single tool for 95% of checks
 
 TanStack Router
   └─► typed loaders ─► data ready before render
