@@ -31,12 +31,14 @@ Layout:
 
 ### `features/order-book/BidTable.tsx`
 - Renders top N bid levels (price, quantity, cumulative total)
+- Virtualized with TanStack Virtual — only visible rows exist in the DOM
 - Horizontal bar background showing relative depth per level
 - Green color coding, sorted highest price first
 - Only re-renders when bid data changes (Zustand selector equality)
 
 ### `features/order-book/AskTable.tsx`
 - Renders top N ask levels (price, quantity, cumulative total)
+- Virtualized with TanStack Virtual — mirrors BidTable structure
 - Red color coding, sorted lowest price first
 - Mirror layout of BidTable
 
@@ -53,9 +55,9 @@ Layout:
 
 ### `features/order-book/TradesFeed.tsx`
 - Scrolling list of recent trades (last 100 from ring buffer)
+- Virtualized with TanStack Virtual — only visible trades in the DOM
 - Columns: time, price, quantity, side (buy/sell color)
 - New trades animate in at the top
-- Virtualized if performance requires it
 
 ### `ui/DepthBar.tsx`
 - Reusable horizontal bar component for showing relative depth
@@ -128,9 +130,10 @@ interface DepthChartPoint {
 ## Dependencies
 
 - `specs/websocket-data-layer.spec.md` — consumes market-data Zustand store
+- TanStack Virtual — virtualized bid/ask tables and trades feed
 - Lightweight Charts — depth chart rendering
 - React 19 — transitions, memoization
-- CVA — component variant styling
+- Tailwind CSS 4 + CVA — utility classes and component variant styling
 
 ## Acceptance Criteria
 

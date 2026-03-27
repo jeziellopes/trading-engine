@@ -34,6 +34,7 @@ Binance WebSocket ──► Stream Events ────┘         │
 - Fetches initial L2 order book snapshot via REST (`/api/v3/depth`)
 - Returns normalized `{ bids: Map<price, qty>, asks: Map<price, qty>, lastUpdateId }`
 - Used on first load and after every reconnect
+- Wrapped by TanStack Query for automatic retry, deduplication, and caching (`staleTime` prevents redundant fetches during rapid symbol switching)
 
 ### `core/book-sync.ts`
 - Merges incremental depth updates into the snapshot
@@ -179,7 +180,8 @@ interface NormalizedTrade {
 ## Dependencies
 
 - None (this is the foundation layer)
-- Zustand (state management)
+- Zustand (streaming state — merged book, trades, connection status)
+- TanStack Query (server cache — REST snapshot fetch with retry, dedup, staleTime)
 - Native WebSocket API (no library needed)
 
 ## Acceptance Criteria

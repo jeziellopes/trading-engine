@@ -255,6 +255,54 @@ routes/
 
 ---
 
+## TanStack Query
+
+**What it is:** Async state manager for server data — handles fetching, caching, deduplication, stale-while-revalidate, retries, and background refetching.
+
+### Why Both TanStack Query AND Zustand?
+
+Server cache state and streaming mutable state are fundamentally different:
+
+| Concern | TanStack Query | Zustand |
+|---|---|---|
+| **Data source** | Request/response (REST) | Push stream (WebSocket) |
+| **Update pattern** | Fetch → cache → refetch on stale | Delta patches, continuous mutations |
+| **Invalidation** | `staleTime`, background refetch | Manual store updates |
+| **Deduplication** | Automatic — same key = same request | Not applicable |
+| **Retry** | Built-in with backoff | Hand-rolled |
+| **Devtools** | Query Devtools (cache state, timing) | Redux Devtools (store mutations) |
+
+Mixing both in one store creates inconsistency — REST data needs cache semantics, streaming data needs direct mutation. Keeping them separate makes each layer simpler and more predictable.
+
+### Features We Leverage
+
+| Feature | How We Use It | Why It Matters |
+|---|---|---|
+| **Query for REST snapshot** | `useQuery({ queryKey: ['depth', symbol], queryFn: fetchSnapshot })` — fetches initial order book snapshot with automatic retry and deduplication. | Snapshot fetch gets retry, staleTime, and dedup for free. No hand-rolled retry logic for REST calls. |
+| **`staleTime` for metadata** | Symbol metadata (`exchangeInfo`) cached with `staleTime: Infinity` — fetched once, never refetched. | Static data doesn't pollute the streaming store. One fetch per session, zero wasted requests. |
+| **Prefetching on hover** | `queryClient.prefetchQuery(['depth', 'ETHUSDT'])` when user hovers a symbol in the nav. | New symbol's snapshot starts loading before the click. Perceived switch time drops below 500ms. |
+| **`select` for derived data** | `useQuery({ ..., select: (data) => data.bids.slice(0, 20) })` — derive top-N levels from cached snapshot. | Components receive exactly what they need. React Compiler memoizes the selector result. |
+| **Query + Zustand handoff** | Query fetches the snapshot → store hydrates from it → WebSocket stream patches on top. Query owns the fetch lifecycle; Zustand owns the merged book. | Clean separation: Query handles "get the data," Zustand handles "keep it live." Neither duplicates the other's job. |
+| **Error boundaries** | Query's `throwOnError` integrates with React Suspense error boundaries. | Snapshot fetch failure triggers the route's error boundary — same recovery path as any other loader error. |
+
+### Data Ownership Map
+
+```
+TanStack Query owns:                    Zustand owns:
+├── REST depth snapshot (fetch + cache)  ├── Merged order book (snapshot + stream deltas)
+├── Symbol metadata / exchangeInfo       ├── Trades ring buffer (WebSocket stream)
+├── Portfolio initial state (future)     ├── Connection status
+└── Any future REST endpoints            ├── Portfolio mutations (fills, cancels)
+                                         └── UI state (tab, theme, preferences)
+```
+
+### What We Don't Use (and Why)
+
+- **Query for WebSocket data** — Query is request/response. WebSocket data is push-based and mutates continuously. Forcing it into Query requires workarounds (`queryClient.setQueryData` on every message) that fight the abstraction.
+- **Optimistic mutations via Query** — Order mutations flow through `OrderGateway` → Zustand → `useOptimistic`. Query's mutation API adds indirection without benefit when the gateway is client-side.
+
+---
+
 ## Zustand
 
 **What it is:** Minimal state management with a focus on granular subscriptions and zero boilerplate.
@@ -287,6 +335,61 @@ stores/
                         Updated by: User interaction, router sync
                         Read by: Layout components
 ```
+
+---
+
+## TanStack Virtual
+
+**What it is:** Headless virtualization library for rendering large lists and tables. Only visible rows exist in the DOM — the rest are measured and positioned mathematically.
+
+### Why Virtualization Matters Here
+
+The order book can have hundreds of price levels. The trades feed is a ring buffer of 100 entries scrolling continuously. Without virtualization, every level is a DOM node that the browser must layout, paint, and composite — even if it's offscreen. At 50 updates/sec, this DOM pressure kills 60fps.
+
+TanStack Virtual solves this by rendering only the rows visible in the viewport, plus a small overscan buffer. A 500-level order book becomes ~25 DOM nodes.
+
+### Features We Leverage
+
+| Feature | How We Use It | Why It Matters |
+|---|---|---|
+| **`useVirtualizer`** | Virtualize bid and ask level lists in the order book. Only visible rows rendered. | 500 price levels = ~25 DOM nodes. Layout and paint cost drops by 95%. |
+| **Dynamic row measurement** | Rows can vary in height (e.g., highlighted spread row, grouped levels). `estimateSize` with `measureElement` for accuracy. | No fixed-height assumption. Layout adapts to content without sacrificing performance. |
+| **Overscan** | Render 3-5 extra rows above/below viewport to prevent flash on scroll. | Smooth scrolling — user never sees blank space during fast scroll. |
+| **Horizontal virtualization** | Depth chart data table (if used) virtualizes columns for wide datasets. | Future-proof for multi-column views (full order history, multi-symbol comparison). |
+| **Headless design** | No DOM opinions — we control the markup and styling. CVA + Tailwind classes apply directly. | Fits our design system without wrapper elements or style overrides. |
+
+### Where We Virtualize
+
+| Component | List Size | Visible | Why Virtualize |
+|---|---|---|---|
+| `BidTable` | Up to 500 levels | ~15-20 visible | Core render path, updates 50x/sec |
+| `AskTable` | Up to 500 levels | ~15-20 visible | Same as bids |
+| `TradesFeed` | 100 trades (ring buffer) | ~20-25 visible | Continuous scroll with new trades pushing in |
+| `OpenOrders` | Variable (0-50+) | All if few, virtualized if many | Light list, but virtualizer handles both cases cleanly |
+| `TradeHistory` | Grows over session | ~20 visible | Can grow large during extended demo sessions |
+
+### Integration with High-Frequency Updates
+
+```
+WebSocket update arrives
+    │
+    ▼
+Zustand store patches book (Map mutation)
+    │
+    ▼
+Granular selector fires (only changed price levels)
+    │
+    ▼
+TanStack Virtual recalculates positions (math only — no DOM)
+    │
+    ▼
+React renders only the visible rows that changed
+    │
+    ▼
+60fps maintained with 500+ levels and 50 updates/sec
+```
+
+The key insight: TanStack Virtual's position calculation is pure math (O(1) per row). It doesn't touch the DOM until React renders. This pairs perfectly with Zustand's granular selectors — the virtualizer only re-measures when visible rows actually change.
 
 ---
 
@@ -379,28 +482,59 @@ No `any`. No `as` casts. Every boundary is validated.
 
 ---
 
-## Design System (CVA + Tokens)
+## Styling (Tailwind CSS 4 + CVA + Design Tokens)
 
-**CVA (Class Variance Authority):** Type-safe component variants without runtime CSS-in-JS overhead.
+### Tailwind CSS 4
 
-### Features We Leverage
+**What it is:** Utility-first CSS framework. v4 is a ground-up rewrite with a Rust-based engine (Oxide), CSS-first configuration, and native CSS cascade layers.
 
 | Feature | How We Use It | Why It Matters |
 |---|---|---|
-| **Variant definitions** | `button({ intent: 'buy' \| 'sell', size: 'sm' \| 'md' })` | Order entry buttons with type-safe variant props. |
-| **Design tokens** | CSS custom properties for colors, spacing, typography. | Consistent bid/ask coloring across order book, depth chart, and trades feed. |
-| **Zero runtime** | Variants resolve to class strings at build time (with Tailwind or plain CSS). | No style recalculation during high-frequency order book updates. |
+| **Utility classes** | `flex gap-2 text-sm tabular-nums font-mono` — compose styles declaratively in JSX. | No context-switching between component and stylesheet. Every style is visible in the template. |
+| **CSS-first config** | Theme defined in `@theme` directive in CSS, not `tailwind.config.js`. Design tokens map directly to Tailwind theme values. | Single source of truth: `design-system.json` → `tokens.css` → Tailwind theme. No JS config drift. |
+| **`@layer` support** | Tailwind v4 uses native CSS cascade layers. Our design tokens and component styles layer cleanly: `base < tokens < components < utilities`. | Specificity conflicts eliminated. Utility overrides always win — no `!important` needed. |
+| **Oxide engine** | Rust-based scanner replaces PostCSS-heavy pipeline. Sub-millisecond class detection. | Build stays fast as the codebase grows. No PostCSS bottleneck in the HMR path. |
+| **Arbitrary values** | `w-[${percent}%]` for depth bar widths based on order quantity. | Dynamic values without breaking out of the utility system. Used for depth bars and progress indicators. |
+| **Dark mode** | `dark:` variant for trading terminal dark theme (the default). | Trading terminals are dark by convention. One variant prefix handles the entire theme. |
 
-### Token Examples
+### CVA (Class Variance Authority)
+
+**What it is:** Type-safe component variant builder that outputs Tailwind class strings.
+
+| Feature | How We Use It | Why It Matters |
+|---|---|---|
+| **Variant definitions** | `button({ intent: 'buy' \| 'sell', size: 'sm' \| 'md' })` → returns Tailwind class string. | Order entry buttons with type-safe variant props. Invalid combinations are type errors. |
+| **Compound variants** | `{ intent: 'buy', disabled: true }` → specific class set for disabled buy buttons. | Complex conditional styling without ternary hell in JSX. |
+| **Zero runtime** | CVA resolves to class strings at build time. No CSS-in-JS runtime, no style injection. | No style recalculation during high-frequency order book updates. |
+| **Composable with `cn()`** | `cn(buttonVariants({ intent }), className)` — merge CVA output with one-off overrides via `tailwind-merge`. | Components accept `className` prop for escape-hatch customization without breaking variant styles. |
+
+### Design Tokens
+
+CSS custom properties generated from `design-system.json`. Mapped into Tailwind theme via `@theme`.
 
 ```css
-:root {
-  --color-bid: #0ecb81;      /* green — buy side */
-  --color-ask: #f6465d;      /* red — sell side */
-  --color-spread: #848e9c;   /* neutral — spread bar */
-  --depth-bar-opacity: 0.15; /* order book depth background */
+/* src/styles/tokens.css — generated, do not edit */
+@theme {
+  --color-bid: #0ecb81;
+  --color-ask: #f6465d;
+  --color-spread: #848e9c;
+  --color-profit: #0ecb81;
+  --color-loss: #f6465d;
+  --depth-bar-opacity: 0.15;
 }
 ```
+
+Trading-specific tokens are consumed via Tailwind utilities: `text-[var(--color-bid)]`, `bg-[var(--color-ask)]`. The `design-system.json` → build script → `tokens.css` → Tailwind pipeline ensures a single source of truth.
+
+### Why Tailwind + CVA (Not CSS-in-JS)
+
+| Approach | Runtime Cost | Bundle Impact | DX |
+|---|---|---|---|
+| **Tailwind + CVA** (our choice) | Zero — classes resolved at build | Purged CSS, tiny output | Co-located styles, type-safe variants |
+| styled-components / Emotion | Style injection on every render | Runtime + serialized styles in bundle | Flexible but slow under high-frequency updates |
+| CSS Modules alone | Zero runtime | No purging, grows linearly | Disconnected from component logic, no variants |
+
+For a 60fps order book, zero runtime style cost is non-negotiable. Tailwind + CVA delivers that while keeping styles co-located and type-safe.
 
 ---
 
@@ -442,15 +576,36 @@ TanStack Router
   └─► search params (Zod) ─► shareable UI state
        └─► same Zod used by order form validation
 
+TanStack Query
+  └─► REST snapshot fetch ─► automatic retry, dedup, staleTime
+  └─► prefetchQuery ─► symbol hover prefetches snapshot before click
+  └─► select ─► derive top-N levels from cached snapshot
+  └─► handoff to Zustand ─► Query fetches, Zustand merges with stream
+       └─► clean separation: cache state vs streaming state
+
+TanStack Virtual
+  └─► virtualized order book ─► 500 levels = ~25 DOM nodes
+  └─► virtualized trades feed ─► ring buffer rendered efficiently
+  └─► headless ─► CVA + Tailwind classes apply directly
+       └─► pairs with Zustand selectors: only visible changed rows re-render
+
 Zustand
   └─► granular selectors ─► only affected components update
   └─► subscribeWithSelector ─► fill engine outside React
   └─► no provider ─► accessible from WS client (non-React)
+       └─► Query → Zustand handoff: snapshot hydrates store, stream patches on top
+
+Tailwind CSS 4 + CVA
+  └─► zero runtime ─► no style cost during 60fps updates
+  └─► utility classes ─► co-located styles, no context-switching
+  └─► CVA variants ─► type-safe buy/sell/neutral component states
+  └─► design tokens ─► design-system.json → tokens.css → @theme
+  └─► Oxide engine ─► Rust-speed class scanning, fast HMR
 
 RHF + Zod
   └─► uncontrolled inputs ─► form doesn't re-render on WS updates
   └─► useFormStatus ─► submit button reads form state from context
-  └─► Zod schema ─► shared with router search params
+  └─► Zod schema ─► shared with router search params + Query validators
 
 Lightweight Charts
   └─► WebGL ─► handles real-time depth at 60fps
@@ -458,5 +613,5 @@ Lightweight Charts
   └─► ref cleanup ─► chart.remove() via React 19 ref return
 
 TypeScript strict
-  └─► end-to-end types ─► WS message → store → UI → URL, no gaps
+  └─► end-to-end types ─► WS message → Query → Zustand → selector → UI → URL, no gaps
 ```

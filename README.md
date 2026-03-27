@@ -24,11 +24,14 @@ A portfolio project demonstrating high-frequency UI rendering with modern React.
 | Bundler | Vite 8 (Rolldown + Oxc) |
 | Compiler | React Compiler 1.0 |
 | Router | TanStack Router |
-| State | Zustand |
+| Server State | TanStack Query (snapshots, metadata) |
+| Streaming State | Zustand (order book, trades, portfolio) |
 | Forms | React Hook Form + Zod |
+| Virtualization | TanStack Virtual (order book, trades feed) |
 | Charts | Lightweight Charts + Recharts |
-| Styling | CVA + CSS Modules + Design Tokens |
+| Styling | Tailwind CSS 4 + CVA + Design Tokens |
 | TypeScript | Strict mode |
+| Linting | Biome + ESLint (React Compiler rules only) |
 | Testing | Vitest + React Testing Library |
 
 ## Quick Start
@@ -61,12 +64,13 @@ Binance WS   ──► Stream ───┘
 
 ```
 src/
-├── core/        # WebSocket client, snapshot, book sync, reconnect, fill engine
-├── stores/      # Zustand stores (market-data, portfolio, ui)
-├── features/    # Feature modules (order-book, order-entry, trades-feed, depth-chart)
+├── domain/      # Types, interfaces (ports), pure logic — zero external imports
+├── infra/       # Adapters (BinanceDataSource, LocalFillEngine)
+├── stores/      # Zustand stores (application layer)
+├── features/    # Feature modules (order-book, order-entry, portfolio)
 ├── ui/          # Design system primitives
 ├── routes/      # TanStack Router file-based routes
-└── lib/         # Shared utilities, types, constants
+└── lib/         # Config, constants, utilities
 ```
 
 ## React 19.2 Features Demonstrated
@@ -98,8 +102,9 @@ The order book receives 10-50 WebSocket updates per second. The render pipeline:
 2. React automatic batching (single render cycle)
 3. React Compiler (automatic memoization at build time)
 4. Granular selectors (only affected rows re-render)
-5. `<Activity>` (hidden tabs = zero render cost)
-6. `requestAnimationFrame` batching (visual updates capped at 60fps)
+5. TanStack Virtual (only visible rows in DOM — order book + trades)
+6. `<Activity>` (hidden tabs = zero render cost)
+7. `requestAnimationFrame` batching (visual updates capped at 60fps)
 
 ## Backend Integration
 

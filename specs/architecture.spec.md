@@ -78,16 +78,23 @@ Contains:
 
 **Rule:** Infrastructure imports from `domain/` (to implement interfaces and use types). It is never imported directly by `features/` or `routes/`.
 
-### Application (`src/stores/`)
+### Application (`src/stores/` + TanStack Query)
 
-Zustand stores that orchestrate domain logic and infrastructure adapters. This is the "use case" layer — it knows what needs to happen (fetch snapshot, merge updates, fill order) and delegates to domain services and infrastructure adapters.
+Zustand stores and TanStack Query work together as the application layer. They orchestrate domain logic and infrastructure adapters — each owns a different state category.
 
-Contains:
-- **`market-data.ts`** — Consumes `MarketDataSource`, maintains order book and trades state, exposes granular selectors
+**Zustand** (streaming + mutable state):
+- **`market-data.ts`** — Consumes `MarketDataSource`, maintains merged order book and trades state, exposes granular selectors
 - **`portfolio.ts`** — Consumes `OrderGateway`, manages balances, open orders, filled orders, PnL
 - **`ui.ts`** — UI-only state (active tab, theme, preferences), synced with TanStack Router search params
 
-**Test strategy:** Integration tests with mock adapters. Verify store behavior (actions, selectors, state transitions).
+**TanStack Query** (server cache state):
+- REST depth snapshots — fetched with retry, dedup, staleTime; handed off to Zustand for stream merging
+- Symbol metadata / exchange info — cached with `staleTime: Infinity`
+- Any future REST endpoints (portfolio fetch, order history)
+
+**Handoff pattern:** Query fetches → Zustand hydrates from result → WebSocket stream patches on top. Query owns "get the data"; Zustand owns "keep it live."
+
+**Test strategy:** Integration tests with mock adapters. Verify store behavior (actions, selectors, state transitions). Query tests use `QueryClientProvider` with test client.
 
 **Rule:** Stores import from `domain/` (types, services) and receive `infra/` adapters via injection (factory functions in `lib/config.ts`). Stores never instantiate adapters directly.
 
