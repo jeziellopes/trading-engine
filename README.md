@@ -1,131 +1,73 @@
-# Trading Engine
+# React + TypeScript + Vite
 
-Real-time trading engine simulator with live Binance market data, built with React 19.2, Vite 8, and the React Compiler.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## What This Is
+Currently, two official plugins are available:
 
-A portfolio project demonstrating high-frequency UI rendering with modern React. Live WebSocket streams from Binance power a real-time order book, depth chart, and trades feed — rendered at 60fps with zero manual memoization.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Features
+## React Compiler
 
-- **Live Order Book** — Real-time bid/ask depth from Binance WebSocket streams
-- **Depth Chart** — Cumulative depth visualization with Lightweight Charts (WebGL)
-- **Trades Feed** — Live trade stream with ring buffer (last 100 trades)
-- **Symbol Routing** — Type-safe routes with TanStack Router (`/symbol/BTCUSDT`)
-- **Simulated Order Entry** — Paper trading with optimistic UI and Zod validation
-- **Portfolio Tracker** — Virtual balances, PnL, and trade history
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Tech Stack
+## Expanding the ESLint configuration
 
-| Layer | Technology |
-|-------|-----------|
-| Runtime | Node.js 22 |
-| Framework | React 19.2 |
-| Bundler | Vite 8 (Rolldown + Oxc) |
-| Compiler | React Compiler 1.0 |
-| Router | TanStack Router |
-| Server State | TanStack Query (snapshots, metadata) |
-| Streaming State | Zustand (order book, trades, portfolio) |
-| Forms | React Hook Form + Zod |
-| Virtualization | TanStack Virtual (order book, trades feed) |
-| Charts | Lightweight Charts + Recharts |
-| Styling | Tailwind CSS 4 + CVA + Design Tokens |
-| TypeScript | Strict mode |
-| Linting | Biome + ESLint (React Compiler rules only) |
-| Testing | Vitest + React Testing Library |
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Quick Start
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-```bash
-nvm use
-pnpm install
-pnpm dev
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-## Commands
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```bash
-pnpm dev          # Start dev server
-pnpm test         # Run tests
-pnpm lint         # Lint
-pnpm build        # Production build → dist/
-pnpm preview      # Preview production build
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-## Architecture
-
-Client-only SPA. No backend. Binance public WebSocket streams feed a Zustand store; React components subscribe via granular selectors.
-
-```
-Binance REST ──► Snapshot ──┐
-                            ├──► Zustand Store ──► React UI
-Binance WS   ──► Stream ───┘
-```
-
-```
-src/
-├── domain/      # Types, interfaces (ports), pure logic — zero external imports
-├── infra/       # Adapters (BinanceDataSource, LocalFillEngine)
-├── stores/      # Zustand stores (application layer)
-├── features/    # Feature modules (order-book, order-entry, portfolio)
-├── ui/          # Design system primitives
-├── routes/      # TanStack Router file-based routes
-└── lib/         # Config, constants, utilities
-```
-
-## React 19.2 Features Demonstrated
-
-- **React Compiler** — zero `useMemo`/`useCallback`/`React.memo` in the entire codebase
-- **`<Activity>`** — hidden tabs pre-rendered with deferred updates
-- **`useEffectEvent`** — WebSocket handlers read latest state without re-subscribing
-- **`useOptimistic`** — instant order fill feedback with automatic rollback
-- **`useActionState`** — form lifecycle (pending/error/success) in a single hook
-- **`use()`** — conditional context reads and Suspense-compatible promises
-- **Ref cleanup functions** — chart instances destroyed via ref return
-- **Performance Tracks** — custom Chrome DevTools profiling tracks
-
-## Data Sources
-
-All data comes from Binance public endpoints (no API key required):
-
-| Stream | Endpoint |
-|--------|----------|
-| Depth | `wss://stream.binance.com:9443/ws/{symbol}@depth` |
-| Trades | `wss://stream.binance.com:9443/ws/{symbol}@trade` |
-| Snapshot | `https://api.binance.com/api/v3/depth?symbol={SYMBOL}&limit=1000` |
-
-## Performance
-
-The order book receives 10-50 WebSocket updates per second. The render pipeline:
-
-1. WebSocket frame → Zustand batch update (single mutation)
-2. React automatic batching (single render cycle)
-3. React Compiler (automatic memoization at build time)
-4. Granular selectors (only affected rows re-render)
-5. TanStack Virtual (only visible rows in DOM — order book + trades)
-6. `<Activity>` (hidden tabs = zero render cost)
-7. `requestAnimationFrame` batching (visual updates capped at 60fps)
-
-## Backend Integration
-
-The frontend is designed for future backend integration without rewrites. Two interfaces define the swap boundaries:
-
-- **`MarketDataSource`** — swap `BinanceDataSource` (browser → Binance) for `RelayDataSource` (browser → your server → Binance)
-- **`OrderGateway`** — swap `LocalFillEngine` (client-side) for `OmsGateway` (REST/WS to your OMS)
-
-See [`specs/integration-boundaries.spec.md`](specs/integration-boundaries.spec.md) for migration paths.
-
-## Documentation
-
-| Document | Purpose |
-|----------|---------|
-| [`docs/PRD.md`](docs/PRD.md) | Business context, user flows, quality criteria |
-| [`ROADMAP.md`](ROADMAP.md) | Priority tiers (P0/P1/P2), trade-offs, risks |
-| [`SPECS.md`](SPECS.md) | Spec index with dependency graph |
-| [`specs/tech-stack.spec.md`](specs/tech-stack.spec.md) | Stack choices and feature rationale |
-| [`CLAUDE.md`](CLAUDE.md) | Development conventions and agent routing |
-| [`design-system.json`](design-system.json) | Design tokens (colors, typography, spacing) |
-
-## License
-
-MIT

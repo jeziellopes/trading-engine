@@ -1,0 +1,83 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.0/schema.json",
+  "organizeImports": { "enabled": true },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
+      },
+      "style": {
+        "noNonNullAssertion": "warn",
+        "useImportType": "error"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["src/domain/**"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/infra": "Domain must not import infrastructure",
+                  "@/stores": "Domain must not import application layer",
+                  "@/features": "Domain must not import presentation",
+                  "@/routes": "Domain must not import routes",
+                  "@/ui": "Domain must not import UI primitives"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/features/**"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/infra": "Features must not import infrastructure. Use stores."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/ui/**"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/domain": "UI primitives must not import domain types",
+                  "@/stores": "UI primitives must not import stores",
+                  "@/infra": "UI primitives must not import infrastructure"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
