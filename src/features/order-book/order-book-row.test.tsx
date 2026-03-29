@@ -1,0 +1,56 @@
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { OrderBookRow } from "./order-book-row";
+
+describe("OrderBookRow", () => {
+  const mockLevel = {
+    price: 42500.5,
+    quantity: 2.5,
+    total: 106251.25,
+    percent: 45,
+  };
+
+  it("renders price, quantity, and total", () => {
+    render(<OrderBookRow level={mockLevel} side="bid" />);
+    expect(screen.getByText("42500.50")).toBeInTheDocument();
+    expect(screen.getByText("2.5")).toBeInTheDocument();
+    expect(screen.getByText("106251.25")).toBeInTheDocument();
+  });
+
+  it("applies bid styling to side=bid", () => {
+    render(<OrderBookRow level={mockLevel} side="bid" />);
+    const priceCell = screen.getByText("42500.50");
+    expect(priceCell).toHaveClass("text-[color:var(--trading-bid)]");
+  });
+
+  it("applies ask styling to side=ask", () => {
+    render(<OrderBookRow level={mockLevel} side="ask" />);
+    const priceCell = screen.getByText("42500.50");
+    expect(priceCell).toHaveClass("text-[color:var(--trading-ask)]");
+  });
+
+  it("renders with correct layout classes", () => {
+    const { container } = render(<OrderBookRow level={mockLevel} side="bid" />);
+    const row = container.firstChild as HTMLElement;
+    expect(row).toHaveClass(
+      "relative",
+      "grid",
+      "grid-cols-3",
+      "tabular-nums",
+      "font-mono",
+      "text-sm",
+    );
+  });
+
+  it("renders DepthBar component", () => {
+    const { container } = render(<OrderBookRow level={mockLevel} side="bid" />);
+    const depthBar = container.querySelector("[class*='opacity-15']");
+    expect(depthBar).toBeInTheDocument();
+  });
+
+  it("formats prices with 2 decimal places", () => {
+    const level = { ...mockLevel, price: 42500.123 };
+    render(<OrderBookRow level={level} side="bid" />);
+    expect(screen.getByText("42500.12")).toBeInTheDocument();
+  });
+});
