@@ -15,7 +15,8 @@
     "lint": "biome check src/ && eslint src/",
     "format": "biome format --write src/",
     "check": "biome check src/",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "tokens": "tsx scripts/build-tokens.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.2",
@@ -25,6 +26,7 @@
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "lightweight-charts": "5.1.0",
+    "lucide-react": "1.7.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-hook-form": "7.72.0",

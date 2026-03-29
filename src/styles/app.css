@@ -1,0 +1,61 @@
+@import "./tokens.css";
+@import "tailwindcss";
+
+@theme inline {
+  /* ── Fonts ───────────────────────────────────────────── */
+  --font-sans:   var(--font-share-tech-mono), 'Share Tech Mono', monospace;
+  --font-mono:   var(--font-share-tech-mono), 'Share Tech Mono', monospace;
+  --font-cypher: var(--font-orbitron), 'Orbitron', sans-serif;
+
+  /* ── Semantic colors (maps tokens.css bare vars → Tailwind classes) ── */
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary:            var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:          var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+  --color-accent:             var(--accent);
+  --color-accent-foreground:  var(--accent-foreground);
+  --color-destructive:        var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border:             var(--border);
+  --color-input:              var(--input);
+  --color-ring:               var(--ring);
+
+  /* ── Gray scale ────────────────────────────────────────── */
+  --color-ds-gray-100: var(--ds-gray-100);
+  --color-ds-gray-500: var(--ds-gray-500);
+  --color-ds-gray-600: var(--ds-gray-600);
+  --color-ds-gray-700: var(--ds-gray-700);
+  --color-ds-gray-800: var(--ds-gray-800);
+
+  /* ── Border radius ─────────────────────────────────────── */
+  --radius:    0.375rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-share-tech-mono), 'Share Tech Mono', monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: oklch(0.1 0 0); }
+  ::-webkit-scrollbar-thumb { background: oklch(0.25 0 0); border-radius: 20px; }
+}

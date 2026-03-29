@@ -1,0 +1,110 @@
+/*
+ * Design tokens — CypherUI Trading
+ *
+ * THIS FILE IS THE SOURCE OF TRUTH for all CSS custom properties.
+ * Edit values here directly. Run `pnpm tokens` to sync design-tokens.ts.
+ *
+ * Tailwind class mappings live in src/styles/app.css  (@theme inline block).
+ * TypeScript constants live in src/lib/design-tokens.ts (auto-synced from here).
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* ── Fonts ─────────────────────────────────────────────────────────────
+   * Loaded via Google Fonts in index.html.
+   * app.css maps these to --font-sans, --font-mono, --font-cypher.
+   * -------------------------------------------------------------------- */
+  --font-share-tech-mono: "Share Tech Mono";
+  --font-orbitron: "Orbitron";
+  --font-fira-mono: "Fira Mono";
+
+  /* ── Semantic Colors ───────────────────────────────────────────────────
+   * Mapped to Tailwind classes in app.css @theme inline.
+   * Use: bg-background, text-foreground, bg-card, border-border, etc.
+   * -------------------------------------------------------------------- */
+  --background:         oklch(0.10 0 0);
+  --foreground:         oklch(0.985 0 0);
+  --card:               oklch(0.145 0 0);
+  --card-foreground:    oklch(0.985 0 0);
+  --popover:            oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary:          oklch(0.205 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted:              oklch(0.205 0 0);
+  --muted-foreground:   oklch(0.556 0 0);
+  --accent:             oklch(0.205 0 0);
+  --accent-foreground:  oklch(0.985 0 0);
+  --destructive:        oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border:             oklch(0.22 0 0);
+  --input:              oklch(0.269 0 0);
+  --ring:               oklch(0.439 0 0);
+
+  /* ── Dynamic Accent ────────────────────────────────────────────────────
+   * --primary drives bg-primary, text-primary, border-primary, ring-primary.
+   * Swappable at runtime via lib/theme-color.ts → localStorage.
+   * -------------------------------------------------------------------- */
+  --primary: oklch(0.65 0.22 280);
+
+  /* ── Gray Scale ────────────────────────────────────────────────────────
+   * Mapped to Tailwind via app.css: bg-ds-gray-100, bg-ds-gray-800, etc.
+   * 100 = card surface · 800 = badge bg, terminal header, skeleton
+   * -------------------------------------------------------------------- */
+  --ds-gray-100: oklch(0.17 0 0);
+  --ds-gray-500: oklch(0.556 0 0);
+  --ds-gray-600: oklch(0.65 0 0);
+  --ds-gray-700: oklch(0.45 0 0);
+  --ds-gray-800: oklch(0.22 0 0);
+
+  /* ── Sidebar ───────────────────────────────────────────────────────────
+   * For a future sidebar/nav panel. Not yet mapped to Tailwind classes.
+   * -------------------------------------------------------------------- */
+  --sidebar:                    oklch(0.205 0 0);
+  --sidebar-foreground:         oklch(0.985 0 0);
+  --sidebar-primary:            oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent:             oklch(0.269 0 0);
+  --sidebar-accent-foreground:  oklch(0.985 0 0);
+  --sidebar-border:             oklch(0.269 0 0);
+  --sidebar-ring:               oklch(0.439 0 0);
+
+  /* ── Trading Semantics ─────────────────────────────────────────────────
+   * Used directly as inline styles or via text-[color:var(--trading-*)]
+   * and bg-[color:var(--trading-*)] in components.
+   *
+   * Never use Tailwind color utilities (text-green-*, bg-red-*) for these.
+   * -------------------------------------------------------------------- */
+
+  /* Bid / buy side — green */
+  --trading-bid:       oklch(0.65 0.18 145);
+  --trading-bid-muted: oklch(0.65 0.18 145 / 0.15);
+
+  /* Ask / sell side — red/orange */
+  --trading-ask:       oklch(0.60 0.22 25);
+  --trading-ask-muted: oklch(0.60 0.22 25 / 0.15);
+
+  /* PnL */
+  --trading-profit: oklch(0.70 0.18 145);
+  --trading-loss:   oklch(0.65 0.22 25);
+
+  /* Last price tick direction */
+  --trading-tick-up:      oklch(0.70 0.18 145);
+  --trading-tick-down:    oklch(0.65 0.22 25);
+  --trading-tick-neutral: oklch(0.60 0 0);
+
+  /* WebSocket connection status */
+  --trading-connected:    oklch(0.70 0.18 145);
+  --trading-reconnecting: oklch(0.75 0.16 75);
+  --trading-disconnected: oklch(0.60 0.22 25);
+
+  /* ── Animation Durations ───────────────────────────────────────────────
+   * Use as: transition-duration-[var(--duration-fast)] or inline style.
+   * -------------------------------------------------------------------- */
+  --duration-fast:    150ms;
+  --duration-default: 200ms;
+  --duration-medium:  300ms;
+  --duration-slow:    500ms;
+  --duration-xslow:   700ms;
+}
