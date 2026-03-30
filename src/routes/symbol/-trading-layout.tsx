@@ -6,6 +6,9 @@ import "react-grid-layout/css/styles.css";
 import { OrderBook } from "@/features/order-book/order-book";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
+import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
+import { MOCK_BOTS } from "@/features/bots/mock-bots";
+import type { BotInstance, BotStatus } from "@/features/bots/types";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -72,17 +75,18 @@ interface Trade {
   side: "buy" | "sell";
   total: number;
   pnl: number;
+  botId?: string;
 }
 
 const mockTrades: Trade[] = [
-  { time: "14:32:07", price: 67843.5, qty: 0.042, side: "buy", total: 2848.83, pnl: 12.4 },
-  { time: "14:32:06", price: 67841.0, qty: 0.18, side: "sell", total: 12211.38, pnl: -34.2 },
-  { time: "14:32:05", price: 67844.5, qty: 0.012, side: "buy", total: 814.13, pnl: 3.1 },
-  { time: "14:32:04", price: 67840.0, qty: 0.56, side: "sell", total: 37990.4, pnl: -88.5 },
-  { time: "14:32:03", price: 67845.0, qty: 0.091, side: "buy", total: 6173.9, pnl: 21.7 },
-  { time: "14:32:02", price: 67842.5, qty: 0.033, side: "sell", total: 2238.8, pnl: -9.3 },
-  { time: "14:32:01", price: 67846.0, qty: 0.207, side: "buy", total: 14044.12, pnl: 45.8 },
-  { time: "14:32:00", price: 67839.5, qty: 0.115, side: "sell", total: 7801.54, pnl: -22.1 },
+  { time: "14:32:07", price: 67843.5, qty: 0.042, side: "buy", total: 2848.83, pnl: 12.4, botId: "bot-1" },
+  { time: "14:32:06", price: 67841.0, qty: 0.18, side: "sell", total: 12211.38, pnl: -34.2, botId: "bot-1" },
+  { time: "14:32:05", price: 67844.5, qty: 0.012, side: "buy", total: 814.13, pnl: 3.1, botId: "bot-2" },
+  { time: "14:32:04", price: 67840.0, qty: 0.56, side: "sell", total: 37990.4, pnl: -88.5, botId: "bot-2" },
+  { time: "14:32:03", price: 67845.0, qty: 0.091, side: "buy", total: 6173.9, pnl: 21.7, botId: "bot-1" },
+  { time: "14:32:02", price: 67842.5, qty: 0.033, side: "sell", total: 2238.8, pnl: -9.3, botId: "bot-2" },
+  { time: "14:32:01", price: 67846.0, qty: 0.207, side: "buy", total: 14044.12, pnl: 45.8, botId: "bot-1" },
+  { time: "14:32:00", price: 67839.5, qty: 0.115, side: "sell", total: 7801.54, pnl: -22.1, botId: "bot-2" },
   { time: "14:31:59", price: 67847.0, qty: 0.044, side: "buy", total: 2985.27, pnl: 8.9 },
   { time: "14:31:58", price: 67838.0, qty: 0.38, side: "sell", total: 25778.44, pnl: -61.0 },
   { time: "14:31:57", price: 67848.5, qty: 0.022, side: "buy", total: 1492.67, pnl: 4.2 },
@@ -205,7 +209,7 @@ function Panel({ title, children, noScroll = false, headerExtra }: PanelProps) {
 
 // ── Grid layout config ─────────────────────────────────────────────────────────
 
-const LAYOUT_KEY = "trading-grid-layout-v2";
+const LAYOUT_KEY = "trading-grid-layout-v3";
 
 const DEFAULT_LAYOUTS = {
   lg: [
@@ -213,14 +217,16 @@ const DEFAULT_LAYOUTS = {
     { i: "chart", x: 3, y: 0, w: 6, h: 8 },
     { i: "order", x: 9, y: 0, w: 3, h: 5 },
     { i: "portfolio", x: 9, y: 5, w: 3, h: 3 },
-    { i: "trades", x: 0, y: 8, w: 12, h: 4 },
+    { i: "bots", x: 0, y: 8, w: 12, h: 5 },
+    { i: "trades", x: 0, y: 13, w: 12, h: 4 },
   ],
   md: [
     { i: "book", x: 0, y: 0, w: 3, h: 8 },
     { i: "chart", x: 3, y: 0, w: 7, h: 8 },
     { i: "order", x: 0, y: 8, w: 5, h: 5 },
     { i: "portfolio", x: 5, y: 8, w: 5, h: 3 },
-    { i: "trades", x: 0, y: 13, w: 10, h: 4 },
+    { i: "bots", x: 0, y: 13, w: 10, h: 5 },
+    { i: "trades", x: 0, y: 18, w: 10, h: 4 },
   ],
 };
 
@@ -238,11 +244,16 @@ function loadLayouts(): ResponsiveLayouts<string> {
 export function TradingLayout({ symbol }: TradingLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const [layouts, setLayouts] = useState<ResponsiveLayouts<string>>(loadLayouts);
+  const [bots, setBots] = useState<BotInstance[]>(MOCK_BOTS);
 
   const handleOrderSubmit = async (_data: OrderFormData) => {
     setOrderSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 600));
     setOrderSubmitting(false);
+  };
+
+  const handleBotStatusChange = (id: string, status: BotStatus) => {
+    setBots((prev) => prev.map((b) => (b.id === id ? { ...b, status } : b)));
   };
 
   const handleLayoutChange = (_layout: Layout, allLayouts: Partial<Record<string, Layout>>) => {
@@ -400,6 +411,17 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                   <span className="text-xs opacity-70">+{mockPortfolioSummary.totalPnLPct}%</span>
                 </p>
               </div>
+              <div>
+                <p className="text-[10px] uppercase font-medium text-muted-foreground mb-0.5">
+                  Bot P&L
+                </p>
+                <p
+                  className="text-sm font-mono tabular-nums font-semibold"
+                  style={{ color: "var(--trading-profit)" }}
+                >
+                  +${bots.reduce((sum, b) => sum + b.realizedPnl + b.unrealizedPnl, 0).toFixed(2)}
+                </p>
+              </div>
             </div>
             <div className="px-3 pb-2">
               <Link
@@ -410,6 +432,12 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                 View full portfolio →
               </Link>
             </div>
+          </Panel>
+        </div>
+
+        <div key="bots">
+          <Panel title="Bots">
+            <BotManagerPanel bots={bots} onStatusChange={handleBotStatusChange} />
           </Panel>
         </div>
 
@@ -464,6 +492,17 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                       >
                         {t.pnl >= 0 ? "+" : ""}
                         {t.pnl.toFixed(1)}
+                        {t.botId && (
+                          <span
+                            className="ml-1 text-[9px] px-1 rounded font-mono"
+                            style={{
+                              backgroundColor: "var(--trading-bid-muted)",
+                              color: "var(--trading-bid)",
+                            }}
+                          >
+                            {t.botId === "bot-1" ? "Grid BTC" : t.botId === "bot-2" ? "DCA ETH" : t.botId}
+                          </span>
+                        )}
                       </td>
                     </tr>
                   ))}

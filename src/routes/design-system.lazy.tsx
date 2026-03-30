@@ -570,8 +570,6 @@ function DesignSystemShowcase() {
             </div>
 
             <SpreadBar
-              bestBid={MOCK_BIDS[0]?.price ?? 0}
-              bestAsk={MOCK_ASKS[0]?.price ?? 0}
               lastPrice={67843.5}
               spreadAmount={2.5}
               spreadPercent={0.0037}
