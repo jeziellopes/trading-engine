@@ -64,10 +64,13 @@ function BotDetailPage() {
         {/* Header */}
         <div className="flex items-center gap-3 flex-wrap">
           <Link
-            to="/"
+            // biome-ignore lint/suspicious/noExplicitAny: codegen pending
+            to={'/symbol/$symbol' as any}
+            // biome-ignore lint/suspicious/noExplicitAny: codegen pending
+            params={{ symbol: bot.symbol } as any}
             className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           >
-            <ArrowLeft size={12} /> Dashboard
+            <ArrowLeft size={12} /> {bot.symbol}
           </Link>
           <span className="text-muted-foreground text-xs">/</span>
           <h1 className="font-cypher font-bold text-lg">{bot.name}</h1>
