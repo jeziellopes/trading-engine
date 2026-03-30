@@ -14,8 +14,8 @@ export function ConnectionBanner({ status }: ConnectionBannerProps) {
       <div
         className={cn(base)}
         style={{
-          backgroundColor: "oklch(0.75 0.16 75 / 0.1)",
-          borderColor: "oklch(0.75 0.16 75 / 0.3)",
+          backgroundColor: "var(--trading-reconnecting-bg)",
+          borderColor: "var(--trading-reconnecting-border)",
         }}
       >
         <div
@@ -31,8 +31,8 @@ export function ConnectionBanner({ status }: ConnectionBannerProps) {
     <div
       className={cn(base)}
       style={{
-        backgroundColor: "oklch(0.60 0.22 25 / 0.1)",
-        borderColor: "oklch(0.60 0.22 25 / 0.3)",
+        backgroundColor: "var(--trading-disconnected-bg)",
+        borderColor: "var(--trading-disconnected-border)",
       }}
     >
       <div
