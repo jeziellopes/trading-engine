@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as SymbolIndexRouteImport } from './routes/symbol/index'
 
 const DesignSystemRoute = DesignSystemRouteImport.update({
@@ -17,6 +18,11 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
   path: '/design-system',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/design-system.lazy').then((d) => d.Route))
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SymbolIndexRoute = SymbolIndexRouteImport.update({
   id: '/symbol/',
   path: '/symbol/',
@@ -24,27 +30,31 @@ const SymbolIndexRoute = SymbolIndexRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
   '/symbol/': typeof SymbolIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
   '/symbol': typeof SymbolIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
   '/symbol/': typeof SymbolIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/design-system' | '/symbol/'
+  fullPaths: '/' | '/design-system' | '/symbol/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/design-system' | '/symbol'
-  id: '__root__' | '/design-system' | '/symbol/'
+  to: '/' | '/design-system' | '/symbol'
+  id: '__root__' | '/' | '/design-system' | '/symbol/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   DesignSystemRoute: typeof DesignSystemRoute
   SymbolIndexRoute: typeof SymbolIndexRoute
 }
@@ -58,6 +68,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesignSystemRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/symbol/': {
       id: '/symbol/'
       path: '/symbol'
@@ -69,6 +86,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   DesignSystemRoute: DesignSystemRoute,
   SymbolIndexRoute: SymbolIndexRoute,
 }
