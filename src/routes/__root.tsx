@@ -29,7 +29,7 @@ function RootComponent() {
             className="font-cypher text-sm font-bold tracking-widest select-none"
             style={{ color: "var(--t-primary)" }}
           >
-            TRADETERM
+            Trading Engine
           </Link>
 
           <div className="w-px h-5 bg-border mx-1" />
