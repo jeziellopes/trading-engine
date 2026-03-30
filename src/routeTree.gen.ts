@@ -13,6 +13,7 @@ import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SymbolSymbolRouteImport } from './routes/symbol/$symbol'
+import { Route as BotsBotIdRouteImport } from './routes/bots.$botId'
 
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
@@ -34,17 +35,24 @@ const SymbolSymbolRoute = SymbolSymbolRouteImport.update({
   path: '/symbol/$symbol',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BotsBotIdRoute = BotsBotIdRouteImport.update({
+  id: '/bots/$botId',
+  path: '/bots/$botId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
   '/portfolio': typeof PortfolioRoute
+  '/bots/$botId': typeof BotsBotIdRoute
   '/symbol/$symbol': typeof SymbolSymbolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
   '/portfolio': typeof PortfolioRoute
+  '/bots/$botId': typeof BotsBotIdRoute
   '/symbol/$symbol': typeof SymbolSymbolRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
   '/portfolio': typeof PortfolioRoute
+  '/bots/$botId': typeof BotsBotIdRoute
   '/symbol/$symbol': typeof SymbolSymbolRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/design-system' | '/portfolio' | '/symbol/$symbol'
+  fullPaths:
+    | '/'
+    | '/design-system'
+    | '/portfolio'
+    | '/bots/$botId'
+    | '/symbol/$symbol'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/design-system' | '/portfolio' | '/symbol/$symbol'
-  id: '__root__' | '/' | '/design-system' | '/portfolio' | '/symbol/$symbol'
+  to: '/' | '/design-system' | '/portfolio' | '/bots/$botId' | '/symbol/$symbol'
+  id:
+    | '__root__'
+    | '/'
+    | '/design-system'
+    | '/portfolio'
+    | '/bots/$botId'
+    | '/symbol/$symbol'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DesignSystemRoute: typeof DesignSystemRoute
   PortfolioRoute: typeof PortfolioRoute
+  BotsBotIdRoute: typeof BotsBotIdRoute
   SymbolSymbolRoute: typeof SymbolSymbolRoute
 }
 
@@ -99,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SymbolSymbolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bots/$botId': {
+      id: '/bots/$botId'
+      path: '/bots/$botId'
+      fullPath: '/bots/$botId'
+      preLoaderRoute: typeof BotsBotIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -106,6 +134,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DesignSystemRoute: DesignSystemRoute,
   PortfolioRoute: PortfolioRoute,
+  BotsBotIdRoute: BotsBotIdRoute,
   SymbolSymbolRoute: SymbolSymbolRoute,
 }
 export const routeTree = rootRouteImport
