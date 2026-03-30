@@ -79,7 +79,7 @@ export function SymbolSelector() {
               placeholder="Search pair..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-transparent text-foreground placeholder:text-muted-foreground text-xs font-mono focus:outline-none"
+              className="w-full bg-transparent text-foreground placeholder:text-muted-foreground text-xs font-mono focus-visible:outline-none"
             />
           </div>
 

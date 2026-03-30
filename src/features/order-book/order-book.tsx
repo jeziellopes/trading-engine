@@ -32,8 +32,6 @@ export function OrderBook({ state }: OrderBookProps) {
 
         {/* Spread bar */}
         <SpreadBar
-          bestBid={state.bestBid}
-          bestAsk={state.bestAsk}
           lastPrice={state.lastPrice}
           spreadAmount={state.spreadAmount}
           spreadPercent={state.spreadPercent}

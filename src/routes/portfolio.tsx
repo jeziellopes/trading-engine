@@ -40,6 +40,7 @@ interface TradeHistory {
   price: number;
   qty: number;
   total: number;
+  pnl: number;
   time: string;
 }
 
@@ -51,6 +52,7 @@ const mockTrades: TradeHistory[] = [
     price: 62_540.0,
     qty: 0.083,
     total: 5_190.82,
+    pnl: 218.5,
     time: "2026-03-28 09:14",
   },
   {
@@ -60,6 +62,7 @@ const mockTrades: TradeHistory[] = [
     price: 3_280.0,
     qty: 1.5,
     total: 4_920.0,
+    pnl: -54.3,
     time: "2026-03-27 14:33",
   },
   {
@@ -69,6 +72,7 @@ const mockTrades: TradeHistory[] = [
     price: 65_100.0,
     qty: 0.05,
     total: 3_255.0,
+    pnl: 128.0,
     time: "2026-03-25 11:07",
   },
   {
@@ -78,6 +82,7 @@ const mockTrades: TradeHistory[] = [
     price: 148.4,
     qty: 10,
     total: 1_484.0,
+    pnl: -32.1,
     time: "2026-03-22 16:50",
   },
   {
@@ -87,6 +92,7 @@ const mockTrades: TradeHistory[] = [
     price: 155.2,
     qty: 10,
     total: 1_552.0,
+    pnl: 68.0,
     time: "2026-03-24 08:21",
   },
 ];
@@ -154,6 +160,7 @@ function RouteComponent() {
                 <th className="px-4 py-2.5 font-medium text-right">Price (USDT)</th>
                 <th className="px-4 py-2.5 font-medium text-right">Qty</th>
                 <th className="px-4 py-2.5 font-medium text-right">Total (USDT)</th>
+                <th className="px-4 py-2.5 font-medium text-right">P&amp;L</th>
                 <th className="px-4 py-2.5 font-medium text-right">Date</th>
               </tr>
             </thead>
@@ -182,6 +189,12 @@ function RouteComponent() {
                     {t.total.toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                     })}
+                  </td>
+                  <td
+                    className="px-4 py-2 text-right font-semibold"
+                    style={{ color: t.pnl >= 0 ? "var(--trading-profit)" : "var(--trading-loss)" }}
+                  >
+                    {t.pnl >= 0 ? "+" : ""}{t.pnl.toFixed(2)}
                   </td>
                   <td className="px-4 py-2 text-right text-muted-foreground">{t.time}</td>
                 </tr>

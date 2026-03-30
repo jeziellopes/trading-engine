@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import type { Layout, ResponsiveLayouts } from "react-grid-layout/legacy";
 import { Responsive, WidthProvider } from "react-grid-layout/legacy";
 import "react-grid-layout/css/styles.css";
@@ -15,6 +16,7 @@ interface TradingLayoutProps {
 // ── Mock data ─────────────────────────────────────────────────────────────────
 
 const BASE = 67843.5;
+const MOCK_CHANGE_PCT = 2.34; // positive = up day
 
 const mockOrderBookState = {
   bids: [
@@ -248,7 +250,8 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
     localStorage.setItem(LAYOUT_KEY, JSON.stringify(allLayouts));
   };
 
-  const isPositive = true;
+  const isPositive = MOCK_CHANGE_PCT >= 0;
+  const [activeTimeframe, setActiveTimeframe] = useState("15m");
 
   return (
     <div className="w-full px-3 pb-3 flex flex-col gap-0">
@@ -270,7 +273,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
             backgroundColor: isPositive ? "var(--trading-bid-muted)" : "var(--trading-ask-muted)",
           }}
         >
-          {isPositive ? "+" : ""}2.34%
+          {isPositive ? "+" : ""}{Math.abs(MOCK_CHANGE_PCT).toFixed(2)}%
         </span>
         <div className="flex gap-5 text-xs font-mono tabular-nums text-muted-foreground ml-2">
           <span>
@@ -315,9 +318,10 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                   <button
                     key={tf}
                     type="button"
+                    onClick={() => setActiveTimeframe(tf)}
                     className="text-[10px] font-mono px-1.5 py-0.5 rounded transition-colors"
                     style={
-                      tf === "15m"
+                      tf === activeTimeframe
                         ? {
                             color: "var(--primary)",
                             backgroundColor: "var(--trading-bid-muted)",
@@ -398,13 +402,13 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
               </div>
             </div>
             <div className="px-3 pb-2">
-              <a
-                href="/portfolio"
+              <Link
+                to="/portfolio"
                 className="text-[11px] font-medium"
                 style={{ color: "var(--primary)" }}
               >
                 View full portfolio →
-              </a>
+              </Link>
             </div>
           </Panel>
         </div>

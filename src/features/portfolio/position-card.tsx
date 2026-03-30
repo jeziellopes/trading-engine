@@ -27,7 +27,7 @@ export function PositionCard({ position }: PositionCardProps) {
           <p className="text-sm font-medium font-cypher">{position.symbol}</p>
         </div>
         <div className="text-xs text-muted-foreground tabular-nums font-mono">
-          {position.quantity.toFixed(2)}
+          {position.quantity.toFixed(4)}
         </div>
       </CardHeader>
       <CardContent>

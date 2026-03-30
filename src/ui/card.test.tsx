@@ -13,7 +13,7 @@ describe("Card", () => {
       "p-4",
       "rounded-md",
       "border",
-      "bg-ds-gray-100",
+      "bg-card",
     );
   });
 

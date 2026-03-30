@@ -12,6 +12,19 @@
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Fira+Mono:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem("trading-theme") || "night-city";
+        var mode = localStorage.getItem("trading-mode") || "dark";
+        var el = document.documentElement;
+        el.setAttribute("data-theme", theme);
+        el.setAttribute("data-mode", mode);
+        if (mode === "light") { el.classList.remove("dark"); }
+        else { el.classList.add("dark"); }
+      } catch(e) {}
+    })();
+  </script>
   </head>
   <body>
     <div id="root"></div>

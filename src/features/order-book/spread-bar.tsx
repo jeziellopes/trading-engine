@@ -1,8 +1,6 @@
 import { cn } from "@/lib/utils";
 
 interface SpreadBarProps {
-  bestBid: number;
-  bestAsk: number;
   lastPrice: number;
   spreadAmount: number;
   spreadPercent: number;

@@ -65,7 +65,7 @@ export default function LandingPage() {
             className="px-5 py-2.5 rounded font-mono text-sm font-medium transition-colors"
             style={{
               backgroundColor: "var(--primary)",
-              color: "var(--t-on-primary, #000)",
+              color: "var(--primary-foreground)",
             }}
           >
             Open Terminal →
