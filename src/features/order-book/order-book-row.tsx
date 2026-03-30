@@ -1,5 +1,5 @@
-import { DepthBar } from "@/ui/depth-bar";
 import { cn } from "@/lib/utils";
+import { DepthBar } from "@/ui/depth-bar";
 
 export interface PriceLevel {
   price: number;

@@ -1,7 +1,7 @@
 import { Card, CardHeader } from "@/ui/card";
 import { BalanceDisplay } from "./balance-display";
-import { PositionCard } from "./position-card";
 import type { Position } from "./position-card";
+import { PositionCard } from "./position-card";
 
 interface PortfolioState {
   totalBalance: number;

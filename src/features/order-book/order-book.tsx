@@ -1,8 +1,7 @@
+import { AskTable, BidTable } from "./bid-ask-table";
 import { ConnectionBanner } from "./connection-banner";
-import { BidTable } from "./bid-ask-table";
-import { AskTable } from "./bid-ask-table";
-import { SpreadBar } from "./spread-bar";
 import type { PriceLevel } from "./order-book-row";
+import { SpreadBar } from "./spread-bar";
 
 interface OrderBookState {
   bids: PriceLevel[];

@@ -79,7 +79,7 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
       {/* Price Input (only for limit orders) */}
       {type === "limit" && (
         <div>
-          <label className="text-xs text-muted-foreground block mb-1">Price</label>
+          <p className="text-xs text-muted-foreground block mb-1">Price</p>
           <Input
             type="number"
             placeholder="Price"
@@ -93,7 +93,7 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
 
       {/* Quantity Input */}
       <div>
-        <label className="text-xs text-muted-foreground block mb-1">Quantity</label>
+        <p className="text-xs text-muted-foreground block mb-1">Quantity</p>
         <Input
           type="number"
           placeholder="Quantity"

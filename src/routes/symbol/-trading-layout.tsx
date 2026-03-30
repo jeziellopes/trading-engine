@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { OrderBook } from "@/features/order-book/order-book";
-import { Portfolio } from "@/features/portfolio/portfolio";
-import { OrderForm } from "@/features/order-entry/order-form";
 import type { OrderFormData } from "@/features/order-entry/order-form";
+import { OrderForm } from "@/features/order-entry/order-form";
+import { Portfolio } from "@/features/portfolio/portfolio";
 
 interface TradingLayoutProps {
   symbol: string;

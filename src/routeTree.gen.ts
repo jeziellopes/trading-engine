@@ -16,7 +16,7 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
   id: '/design-system',
   path: '/design-system',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() => import('./routes/design-system.lazy').then((d) => d.Route))
 const SymbolIndexRoute = SymbolIndexRouteImport.update({
   id: '/symbol/',
   path: '/symbol/',

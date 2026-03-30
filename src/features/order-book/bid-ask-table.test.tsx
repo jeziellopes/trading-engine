@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
-import { BidTable, AskTable } from "./bid-ask-table";
+import { describe, expect, it } from "vitest";
+import { AskTable, BidTable } from "./bid-ask-table";
 import type { PriceLevel } from "./order-book-row";
 
 describe("BidTable", () => {
