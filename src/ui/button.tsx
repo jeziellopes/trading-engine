@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring disabled:opacity-50 disabled:cursor-not-allowed",
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--t-primary)] disabled:opacity-50 disabled:cursor-not-allowed",
   {
     variants: {
       intent: {
@@ -14,7 +14,7 @@ const buttonVariants = cva(
         ghost: "bg-transparent text-foreground hover:bg-muted",
       },
       size: {
-        xs: "px-1.5 py-0.5 text-xs rounded",
+        xs: "px-1.5 py-0.5 text-xs rounded-sm",
         sm: "px-2 py-1 text-sm",
         md: "px-4 py-2 text-base",
         lg: "px-6 py-3 text-lg",

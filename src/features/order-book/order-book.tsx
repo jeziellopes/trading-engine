@@ -24,10 +24,10 @@ export function OrderBook({ state }: OrderBookProps) {
     <div className="flex flex-col w-full h-full font-mono text-sm">
       <ConnectionBanner status={state.connectionStatus} />
 
-      <div className="flex-1 overflow-y-auto">
-        {/* Bids section */}
-        <div className="space-y-px">
-          <BidTable levels={state.bids} />
+      <div className="flex-1 overflow-y-auto flex flex-col">
+        {/* Asks section — highest price at top, lowest ask nearest spread */}
+        <div className="flex-1 flex flex-col justify-end space-y-px">
+          <AskTable levels={state.asks} />
         </div>
 
         {/* Spread bar */}
@@ -40,9 +40,9 @@ export function OrderBook({ state }: OrderBookProps) {
           tickDirection={state.lastPriceTick}
         />
 
-        {/* Asks section */}
-        <div className="space-y-px">
-          <AskTable levels={state.asks} />
+        {/* Bids section — highest bid at top, nearest spread */}
+        <div className="flex-1 space-y-px">
+          <BidTable levels={state.bids} />
         </div>
       </div>
     </div>

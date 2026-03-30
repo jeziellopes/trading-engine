@@ -1,4 +1,5 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { SymbolSelector } from "@/ui/symbol-selector";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -33,28 +34,8 @@ function RootComponent() {
 
           <div className="w-px h-5 bg-border mx-1" />
 
-          {/* Symbol tabs */}
-          <nav className="flex items-center gap-1">
-            {(["BTCUSDT", "ETHUSDT"] as const).map((sym) => (
-              <Link
-                key={sym}
-                to={"/symbol/$symbol" as never}
-                params={{ symbol: sym } as never}
-                className="text-xs font-mono px-2.5 py-1 rounded transition-colors"
-                activeProps={{
-                  style: {
-                    color: "var(--t-primary)",
-                    backgroundColor: "var(--trading-bid-muted)",
-                  },
-                }}
-                inactiveProps={{
-                  style: { color: "var(--color-muted-foreground)" },
-                }}
-              >
-                {sym}
-              </Link>
-            ))}
-          </nav>
+          {/* Symbol selector */}
+          <SymbolSelector />
 
           <div className="flex-1" />
 

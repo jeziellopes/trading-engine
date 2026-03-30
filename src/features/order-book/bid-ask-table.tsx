@@ -18,8 +18,8 @@ export function BidTable({ levels }: TableProps) {
 }
 
 export function AskTable({ levels }: TableProps) {
-  // Asks sorted lowest price first
-  const sortedLevels = [...levels].sort((a, b) => a.price - b.price);
+  // Asks sorted highest price first — lowest ask (best ask) ends up nearest the spread
+  const sortedLevels = [...levels].sort((a, b) => b.price - a.price);
 
   return (
     <div className="space-y-px">
