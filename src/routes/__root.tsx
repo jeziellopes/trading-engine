@@ -27,7 +27,7 @@ function RootComponent() {
             // biome-ignore lint/suspicious/noExplicitAny: codegen pending
             to={"/" as any}
             className="font-cypher text-sm font-bold tracking-widest select-none"
-            style={{ color: "var(--t-primary)" }}
+            style={{ color: "var(--primary)" }}
           >
             Trading Engine
           </Link>

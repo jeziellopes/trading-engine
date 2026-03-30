@@ -59,8 +59,8 @@ export function SymbolSelector() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 text-xs font-mono px-2.5 py-1 rounded border border-border/60 hover:border-border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--t-primary)]"
-        style={{ color: currentSymbol ? "var(--t-primary)" : "var(--color-muted-foreground)" }}
+        className="flex items-center gap-1.5 text-xs font-mono px-2.5 py-1 rounded border border-border/60 hover:border-border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)]"
+        style={{ color: currentSymbol ? "var(--primary)" : "var(--color-muted-foreground)" }}
       >
         <span className="font-semibold">{currentSymbol ?? "SELECT PAIR"}</span>
         <span className="text-[10px] opacity-60">{open ? "▴" : "▾"}</span>
@@ -138,14 +138,14 @@ function SymbolRow({ info, active, onSelect }: SymbolRowProps) {
       className="w-full text-left px-3 py-1.5 flex items-center gap-1 hover:bg-muted/60 transition-colors"
       style={
         active
-          ? { color: "var(--t-primary)", backgroundColor: "var(--trading-bid-muted)" }
+          ? { color: "var(--primary)", backgroundColor: "var(--trading-bid-muted)" }
           : undefined
       }
     >
       <span className="font-semibold tabular-nums">{info.base}</span>
       <span className="text-muted-foreground">/{info.quote}</span>
       {active && (
-        <span className="ml-auto text-[10px]" style={{ color: "var(--t-primary)" }}>
+        <span className="ml-auto text-[10px]" style={{ color: "var(--primary)" }}>
           ●
         </span>
       )}

@@ -98,7 +98,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between">
         <h1
           className="text-2xl font-cypher font-bold tracking-wide"
-          style={{ color: "var(--t-primary)" }}
+          style={{ color: "var(--primary)" }}
         >
           Portfolio
         </h1>

@@ -254,7 +254,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
     <div className="w-full px-3 pb-3 flex flex-col gap-0">
       {/* ── Ticker header ───────────────────────────────── */}
       <div className="flex items-center gap-6 py-2 border-b border-border mb-2">
-        <span className="font-cypher text-base font-bold" style={{ color: "var(--t-primary)" }}>
+        <span className="font-cypher text-base font-bold" style={{ color: "var(--primary)" }}>
           {symbol}
         </span>
         <span
@@ -319,7 +319,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                     style={
                       tf === "15m"
                         ? {
-                            color: "var(--t-primary)",
+                            color: "var(--primary)",
                             backgroundColor: "var(--trading-bid-muted)",
                           }
                         : { color: "var(--color-muted-foreground)" }
@@ -401,7 +401,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
               <a
                 href="/portfolio"
                 className="text-[11px] font-medium"
-                style={{ color: "var(--t-primary)" }}
+                style={{ color: "var(--primary)" }}
               >
                 View full portfolio →
               </a>

@@ -45,7 +45,7 @@ export default function LandingPage() {
 
         <h1
           className="font-cypher text-5xl font-bold leading-tight tracking-tight"
-          style={{ color: "var(--t-primary)" }}
+          style={{ color: "var(--primary)" }}
         >
           Trading Engine
         </h1>
@@ -64,7 +64,7 @@ export default function LandingPage() {
             params={{ symbol: "BTCUSDT" } as any}
             className="px-5 py-2.5 rounded font-mono text-sm font-medium transition-colors"
             style={{
-              backgroundColor: "var(--t-primary)",
+              backgroundColor: "var(--primary)",
               color: "var(--t-on-primary, #000)",
             }}
           >
@@ -75,8 +75,8 @@ export default function LandingPage() {
             to={"/design-system" as any}
             className="px-5 py-2.5 rounded font-mono text-sm font-medium border transition-colors"
             style={{
-              borderColor: "var(--t-primary)",
-              color: "var(--t-primary)",
+              borderColor: "var(--primary)",
+              color: "var(--primary)",
             }}
           >
             Design System
@@ -138,7 +138,7 @@ export default function LandingPage() {
               className="flex flex-col gap-0.5 px-4 py-3 rounded border"
               style={{ borderColor: "var(--color-border)" }}
             >
-              <span className="font-mono text-sm font-medium" style={{ color: "var(--t-primary)" }}>
+              <span className="font-mono text-sm font-medium" style={{ color: "var(--primary)" }}>
                 {name}
               </span>
               <span className="text-xs" style={{ color: "var(--color-muted-foreground)" }}>
