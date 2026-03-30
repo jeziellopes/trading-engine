@@ -1,110 +1,1128 @@
 /*
  * Design tokens — CypherUI Trading
  *
+ * Three-layer architecture:
+ *   Layer 1 — [data-theme="x"]               ← palette identity (--t-* private vars)
+ *   Layer 2 — [data-theme="x"][data-mode="y"] ← surface system (refs palette vars)
+ *   Layer 3 — :root                           ← fonts + durations ONLY, zero colors
+ *
  * THIS FILE IS THE SOURCE OF TRUTH for all CSS custom properties.
  * Edit values here directly. Run `pnpm tokens` to sync design-tokens.ts.
  *
- * Tailwind class mappings live in src/styles/app.css  (@theme inline block).
- * TypeScript constants live in src/lib/design-tokens.ts (auto-synced from here).
+ * Tailwind class mappings  →  src/styles/app.css  (@theme inline)
+ * TypeScript constants      →  src/lib/design-tokens.ts  (pnpm tokens)
  */
 
+/* ============================================================
+   LAYER 3 — :root  (fonts + durations ONLY — zero colors)
+   ============================================================ */
 :root {
-  color-scheme: dark;
-
-  /* ── Fonts ─────────────────────────────────────────────────────────────
-   * Loaded via Google Fonts in index.html.
-   * app.css maps these to --font-sans, --font-mono, --font-cypher.
-   * -------------------------------------------------------------------- */
+  /* ── Fonts ────────────────────────────────────────────────────────── */
   --font-share-tech-mono: "Share Tech Mono";
-  --font-orbitron: "Orbitron";
-  --font-fira-mono: "Fira Mono";
+  --font-orbitron:        "Orbitron";
+  --font-fira-mono:       "Fira Mono";
 
-  /* ── Semantic Colors ───────────────────────────────────────────────────
-   * Mapped to Tailwind classes in app.css @theme inline.
-   * Use: bg-background, text-foreground, bg-card, border-border, etc.
-   * -------------------------------------------------------------------- */
-  --background:         oklch(0.10 0 0);
-  --foreground:         oklch(0.985 0 0);
-  --card:               oklch(0.145 0 0);
-  --card-foreground:    oklch(0.985 0 0);
-  --popover:            oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary:          oklch(0.205 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted:              oklch(0.205 0 0);
-  --muted-foreground:   oklch(0.556 0 0);
-  --accent:             oklch(0.205 0 0);
-  --accent-foreground:  oklch(0.985 0 0);
-  --destructive:        oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border:             oklch(0.22 0 0);
-  --input:              oklch(0.269 0 0);
-  --ring:               oklch(0.439 0 0);
-
-  /* ── Dynamic Accent ────────────────────────────────────────────────────
-   * --primary drives bg-primary, text-primary, border-primary, ring-primary.
-   * Swappable at runtime via lib/theme-color.ts → localStorage.
-   * -------------------------------------------------------------------- */
-  --primary: oklch(0.65 0.22 280);
-
-  /* ── Gray Scale ────────────────────────────────────────────────────────
-   * Mapped to Tailwind via app.css: bg-ds-gray-100, bg-ds-gray-800, etc.
-   * 100 = card surface · 800 = badge bg, terminal header, skeleton
-   * -------------------------------------------------------------------- */
-  --ds-gray-100: oklch(0.17 0 0);
-  --ds-gray-500: oklch(0.556 0 0);
-  --ds-gray-600: oklch(0.65 0 0);
-  --ds-gray-700: oklch(0.45 0 0);
-  --ds-gray-800: oklch(0.22 0 0);
-
-  /* ── Sidebar ───────────────────────────────────────────────────────────
-   * For a future sidebar/nav panel. Not yet mapped to Tailwind classes.
-   * -------------------------------------------------------------------- */
-  --sidebar:                    oklch(0.205 0 0);
-  --sidebar-foreground:         oklch(0.985 0 0);
-  --sidebar-primary:            oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent:             oklch(0.269 0 0);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border:             oklch(0.269 0 0);
-  --sidebar-ring:               oklch(0.439 0 0);
-
-  /* ── Trading Semantics ─────────────────────────────────────────────────
-   * Used directly as inline styles or via text-[color:var(--trading-*)]
-   * and bg-[color:var(--trading-*)] in components.
-   *
-   * Never use Tailwind color utilities (text-green-*, bg-red-*) for these.
-   * -------------------------------------------------------------------- */
-
-  /* Bid / buy side — green */
-  --trading-bid:       oklch(0.65 0.18 145);
-  --trading-bid-muted: oklch(0.65 0.18 145 / 0.15);
-
-  /* Ask / sell side — red/orange */
-  --trading-ask:       oklch(0.60 0.22 25);
-  --trading-ask-muted: oklch(0.60 0.22 25 / 0.15);
-
-  /* PnL */
-  --trading-profit: oklch(0.70 0.18 145);
-  --trading-loss:   oklch(0.65 0.22 25);
-
-  /* Last price tick direction */
-  --trading-tick-up:      oklch(0.70 0.18 145);
-  --trading-tick-down:    oklch(0.65 0.22 25);
-  --trading-tick-neutral: oklch(0.60 0 0);
-
-  /* WebSocket connection status */
-  --trading-connected:    oklch(0.70 0.18 145);
-  --trading-reconnecting: oklch(0.75 0.16 75);
-  --trading-disconnected: oklch(0.60 0.22 25);
-
-  /* ── Animation Durations ───────────────────────────────────────────────
-   * Use as: transition-duration-[var(--duration-fast)] or inline style.
-   * -------------------------------------------------------------------- */
+  /* ── Animation Durations ─────────────────────────────────────────── */
   --duration-fast:    150ms;
   --duration-default: 200ms;
   --duration-medium:  300ms;
   --duration-slow:    500ms;
   --duration-xslow:   700ms;
+}
+
+/* ============================================================
+   LAYER 1 — Palette blocks  (--t-* private vars per theme)
+   Each block defines the complete palette identity for a theme.
+   ============================================================ */
+
+/* ── Soft (violet / achromatic) ────────────────────────────── */
+[data-theme="soft"] {
+  --t-hue-l: 265;
+  --t-hue-d: 265;
+  --t-chroma-l: 0.004;
+
+  --t-primary:      oklch(0.62 0.22 280);
+  --t-primary-l:    oklch(0.62 0.22 280);
+  --t-primary-fg:   oklch(0.10 0    0  );
+  --t-primary-fg-l: oklch(0.10 0    0  );
+
+  --t-bid:            oklch(0.65 0.18 145);
+  --t-bid-l:          oklch(0.44 0.16 145);
+  --t-ask:            oklch(0.63 0.22 25 );
+  --t-ask-l:          oklch(0.48 0.20 25 );
+  --t-profit:         oklch(0.70 0.18 145);
+  --t-profit-l:       oklch(0.40 0.16 145);
+  --t-loss:           oklch(0.65 0.22 25 );
+  --t-loss-l:         oklch(0.48 0.20 25 );
+  --t-reconnecting:   oklch(0.75 0.16 75 );
+  --t-reconnecting-l: oklch(0.50 0.16 75 );
+  --t-disconnected:   oklch(0.60 0.22 25 );
+  --t-disconnected-l: oklch(0.48 0.20 25 );
+
+  --t-destructive-d:  oklch(0.40 0.14 26 );
+  --t-destructive-l:  oklch(0.56 0.24 27 );
+  --t-destructive-fg: oklch(0.97 0    0  );
+}
+
+/* ── Night City (yellow #FDF500 + teal #1AC5B0) ────────────── */
+[data-theme="night-city"] {
+  --t-hue-l: 95;
+  --t-hue-d: 265;
+  --t-chroma-l: 0.030;
+
+  --t-primary:      oklch(0.96 0.23 102);
+  --t-primary-l:    oklch(0.68 0.22 95 );
+  --t-primary-fg:   oklch(0.07 0    0  );
+  --t-primary-fg-l: oklch(0.12 0.008 90);
+
+  --t-bid:            oklch(0.72 0.15 178);
+  --t-bid-l:          oklch(0.44 0.15 178);
+  --t-ask:            oklch(0.64 0.26 340);
+  --t-ask-l:          oklch(0.52 0.24 340);
+  --t-profit:         oklch(0.96 0.23 102);
+  --t-profit-l:       oklch(0.50 0.18 102);
+  --t-loss:           oklch(0.62 0.22 25 );
+  --t-loss-l:         oklch(0.38 0.18 25 );
+  --t-reconnecting:   oklch(0.88 0.18 192);
+  --t-reconnecting-l: oklch(0.55 0.16 192);
+  --t-disconnected:   oklch(0.64 0.26 340);
+  --t-disconnected-l: oklch(0.52 0.24 340);
+
+  --t-destructive-d:  oklch(0.42 0.22 25 );
+  --t-destructive-l:  oklch(0.56 0.24 27 );
+  --t-destructive-fg: oklch(0.97 0    0  );
+}
+
+/* ── Maelstrom (magenta #CB1DCD + purple #9370DB) ─────────── */
+[data-theme="maelstrom"] {
+  --t-hue-l: 310;
+  --t-hue-d: 300;
+  --t-chroma-l: 0.025;
+
+  --t-primary:      oklch(0.56 0.28 316);
+  --t-primary-l:    oklch(0.46 0.26 316);
+  --t-primary-fg:   oklch(0.97 0    0  );
+  --t-primary-fg-l: oklch(0.97 0    0  );
+
+  --t-bid:            oklch(0.88 0.18 192);
+  --t-bid-l:          oklch(0.44 0.18 192);
+  --t-ask:            oklch(0.96 0.23 102);
+  --t-ask-l:          oklch(0.51 0.22 102);
+  --t-profit:         oklch(0.70 0.20 292);
+  --t-profit-l:       oklch(0.42 0.18 292);
+  --t-loss:           oklch(0.64 0.26 340);
+  --t-loss-l:         oklch(0.46 0.22 340);
+  --t-reconnecting:   oklch(0.70 0.20 292);
+  --t-reconnecting-l: oklch(0.45 0.18 292);
+  --t-disconnected:   oklch(0.64 0.26 340);
+  --t-disconnected-l: oklch(0.46 0.22 340);
+
+  --t-destructive-d:  oklch(0.56 0.28 316);
+  --t-destructive-l:  oklch(0.56 0.24 27 );
+  --t-destructive-fg: oklch(0.97 0    0  );
+}
+
+/* ── Corpo Ice (cyan #37EBF3) ──────────────────────────────── */
+[data-theme="corpo-ice"] {
+  --t-hue-l: 215;
+  --t-hue-d: 220;
+  --t-chroma-l: 0.018;
+
+  --t-primary:      oklch(0.88 0.18 192);
+  --t-primary-l:    oklch(0.50 0.18 192);
+  --t-primary-fg:   oklch(0.07 0    0  );
+  --t-primary-fg-l: oklch(1    0    0  );
+
+  --t-bid:            oklch(0.82 0.20 192);
+  --t-bid-l:          oklch(0.44 0.18 192);
+  --t-ask:            oklch(0.65 0.26 340);
+  --t-ask-l:          oklch(0.52 0.24 340);
+  --t-profit:         oklch(0.88 0.18 192);
+  --t-profit-l:       oklch(0.44 0.18 192);
+  --t-loss:           oklch(0.65 0.20 340);
+  --t-loss-l:         oklch(0.52 0.24 340);
+  --t-reconnecting:   oklch(0.72 0.14 220);
+  --t-reconnecting-l: oklch(0.44 0.14 220);
+  --t-disconnected:   oklch(0.65 0.26 340);
+  --t-disconnected-l: oklch(0.52 0.24 340);
+
+  --t-destructive-d:  oklch(0.54 0.24 340);
+  --t-destructive-l:  oklch(0.56 0.24 27 );
+  --t-destructive-fg: oklch(0.97 0    0  );
+}
+
+/* ── Netrunner Void (pure black + yellow #FDF500) ─────────── */
+[data-theme="netrunner"] {
+  --t-hue-l: 265;
+  --t-hue-d: 265;
+  --t-chroma-l: 0.004;
+
+  --t-primary:      oklch(0.96 0.23 102);
+  --t-primary-l:    oklch(0.72 0.22 102);
+  --t-primary-fg:   oklch(0.04 0    0  );
+  --t-primary-fg-l: oklch(0.10 0    0  );
+
+  --t-bid:            oklch(0.72 0.15 178);
+  --t-bid-l:          oklch(0.44 0.15 178);
+  --t-ask:            oklch(0.64 0.26 340);
+  --t-ask-l:          oklch(0.52 0.24 340);
+  --t-profit:         oklch(0.96 0.23 102);
+  --t-profit-l:       oklch(0.52 0.20 102);
+  --t-loss:           oklch(0.62 0.22 25 );
+  --t-loss-l:         oklch(0.38 0.18 25 );
+  --t-reconnecting:   oklch(0.96 0.23 102);
+  --t-reconnecting-l: oklch(0.55 0.18 102);
+  --t-disconnected:   oklch(0.64 0.26 340);
+  --t-disconnected-l: oklch(0.52 0.24 340);
+
+  --t-destructive-d:  oklch(0.42 0.22 25 );
+  --t-destructive-l:  oklch(0.50 0.24 27 );
+  --t-destructive-fg: oklch(0.97 0    0  );
+}
+
+/* ============================================================
+   LAYER 2 — Surface blocks
+   Each block is self-contained. Trading vars use CSS Relative
+   Color Syntax for alpha: oklch(from <base> l c h / alpha).
+   ============================================================ */
+
+/* ════════════════════════════════════════════════════════════
+   SOFT  ·  Violet primary — subtle achromatic surfaces
+   ════════════════════════════════════════════════════════════ */
+
+/* Soft light: default (no data-theme set) OR explicit.
+   Backward-compat selector ensures unthemed HTML still renders.
+   NOTE: var(--t-*) resolves only when data-theme="soft" is set;
+   the index.html always sets data-theme="soft" so this is safe. */
+:root:not([data-theme]):not(.dark),
+[data-theme="soft"][data-mode="light"] {
+  color-scheme: light;
+
+  --background:             oklch(0.98 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --foreground:             oklch(0.12 0.008 var(--t-hue-l));
+  --card:                   oklch(0.99 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --card-foreground:        oklch(0.12 0.008 var(--t-hue-l));
+  --popover:                oklch(0.99 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --popover-foreground:     oklch(0.12 0.008 var(--t-hue-l));
+  --primary:                var(--t-primary-l);
+  --primary-foreground:     var(--t-primary-fg-l);
+  --secondary:              oklch(0.93 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --secondary-foreground:   oklch(0.12 0.008 var(--t-hue-l));
+  --muted:                  oklch(0.93 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --muted-foreground:       oklch(0.45 0.002 var(--t-hue-l));
+  --accent:                 oklch(0.93 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --accent-foreground:      oklch(0.12 0.008 var(--t-hue-l));
+  --destructive:            var(--t-destructive-l);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.87 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --input:                  oklch(0.96 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --ring:                   var(--t-primary-l);
+
+  --ds-gray-100: oklch(0.94 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --ds-gray-500: oklch(0.45 0.002 var(--t-hue-l));
+  --ds-gray-600: oklch(0.35 0.002 var(--t-hue-l));
+  --ds-gray-700: oklch(0.25 0.002 var(--t-hue-l));
+  --ds-gray-800: oklch(0.90 var(--t-chroma-l, 0.004) var(--t-hue-l));
+
+  --sidebar:                    oklch(0.96 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --sidebar-foreground:         oklch(0.12 0.008 var(--t-hue-l));
+  --sidebar-primary:            var(--t-primary-l);
+  --sidebar-primary-foreground: var(--t-primary-fg-l);
+  --sidebar-accent:             oklch(0.92 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --sidebar-accent-foreground:  oklch(0.12 0.008 var(--t-hue-l));
+  --sidebar-border:             oklch(0.87 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --sidebar-ring:               var(--t-primary-l);
+
+  --trading-bid:       var(--t-bid-l);
+  --trading-bid-muted: oklch(from var(--t-bid-l) l c h / 0.12);
+  --trading-ask:       var(--t-ask-l);
+  --trading-ask-muted: oklch(from var(--t-ask-l) l c h / 0.12);
+  --trading-profit:    var(--t-profit-l);
+  --trading-loss:      var(--t-loss-l);
+
+  --trading-tick-up:      var(--t-profit-l);
+  --trading-tick-down:    var(--t-loss-l);
+  --trading-tick-neutral: oklch(0.45 0.002 var(--t-hue-l));
+
+  --trading-connected:    var(--t-bid-l);
+  --trading-reconnecting: var(--t-reconnecting-l);
+  --trading-disconnected: var(--t-disconnected-l);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting-l) l c h / 0.10);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+}
+
+/* Soft dark: .dark class (Tailwind compat) OR explicit. */
+.dark:not([data-theme]),
+[data-theme="soft"][data-mode="dark"] {
+  color-scheme: dark;
+
+  /* Intentionally lighter than cyberpunk dark themes (0.13 bg vs 0.07) */
+  --background:             oklch(0.13 0.006 var(--t-hue-d));
+  --foreground:             oklch(0.93 0.004 var(--t-hue-d));
+  --card:                   oklch(0.17 0.006 var(--t-hue-d));
+  --card-foreground:        oklch(0.93 0.004 var(--t-hue-d));
+  --popover:                oklch(0.17 0.006 var(--t-hue-d));
+  --popover-foreground:     oklch(0.93 0.004 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.22 0.006 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.93 0.004 var(--t-hue-d));
+  --muted:                  oklch(0.22 0.006 var(--t-hue-d));
+  --muted-foreground:       oklch(0.62 0.004 var(--t-hue-d));
+  --accent:                 oklch(0.22 0.006 var(--t-hue-d));
+  --accent-foreground:      oklch(0.93 0.004 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.28 0.006 var(--t-hue-d));
+  --input:                  oklch(0.24 0.006 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.20 0.006 var(--t-hue-d));
+  --ds-gray-500: oklch(0.55 0.003 var(--t-hue-d));
+  --ds-gray-600: oklch(0.65 0.003 var(--t-hue-d));
+  --ds-gray-700: oklch(0.45 0.003 var(--t-hue-d));
+  --ds-gray-800: oklch(0.27 0.006 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.22 0.006 var(--t-hue-d));
+  --sidebar-foreground:         oklch(0.93 0.004 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.27 0.006 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.93 0.004 var(--t-hue-d));
+  --sidebar-border:             oklch(0.28 0.006 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.60 0.003 var(--t-hue-d));
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.10);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+}
+
+/* ── Soft Vibrant (violet primary as surface) ──────────────── */
+[data-theme="soft"][data-mode="vibrant"] {
+  color-scheme: dark;
+
+  /* Violet bg — dark panels float on top */
+  --background:             oklch(0.52 0.26 280);
+  --foreground:             oklch(0.97 0.004 280);
+  --card:                   oklch(0.10 0.006 var(--t-hue-d));
+  --card-foreground:        oklch(0.93 0.004 var(--t-hue-d));
+  --popover:                oklch(0.10 0.006 var(--t-hue-d));
+  --popover-foreground:     oklch(0.93 0.004 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.16 0.006 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.93 0.004 var(--t-hue-d));
+  --muted:                  oklch(0.16 0.006 var(--t-hue-d));
+  --muted-foreground:       oklch(0.80 0    0  );
+  --accent:                 oklch(0.16 0.006 var(--t-hue-d));
+  --accent-foreground:      oklch(0.93 0.004 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.24 0.010 var(--t-hue-d));
+  --input:                  oklch(0.13 0.006 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.15 0.006 var(--t-hue-d));
+  --ds-gray-500: oklch(0.50 0    0  );
+  --ds-gray-600: oklch(0.62 0    0  );
+  --ds-gray-700: oklch(0.42 0    0  );
+  --ds-gray-800: oklch(0.22 0.006 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.10 0.006 var(--t-hue-d));
+  --sidebar-foreground:         oklch(0.93 0.004 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.16 0.006 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.93 0.004 var(--t-hue-d));
+  --sidebar-border:             oklch(0.24 0.010 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.60 0.010 var(--t-hue-d));
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.15);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+}
+
+/* ════════════════════════════════════════════════════════════
+   NIGHT CITY CHROME  ·  Yellow #FDF500 + Teal #1AC5B0
+   ════════════════════════════════════════════════════════════ */
+
+[data-theme="night-city"][data-mode="light"] {
+  color-scheme: light;
+
+  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --foreground:             oklch(0.12 0.008 var(--t-hue-l));
+  --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
+  --card-foreground:        oklch(0.12 0.008 var(--t-hue-l));
+  --popover:                oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
+  --popover-foreground:     oklch(0.12 0.008 var(--t-hue-l));
+  --primary:                var(--t-primary-l);
+  --primary-foreground:     var(--t-primary-fg-l);
+  --secondary:              oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --secondary-foreground:   oklch(0.12 0.008 var(--t-hue-l));
+  --muted:                  oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --muted-foreground:       oklch(0.45 0.002 var(--t-hue-l));
+  --accent:                 oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --accent-foreground:      oklch(0.12 0.008 var(--t-hue-l));
+  --destructive:            var(--t-destructive-l);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
+  --ring:                   var(--t-primary-l);
+
+  --ds-gray-100: oklch(0.94 var(--t-chroma-l) var(--t-hue-l));
+  --ds-gray-500: oklch(0.45 0.002 var(--t-hue-l));
+  --ds-gray-600: oklch(0.35 0.002 var(--t-hue-l));
+  --ds-gray-700: oklch(0.25 0.002 var(--t-hue-l));
+  --ds-gray-800: oklch(0.90 var(--t-chroma-l) var(--t-hue-l));
+
+  --sidebar:                    oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-foreground:         oklch(0.12 0.008 var(--t-hue-l));
+  --sidebar-primary:            var(--t-primary-l);
+  --sidebar-primary-foreground: var(--t-primary-fg-l);
+  --sidebar-accent:             oklch(0.92 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-accent-foreground:  oklch(0.12 0.008 var(--t-hue-l));
+  --sidebar-border:             oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-ring:               var(--t-primary-l);
+
+  --trading-bid:       var(--t-bid-l);
+  --trading-bid-muted: oklch(from var(--t-bid-l) l c h / 0.12);
+  --trading-ask:       var(--t-ask-l);
+  --trading-ask-muted: oklch(from var(--t-ask-l) l c h / 0.12);
+  --trading-profit:    var(--t-profit-l);
+  --trading-loss:      var(--t-loss-l);
+
+  --trading-tick-up:      var(--t-profit-l);
+  --trading-tick-down:    var(--t-loss-l);
+  --trading-tick-neutral: oklch(0.45 0.002 var(--t-hue-l));
+
+  --trading-connected:    var(--t-bid-l);
+  --trading-reconnecting: var(--t-reconnecting-l);
+  --trading-disconnected: var(--t-disconnected-l);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting-l) l c h / 0.10);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+}
+
+[data-theme="night-city"][data-mode="dark"] {
+  color-scheme: dark;
+
+  --background:             oklch(0.07 0.002 var(--t-hue-d));
+  --foreground:             oklch(0.94 0.008 var(--t-hue-d));
+  --card:                   oklch(0.11 0.004 var(--t-hue-d));
+  --card-foreground:        oklch(0.94 0.008 var(--t-hue-d));
+  --popover:                oklch(0.11 0.004 var(--t-hue-d));
+  --popover-foreground:     oklch(0.94 0.008 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.16 0.004 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.94 0.008 var(--t-hue-d));
+  --muted:                  oklch(0.16 0.004 var(--t-hue-d));
+  --muted-foreground:       oklch(0.58 0.004 var(--t-hue-d));
+  --accent:                 oklch(0.16 0.004 var(--t-hue-d));
+  --accent-foreground:      oklch(0.94 0.008 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.22 0.005 var(--t-hue-d));
+  --input:                  oklch(0.14 0.003 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.14 0.004 var(--t-hue-d));
+  --ds-gray-500: oklch(0.50 0.003 var(--t-hue-d));
+  --ds-gray-600: oklch(0.62 0.003 var(--t-hue-d));
+  --ds-gray-700: oklch(0.40 0.003 var(--t-hue-d));
+  --ds-gray-800: oklch(0.19 0.004 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.11 0.004 var(--t-hue-d));
+  --sidebar-foreground:         oklch(0.94 0.008 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.16 0.004 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.94 0.008 var(--t-hue-d));
+  --sidebar-border:             oklch(0.22 0.005 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.58 0.003 var(--t-hue-d));
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.10);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+}
+
+[data-theme="night-city"][data-mode="vibrant"] {
+  color-scheme: dark;
+
+  /* Yellow bg — near-black panels float on top */
+  --background:             oklch(0.93 0.22 102);
+  --foreground:             oklch(0.10 0.010 90 );
+  --card:                   oklch(0.10 0.006 var(--t-hue-d));
+  --card-foreground:        oklch(0.94 0.008 var(--t-hue-d));
+  --popover:                oklch(0.10 0.006 var(--t-hue-d));
+  --popover-foreground:     oklch(0.94 0.008 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.16 0.006 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.94 0.008 var(--t-hue-d));
+  --muted:                  oklch(0.16 0.006 var(--t-hue-d));
+  --muted-foreground:       oklch(0.50 0.006 90 );
+  --accent:                 oklch(0.16 0.006 var(--t-hue-d));
+  --accent-foreground:      oklch(0.94 0.008 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.24 0.008 var(--t-hue-d));
+  --input:                  oklch(0.13 0.006 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.15 0.006 var(--t-hue-d));
+  --ds-gray-500: oklch(0.50 0    0  );
+  --ds-gray-600: oklch(0.62 0    0  );
+  --ds-gray-700: oklch(0.40 0    0  );
+  --ds-gray-800: oklch(0.20 0.006 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.10 0.006 var(--t-hue-d));
+  --sidebar-foreground:         oklch(0.94 0.008 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.16 0.006 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.94 0.008 var(--t-hue-d));
+  --sidebar-border:             oklch(0.24 0.008 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.60 0.010 var(--t-hue-d));
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.15);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+}
+
+/* ════════════════════════════════════════════════════════════
+   MAELSTROM DISTRICT  ·  Magenta #CB1DCD + Purple #9370DB
+   ════════════════════════════════════════════════════════════ */
+
+[data-theme="maelstrom"][data-mode="light"] {
+  color-scheme: light;
+
+  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --foreground:             oklch(0.12 0.010 var(--t-hue-l));
+  --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
+  --card-foreground:        oklch(0.12 0.010 var(--t-hue-l));
+  --popover:                oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
+  --popover-foreground:     oklch(0.12 0.010 var(--t-hue-l));
+  --primary:                var(--t-primary-l);
+  --primary-foreground:     var(--t-primary-fg-l);
+  --secondary:              oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --secondary-foreground:   oklch(0.12 0.010 var(--t-hue-l));
+  --muted:                  oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --muted-foreground:       oklch(0.45 0.002 var(--t-hue-l));
+  --accent:                 oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --accent-foreground:      oklch(0.12 0.010 var(--t-hue-l));
+  --destructive:            var(--t-destructive-l);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
+  --ring:                   var(--t-primary-l);
+
+  --ds-gray-100: oklch(0.94 var(--t-chroma-l) var(--t-hue-l));
+  --ds-gray-500: oklch(0.45 0.002 var(--t-hue-l));
+  --ds-gray-600: oklch(0.35 0.002 var(--t-hue-l));
+  --ds-gray-700: oklch(0.25 0.002 var(--t-hue-l));
+  --ds-gray-800: oklch(0.91 var(--t-chroma-l) var(--t-hue-l));
+
+  --sidebar:                    oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-foreground:         oklch(0.12 0.010 var(--t-hue-l));
+  --sidebar-primary:            var(--t-primary-l);
+  --sidebar-primary-foreground: var(--t-primary-fg-l);
+  --sidebar-accent:             oklch(0.92 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-accent-foreground:  oklch(0.12 0.010 var(--t-hue-l));
+  --sidebar-border:             oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-ring:               var(--t-primary-l);
+
+  --trading-bid:       var(--t-bid-l);
+  --trading-bid-muted: oklch(from var(--t-bid-l) l c h / 0.12);
+  --trading-ask:       var(--t-ask-l);
+  --trading-ask-muted: oklch(from var(--t-ask-l) l c h / 0.12);
+  --trading-profit:    var(--t-profit-l);
+  --trading-loss:      var(--t-loss-l);
+
+  --trading-tick-up:      var(--t-profit-l);
+  --trading-tick-down:    var(--t-loss-l);
+  --trading-tick-neutral: oklch(0.45 0.002 var(--t-hue-l));
+
+  --trading-connected:    var(--t-bid-l);
+  --trading-reconnecting: var(--t-reconnecting-l);
+  --trading-disconnected: var(--t-disconnected-l);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting-l) l c h / 0.10);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+}
+
+[data-theme="maelstrom"][data-mode="dark"] {
+  color-scheme: dark;
+
+  /* Higher surface chroma — Maelstrom is vivid even in dark */
+  --background:             oklch(0.07 0.014 var(--t-hue-d));
+  --foreground:             oklch(0.92 0.010 var(--t-hue-d));
+  --card:                   oklch(0.12 0.016 var(--t-hue-d));
+  --card-foreground:        oklch(0.92 0.010 var(--t-hue-d));
+  --popover:                oklch(0.12 0.016 var(--t-hue-d));
+  --popover-foreground:     oklch(0.92 0.010 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.17 0.018 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.92 0.010 var(--t-hue-d));
+  --muted:                  oklch(0.17 0.018 var(--t-hue-d));
+  --muted-foreground:       oklch(0.58 0.010 var(--t-hue-d));
+  --accent:                 oklch(0.17 0.018 var(--t-hue-d));
+  --accent-foreground:      oklch(0.92 0.010 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.24 0.018 var(--t-hue-d));
+  --input:                  oklch(0.14 0.016 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.16 0.018 var(--t-hue-d));
+  --ds-gray-500: oklch(0.52 0.010 var(--t-hue-d));
+  --ds-gray-600: oklch(0.62 0.008 var(--t-hue-d));
+  --ds-gray-700: oklch(0.42 0.010 var(--t-hue-d));
+  --ds-gray-800: oklch(0.20 0.018 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.12 0.016 var(--t-hue-d));
+  --sidebar-foreground:         oklch(0.92 0.010 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.17 0.018 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.92 0.010 var(--t-hue-d));
+  --sidebar-border:             oklch(0.24 0.018 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.58 0.010 var(--t-hue-d));
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.10);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+}
+
+[data-theme="maelstrom"][data-mode="vibrant"] {
+  color-scheme: dark;
+
+  /* Steel pink bg — deep violet-black panels float on top */
+  --background:             oklch(0.50 0.28 316);
+  --foreground:             oklch(0.97 0.004 316);
+  --card:                   oklch(0.10 0.012 var(--t-hue-d));
+  --card-foreground:        oklch(0.92 0.010 var(--t-hue-d));
+  --popover:                oklch(0.10 0.012 var(--t-hue-d));
+  --popover-foreground:     oklch(0.92 0.010 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.17 0.016 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.92 0.010 var(--t-hue-d));
+  --muted:                  oklch(0.17 0.016 var(--t-hue-d));
+  --muted-foreground:       oklch(0.80 0    0  );
+  --accent:                 oklch(0.17 0.016 var(--t-hue-d));
+  --accent-foreground:      oklch(0.92 0.010 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.25 0.016 var(--t-hue-d));
+  --input:                  oklch(0.14 0.014 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.16 0.016 var(--t-hue-d));
+  --ds-gray-500: oklch(0.52 0.010 var(--t-hue-d));
+  --ds-gray-600: oklch(0.62 0.008 var(--t-hue-d));
+  --ds-gray-700: oklch(0.42 0.010 var(--t-hue-d));
+  --ds-gray-800: oklch(0.22 0.016 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.10 0.012 var(--t-hue-d));
+  --sidebar-foreground:         oklch(0.92 0.010 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.17 0.016 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.92 0.010 var(--t-hue-d));
+  --sidebar-border:             oklch(0.25 0.016 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.82 0.06 316);
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.15);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+}
+
+/* ════════════════════════════════════════════════════════════
+   CORPO ICE  ·  Cyan #37EBF3 — cold, Arasaka/Militech
+   ════════════════════════════════════════════════════════════ */
+
+[data-theme="corpo-ice"][data-mode="light"] {
+  color-scheme: light;
+
+  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --foreground:             oklch(0.12 0.010 var(--t-hue-l));
+  --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
+  --card-foreground:        oklch(0.12 0.010 var(--t-hue-l));
+  --popover:                oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
+  --popover-foreground:     oklch(0.12 0.010 var(--t-hue-l));
+  --primary:                var(--t-primary-l);
+  --primary-foreground:     var(--t-primary-fg-l);
+  --secondary:              oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --secondary-foreground:   oklch(0.12 0.010 var(--t-hue-l));
+  --muted:                  oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --muted-foreground:       oklch(0.45 0.002 var(--t-hue-l));
+  --accent:                 oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --accent-foreground:      oklch(0.12 0.010 var(--t-hue-l));
+  --destructive:            var(--t-destructive-l);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
+  --ring:                   var(--t-primary-l);
+
+  --ds-gray-100: oklch(0.94 var(--t-chroma-l) var(--t-hue-l));
+  --ds-gray-500: oklch(0.45 0.002 var(--t-hue-l));
+  --ds-gray-600: oklch(0.35 0.002 var(--t-hue-l));
+  --ds-gray-700: oklch(0.25 0.002 var(--t-hue-l));
+  --ds-gray-800: oklch(0.91 var(--t-chroma-l) var(--t-hue-l));
+
+  --sidebar:                    oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-foreground:         oklch(0.12 0.010 var(--t-hue-l));
+  --sidebar-primary:            var(--t-primary-l);
+  --sidebar-primary-foreground: var(--t-primary-fg-l);
+  --sidebar-accent:             oklch(0.92 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-accent-foreground:  oklch(0.12 0.010 var(--t-hue-l));
+  --sidebar-border:             oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-ring:               var(--t-primary-l);
+
+  --trading-bid:       var(--t-bid-l);
+  --trading-bid-muted: oklch(from var(--t-bid-l) l c h / 0.12);
+  --trading-ask:       var(--t-ask-l);
+  --trading-ask-muted: oklch(from var(--t-ask-l) l c h / 0.12);
+  --trading-profit:    var(--t-profit-l);
+  --trading-loss:      var(--t-loss-l);
+
+  --trading-tick-up:      var(--t-profit-l);
+  --trading-tick-down:    var(--t-loss-l);
+  --trading-tick-neutral: oklch(0.45 0.002 var(--t-hue-l));
+
+  --trading-connected:    var(--t-bid-l);
+  --trading-reconnecting: var(--t-reconnecting-l);
+  --trading-disconnected: var(--t-disconnected-l);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting-l) l c h / 0.10);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+}
+
+[data-theme="corpo-ice"][data-mode="dark"] {
+  color-scheme: dark;
+
+  /* Higher surface chroma — cold blue-steel feel */
+  --background:             oklch(0.07 0.012 var(--t-hue-d));
+  --foreground:             oklch(0.92 0.012 var(--t-hue-d));
+  --card:                   oklch(0.12 0.012 var(--t-hue-d));
+  --card-foreground:        oklch(0.92 0.012 var(--t-hue-d));
+  --popover:                oklch(0.12 0.012 var(--t-hue-d));
+  --popover-foreground:     oklch(0.92 0.012 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.16 0.014 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.92 0.012 var(--t-hue-d));
+  --muted:                  oklch(0.16 0.014 var(--t-hue-d));
+  --muted-foreground:       oklch(0.56 0.012 var(--t-hue-d));
+  --accent:                 oklch(0.16 0.014 var(--t-hue-d));
+  --accent-foreground:      oklch(0.92 0.012 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.22 0.014 var(--t-hue-d));
+  --input:                  oklch(0.13 0.012 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.15 0.014 var(--t-hue-d));
+  --ds-gray-500: oklch(0.52 0.012 var(--t-hue-d));
+  --ds-gray-600: oklch(0.62 0.008 var(--t-hue-d));
+  --ds-gray-700: oklch(0.42 0.010 var(--t-hue-d));
+  --ds-gray-800: oklch(0.20 0.014 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.12 0.012 var(--t-hue-d));
+  --sidebar-foreground:         oklch(0.92 0.012 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.16 0.014 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.92 0.012 var(--t-hue-d));
+  --sidebar-border:             oklch(0.22 0.014 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.56 0.012 var(--t-hue-d));
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.10);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+}
+
+[data-theme="corpo-ice"][data-mode="vibrant"] {
+  color-scheme: dark;
+
+  /* Cyan bg — cold near-black panels float on top */
+  --background:             oklch(0.85 0.18 192);
+  --foreground:             oklch(0.08 0.012 210);
+  --card:                   oklch(0.10 0.010 var(--t-hue-d));
+  --card-foreground:        oklch(0.92 0.012 var(--t-hue-d));
+  --popover:                oklch(0.10 0.010 var(--t-hue-d));
+  --popover-foreground:     oklch(0.92 0.012 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.16 0.014 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.92 0.012 var(--t-hue-d));
+  --muted:                  oklch(0.16 0.014 var(--t-hue-d));
+  --muted-foreground:       oklch(0.50 0.008 210);
+  --accent:                 oklch(0.16 0.014 var(--t-hue-d));
+  --accent-foreground:      oklch(0.92 0.012 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.22 0.014 var(--t-hue-d));
+  --input:                  oklch(0.13 0.012 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.15 0.014 var(--t-hue-d));
+  --ds-gray-500: oklch(0.52 0.012 var(--t-hue-d));
+  --ds-gray-600: oklch(0.62 0.008 var(--t-hue-d));
+  --ds-gray-700: oklch(0.42 0.010 var(--t-hue-d));
+  --ds-gray-800: oklch(0.20 0.014 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.10 0.010 var(--t-hue-d));
+  --sidebar-foreground:         oklch(0.92 0.012 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.16 0.014 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.92 0.012 var(--t-hue-d));
+  --sidebar-border:             oklch(0.22 0.014 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.55 0.012 210);
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.15);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+}
+
+/* ════════════════════════════════════════════════════════════
+   NETRUNNER VOID  ·  Pure black + Yellow #FDF500
+   Zero surface tint. Yellow burns like phosphor.
+   ════════════════════════════════════════════════════════════ */
+
+[data-theme="netrunner"][data-mode="light"] {
+  color-scheme: light;
+
+  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --foreground:             oklch(0.10 0.002 var(--t-hue-l));
+  --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
+  --card-foreground:        oklch(0.10 0.002 var(--t-hue-l));
+  --popover:                oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
+  --popover-foreground:     oklch(0.10 0.002 var(--t-hue-l));
+  --primary:                var(--t-primary-l);
+  --primary-foreground:     var(--t-primary-fg-l);
+  --secondary:              oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --secondary-foreground:   oklch(0.10 0.002 var(--t-hue-l));
+  --muted:                  oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --muted-foreground:       oklch(0.45 0.002 var(--t-hue-l));
+  --accent:                 oklch(0.93 var(--t-chroma-l) var(--t-hue-l));
+  --accent-foreground:      oklch(0.10 0.002 var(--t-hue-l));
+  --destructive:            var(--t-destructive-l);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.88 var(--t-chroma-l) var(--t-hue-l));
+  --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
+  --ring:                   var(--t-primary-l);
+
+  --ds-gray-100: oklch(0.94 var(--t-chroma-l) var(--t-hue-l));
+  --ds-gray-500: oklch(0.45 0.002 var(--t-hue-l));
+  --ds-gray-600: oklch(0.35 0.002 var(--t-hue-l));
+  --ds-gray-700: oklch(0.25 0.002 var(--t-hue-l));
+  --ds-gray-800: oklch(0.91 var(--t-chroma-l) var(--t-hue-l));
+
+  --sidebar:                    oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-foreground:         oklch(0.10 0.002 var(--t-hue-l));
+  --sidebar-primary:            var(--t-primary-l);
+  --sidebar-primary-foreground: var(--t-primary-fg-l);
+  --sidebar-accent:             oklch(0.92 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-accent-foreground:  oklch(0.10 0.002 var(--t-hue-l));
+  --sidebar-border:             oklch(0.88 var(--t-chroma-l) var(--t-hue-l));
+  --sidebar-ring:               var(--t-primary-l);
+
+  --trading-bid:       var(--t-bid-l);
+  --trading-bid-muted: oklch(from var(--t-bid-l) l c h / 0.12);
+  --trading-ask:       var(--t-ask-l);
+  --trading-ask-muted: oklch(from var(--t-ask-l) l c h / 0.12);
+  --trading-profit:    var(--t-profit-l);
+  --trading-loss:      var(--t-loss-l);
+
+  --trading-tick-up:      var(--t-profit-l);
+  --trading-tick-down:    var(--t-loss-l);
+  --trading-tick-neutral: oklch(0.45 0.002 var(--t-hue-l));
+
+  --trading-connected:    var(--t-bid-l);
+  --trading-reconnecting: var(--t-reconnecting-l);
+  --trading-disconnected: var(--t-disconnected-l);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting-l) l c h / 0.10);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+}
+
+[data-theme="netrunner"][data-mode="dark"] {
+  color-scheme: dark;
+
+  /* Near-void — minimal surface chroma */
+  --background:             oklch(0.04 0    0  );
+  --foreground:             oklch(0.88 0.005 var(--t-hue-d));
+  --card:                   oklch(0.08 0.002 var(--t-hue-d));
+  --card-foreground:        oklch(0.88 0.005 var(--t-hue-d));
+  --popover:                oklch(0.08 0.002 var(--t-hue-d));
+  --popover-foreground:     oklch(0.88 0.005 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.12 0.002 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.88 0.005 var(--t-hue-d));
+  --muted:                  oklch(0.12 0.002 var(--t-hue-d));
+  --muted-foreground:       oklch(0.50 0    0  );
+  --accent:                 oklch(0.12 0.002 var(--t-hue-d));
+  --accent-foreground:      oklch(0.88 0.005 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.18 0.002 var(--t-hue-d));
+  --input:                  oklch(0.10 0.002 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.11 0.002 var(--t-hue-d));
+  --ds-gray-500: oklch(0.45 0    0  );
+  --ds-gray-600: oklch(0.58 0    0  );
+  --ds-gray-700: oklch(0.35 0    0  );
+  --ds-gray-800: oklch(0.16 0.002 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.08 0.002 var(--t-hue-d));
+  --sidebar-foreground:         oklch(0.88 0.005 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.12 0.002 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.88 0.005 var(--t-hue-d));
+  --sidebar-border:             oklch(0.18 0.002 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.50 0    0  );
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.08);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.25);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+}
+
+[data-theme="netrunner"][data-mode="vibrant"] {
+  color-scheme: dark;
+
+  /* Yellow bg — pure void panels float on top */
+  --background:             oklch(0.93 0.22 102);
+  --foreground:             oklch(0.08 0.006 90 );
+  --card:                   oklch(0.06 0    0  );
+  --card-foreground:        oklch(0.88 0.005 var(--t-hue-d));
+  --popover:                oklch(0.06 0    0  );
+  --popover-foreground:     oklch(0.88 0.005 var(--t-hue-d));
+  --primary:                var(--t-primary);
+  --primary-foreground:     var(--t-primary-fg);
+  --secondary:              oklch(0.12 0.002 var(--t-hue-d));
+  --secondary-foreground:   oklch(0.88 0.005 var(--t-hue-d));
+  --muted:                  oklch(0.12 0.002 var(--t-hue-d));
+  --muted-foreground:       oklch(0.50 0    0  );
+  --accent:                 oklch(0.12 0.002 var(--t-hue-d));
+  --accent-foreground:      oklch(0.88 0.005 var(--t-hue-d));
+  --destructive:            var(--t-destructive-d);
+  --destructive-foreground: var(--t-destructive-fg);
+  --border:                 oklch(0.20 0.002 var(--t-hue-d));
+  --input:                  oklch(0.10 0.002 var(--t-hue-d));
+  --ring:                   var(--t-primary);
+
+  --ds-gray-100: oklch(0.11 0.002 var(--t-hue-d));
+  --ds-gray-500: oklch(0.45 0    0  );
+  --ds-gray-600: oklch(0.58 0    0  );
+  --ds-gray-700: oklch(0.35 0    0  );
+  --ds-gray-800: oklch(0.16 0.002 var(--t-hue-d));
+
+  --sidebar:                    oklch(0.06 0    0  );
+  --sidebar-foreground:         oklch(0.88 0.005 var(--t-hue-d));
+  --sidebar-primary:            var(--t-primary);
+  --sidebar-primary-foreground: var(--t-primary-fg);
+  --sidebar-accent:             oklch(0.12 0.002 var(--t-hue-d));
+  --sidebar-accent-foreground:  oklch(0.88 0.005 var(--t-hue-d));
+  --sidebar-border:             oklch(0.20 0.002 var(--t-hue-d));
+  --sidebar-ring:               var(--t-primary);
+
+  --trading-bid:       var(--t-bid);
+  --trading-bid-muted: oklch(from var(--t-bid) l c h / 0.15);
+  --trading-ask:       var(--t-ask);
+  --trading-ask-muted: oklch(from var(--t-ask) l c h / 0.15);
+  --trading-profit:    var(--t-profit);
+  --trading-loss:      var(--t-loss);
+
+  --trading-tick-up:      var(--t-profit);
+  --trading-tick-down:    var(--t-loss);
+  --trading-tick-neutral: oklch(0.60 0.010 90 );
+
+  --trading-connected:    var(--t-bid);
+  --trading-reconnecting: var(--t-reconnecting);
+  --trading-disconnected: var(--t-disconnected);
+
+  --trading-reconnecting-bg:     oklch(from var(--t-reconnecting) l c h / 0.15);
+  --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
+  --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
+  --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+}
+
+/* ── Vivid palette override (dev tool) ────────────────────────────────────────
+ *
+ * [data-palette="vivid"] on <html> replaces all light-mode -l palette vars
+ * with their dark-mode counterparts so you can see the full palette identity
+ * on a light background without adjusting contrast.
+ *
+ * Only active when data-mode="light". Toggle in /design-system.
+ */
+[data-theme][data-mode="light"][data-palette="vivid"] {
+  --t-primary-l:    var(--t-primary);
+  --t-bid-l:        var(--t-bid);
+  --t-ask-l:        var(--t-ask);
+  --t-profit-l:     var(--t-profit);
+  --t-loss-l:       var(--t-loss);
+  --t-reconnecting-l: var(--t-reconnecting);
+  --t-disconnected-l: var(--t-disconnected);
 }
