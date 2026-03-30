@@ -45,7 +45,7 @@ function applyTheme(theme: ThemeId, mode: ModeId) {
 }
 
 function useTheme() {
-  const [theme, setThemeState] = useState<ThemeId>("soft");
+  const [theme, setThemeState] = useState<ThemeId>("night-city");
   const [mode, setModeState] = useState<ModeId>("dark");
   // vivid: show dark-mode palette vars on light bg (dev tool — contrast may fail)
   const [vivid, setVividState] = useState(false);
