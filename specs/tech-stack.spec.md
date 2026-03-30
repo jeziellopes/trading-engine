@@ -491,7 +491,7 @@ No `any`. No `as` casts. Every boundary is validated.
 | Feature | How We Use It | Why It Matters |
 |---|---|---|
 | **Utility classes** | `flex gap-2 text-sm tabular-nums font-mono` — compose styles declaratively in JSX. | No context-switching between component and stylesheet. Every style is visible in the template. |
-| **CSS-first config** | Theme defined in `@theme` directive in CSS, not `tailwind.config.js`. Design tokens map directly to Tailwind theme values. | Single source of truth: `design-system.json` → `tokens.css` → Tailwind theme. No JS config drift. |
+| **CSS-first config** | Theme defined in `@theme` directive in CSS, not `tailwind.config.js`. Design tokens map directly to Tailwind theme values. | Single source of truth: `tokens.css` → `app.css @theme` → Tailwind theme. No JS config drift. |
 | **`@layer` support** | Tailwind v4 uses native CSS cascade layers. Our design tokens and component styles layer cleanly: `base < tokens < components < utilities`. | Specificity conflicts eliminated. Utility overrides always win — no `!important` needed. |
 | **Oxide engine** | Rust-based scanner replaces PostCSS-heavy pipeline. Sub-millisecond class detection. | Build stays fast as the codebase grows. No PostCSS bottleneck in the HMR path. |
 | **Arbitrary values** | `w-[${percent}%]` for depth bar widths based on order quantity. | Dynamic values without breaking out of the utility system. Used for depth bars and progress indicators. |
@@ -510,10 +510,10 @@ No `any`. No `as` casts. Every boundary is validated.
 
 ### Design Tokens
 
-CSS custom properties generated from `design-system.json`. Mapped into Tailwind theme via `@theme`.
+CSS custom properties defined in `src/styles/tokens.css` (hand-authored source of truth). Mapped into Tailwind theme via `@theme inline` in `app.css`. A build script (`pnpm tokens`) syncs `src/lib/design-tokens.ts` from the CSS for TypeScript access.
 
 ```css
-/* src/styles/tokens.css — generated, do not edit */
+/* src/styles/tokens.css — source of truth, edit here */
 @theme {
   --color-bid: #0ecb81;
   --color-ask: #f6465d;
@@ -524,7 +524,7 @@ CSS custom properties generated from `design-system.json`. Mapped into Tailwind 
 }
 ```
 
-Trading-specific tokens are consumed via Tailwind utilities: `text-[var(--color-bid)]`, `bg-[var(--color-ask)]`. The `design-system.json` → build script → `tokens.css` → Tailwind pipeline ensures a single source of truth.
+Trading-specific tokens are consumed via Tailwind utilities: `text-[var(--color-bid)]`, `bg-[var(--color-ask)]`. The `tokens.css` → `app.css @theme inline` pipeline ensures a single source of truth with no intermediate JSON or JS config.
 
 ### Why Tailwind + CVA (Not CSS-in-JS)
 
@@ -599,7 +599,7 @@ Tailwind CSS 4 + CVA
   └─► zero runtime ─► no style cost during 60fps updates
   └─► utility classes ─► co-located styles, no context-switching
   └─► CVA variants ─► type-safe buy/sell/neutral component states
-  └─► design tokens ─► design-system.json → tokens.css → @theme
+  └─► design tokens ─► tokens.css → app.css @theme inline
   └─► Oxide engine ─► Rust-speed class scanning, fast HMR
 
 RHF + Zod
