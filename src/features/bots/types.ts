@@ -19,3 +19,12 @@ export interface BotInstance {
   // P&L sparkline history (last 10 data points)
   pnlHistory: number[];
 }
+
+export interface BotTrade {
+  id: string;
+  side: 'buy' | 'sell';
+  price: number;
+  qty: number;
+  pnl: number;
+  executedAt: number; // unix ms
+}
