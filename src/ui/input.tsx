@@ -1,15 +1,17 @@
 import { cn } from "@/lib/utils";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   ref?: React.Ref<HTMLInputElement>;
+  size?: "sm" | "md";
 }
 
-export function Input({ className, ref, ...props }: InputProps) {
+export function Input({ className, size = "md", ref, ...props }: InputProps) {
   return (
     <input
       ref={ref}
       className={cn(
-        "flex h-10 w-full rounded-md border border-input bg-input px-3 py-2 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed",
+        "flex w-full rounded-md border border-input bg-input px-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed",
+        size === "sm" ? "h-8 py-1 text-sm" : "h-10 py-2 text-base",
         className,
       )}
       {...props}

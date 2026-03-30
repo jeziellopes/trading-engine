@@ -31,12 +31,12 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-2.5">
       {/* Side Selection */}
-      <div className="flex gap-2">
+      <div className="flex gap-1.5">
         <Button
           type="button"
-          intent={side === "buy" ? "primary" : "secondary"}
+          intent={side === "buy" ? "buy" : "ghost"}
           size="sm"
           onClick={() => setSide("buy")}
           className="flex-1"
@@ -45,7 +45,7 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
         </Button>
         <Button
           type="button"
-          intent={side === "sell" ? "primary" : "secondary"}
+          intent={side === "sell" ? "sell" : "ghost"}
           size="sm"
           onClick={() => setSide("sell")}
           className="flex-1"
@@ -55,11 +55,11 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
       </div>
 
       {/* Order Type Selection */}
-      <div className="flex gap-2">
+      <div className="flex gap-1">
         <Button
           type="button"
-          intent={type === "limit" ? "primary" : "secondary"}
-          size="sm"
+          intent={type === "limit" ? "primary" : "ghost"}
+          size="xs"
           onClick={() => setType("limit")}
           className="flex-1"
         >
@@ -67,8 +67,8 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
         </Button>
         <Button
           type="button"
-          intent={type === "market" ? "primary" : "secondary"}
-          size="sm"
+          intent={type === "market" ? "primary" : "ghost"}
+          size="xs"
           onClick={() => setType("market")}
           className="flex-1"
         >
@@ -82,11 +82,12 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
           <p className="text-xs text-muted-foreground block mb-1">Price</p>
           <Input
             type="number"
-            placeholder="Price"
+            placeholder="0.00"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             disabled={isLoading}
             step="0.01"
+            size="sm"
           />
         </div>
       )}
@@ -96,23 +97,35 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
         <p className="text-xs text-muted-foreground block mb-1">Quantity</p>
         <Input
           type="number"
-          placeholder="Quantity"
+          placeholder="0.000"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
           disabled={isLoading}
           step="0.001"
+          size="sm"
         />
+      </div>
+
+      {/* Quick-fill shortcuts */}
+      <div className="flex gap-1">
+        {(["25%", "50%", "75%", "100%"] as const).map((pct) => (
+          <Button key={pct} type="button" intent="ghost" size="xs" className="flex-1">
+            {pct}
+          </Button>
+        ))}
       </div>
 
       {/* Submit Button */}
       <Button
         type="submit"
-        intent="primary"
-        size="md"
+        intent={side === "buy" ? "buy" : "sell"}
+        size="sm"
         className="w-full"
         disabled={isLoading || !quantity || (type === "limit" && !price)}
       >
-        {isLoading ? "Placing..." : `Place ${side.toUpperCase()} Order`}
+        {isLoading
+          ? "Placing..."
+          : `${side === "buy" ? "Buy" : "Sell"} ${type === "limit" ? "Limit" : "Market"}`}
       </Button>
     </form>
   );

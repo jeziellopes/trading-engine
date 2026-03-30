@@ -68,24 +68,26 @@ interface Trade {
   price: number;
   qty: number;
   side: "buy" | "sell";
+  total: number;
+  pnl: number;
 }
 
 const mockTrades: Trade[] = [
-  { time: "14:32:07", price: 67843.5, qty: 0.042, side: "buy" },
-  { time: "14:32:06", price: 67841.0, qty: 0.18, side: "sell" },
-  { time: "14:32:05", price: 67844.5, qty: 0.012, side: "buy" },
-  { time: "14:32:04", price: 67840.0, qty: 0.56, side: "sell" },
-  { time: "14:32:03", price: 67845.0, qty: 0.091, side: "buy" },
-  { time: "14:32:02", price: 67842.5, qty: 0.033, side: "sell" },
-  { time: "14:32:01", price: 67846.0, qty: 0.207, side: "buy" },
-  { time: "14:32:00", price: 67839.5, qty: 0.115, side: "sell" },
-  { time: "14:31:59", price: 67847.0, qty: 0.044, side: "buy" },
-  { time: "14:31:58", price: 67838.0, qty: 0.38, side: "sell" },
-  { time: "14:31:57", price: 67848.5, qty: 0.022, side: "buy" },
-  { time: "14:31:56", price: 67836.5, qty: 0.095, side: "sell" },
-  { time: "14:31:55", price: 67850.0, qty: 0.611, side: "buy" },
-  { time: "14:31:54", price: 67835.0, qty: 0.017, side: "sell" },
-  { time: "14:31:53", price: 67851.5, qty: 0.088, side: "buy" },
+  { time: "14:32:07", price: 67843.5, qty: 0.042, side: "buy", total: 2848.83, pnl: 12.4 },
+  { time: "14:32:06", price: 67841.0, qty: 0.18, side: "sell", total: 12211.38, pnl: -34.2 },
+  { time: "14:32:05", price: 67844.5, qty: 0.012, side: "buy", total: 814.13, pnl: 3.1 },
+  { time: "14:32:04", price: 67840.0, qty: 0.56, side: "sell", total: 37990.4, pnl: -88.5 },
+  { time: "14:32:03", price: 67845.0, qty: 0.091, side: "buy", total: 6173.9, pnl: 21.7 },
+  { time: "14:32:02", price: 67842.5, qty: 0.033, side: "sell", total: 2238.8, pnl: -9.3 },
+  { time: "14:32:01", price: 67846.0, qty: 0.207, side: "buy", total: 14044.12, pnl: 45.8 },
+  { time: "14:32:00", price: 67839.5, qty: 0.115, side: "sell", total: 7801.54, pnl: -22.1 },
+  { time: "14:31:59", price: 67847.0, qty: 0.044, side: "buy", total: 2985.27, pnl: 8.9 },
+  { time: "14:31:58", price: 67838.0, qty: 0.38, side: "sell", total: 25778.44, pnl: -61.0 },
+  { time: "14:31:57", price: 67848.5, qty: 0.022, side: "buy", total: 1492.67, pnl: 4.2 },
+  { time: "14:31:56", price: 67836.5, qty: 0.095, side: "sell", total: 6444.47, pnl: -18.7 },
+  { time: "14:31:55", price: 67850.0, qty: 0.611, side: "buy", total: 41456.35, pnl: 103.5 },
+  { time: "14:31:54", price: 67835.0, qty: 0.017, side: "sell", total: 1153.2, pnl: -5.4 },
+  { time: "14:31:53", price: 67851.5, qty: 0.088, side: "buy", total: 5970.93, pnl: 17.6 },
 ];
 
 // ── Candle chart ───────────────────────────────────────────────────────────────
@@ -272,6 +274,9 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
         </span>
         <div className="flex gap-5 text-xs font-mono tabular-nums text-muted-foreground ml-2">
           <span>
+            O <span className="text-foreground">66,420.00</span>
+          </span>
+          <span>
             H <span className="text-foreground">68,240.00</span>
           </span>
           <span>
@@ -414,6 +419,8 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                     <th className="px-3 py-1.5 font-medium">Side</th>
                     <th className="px-3 py-1.5 font-medium text-right">Price (USDT)</th>
                     <th className="px-3 py-1.5 font-medium text-right">Amount (BTC)</th>
+                    <th className="px-3 py-1.5 font-medium text-right">Total (USDT)</th>
+                    <th className="px-3 py-1.5 font-medium text-right">P&amp;L</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -441,6 +448,18 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                       </td>
                       <td className="px-3 py-1 text-right text-muted-foreground">
                         {t.qty.toFixed(3)}
+                      </td>
+                      <td className="px-3 py-1 text-right text-muted-foreground">
+                        {t.total.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                      </td>
+                      <td
+                        className="px-3 py-1 text-right font-semibold"
+                        style={{
+                          color: t.pnl >= 0 ? "var(--trading-profit)" : "var(--trading-loss)",
+                        }}
+                      >
+                        {t.pnl >= 0 ? "+" : ""}
+                        {t.pnl.toFixed(1)}
                       </td>
                     </tr>
                   ))}

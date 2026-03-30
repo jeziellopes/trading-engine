@@ -29,10 +29,25 @@ Impressive if polished, damaging if half-done. I'll only build these after P0 an
 
 | Feature | Spec | Status |
 |---|---|---|
+| Strategy Engine (auto-trading) | [`specs/strategy-engine.spec.md`](specs/strategy-engine.spec.md) | Spec ready |
 | Matching engine visualizer | — | Not started |
-| Random traders + strategies | — | Not started |
 | Leaderboard | — | Not started |
 | Multi-exchange plugin architecture | — | Not started |
+
+#### Strategy Engine — Domain Cost
+
+The strategy engine requires building the full ports-and-adapters stack first. Estimated effort:
+
+| Layer | What to build | Effort |
+|-------|--------------|--------|
+| `domain/strategy/` | `ITradingStrategy` port, signal types, MA/RSI/Grid strategies | ~5 days |
+| `infra/` | `BinanceDataSource`, `LocalFillEngine`, `StrategyRunner` | ~5 days |
+| `stores/` | `marketDataStore`, `strategyStore` (Zustand) | ~2 days |
+| `features/strategy-panel/` | Picker, params, signal log, kill switch UI | ~2 days |
+| **Total** | | **~2–3 weeks** |
+
+Strategies are pure functions in the domain layer — testable without any API calls.
+Auto-trading is paper-only, disabled by default, and gated by a hard `maxPositionUsdt` cap.
 
 ## Architectural Trade-offs
 

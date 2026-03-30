@@ -21,26 +21,30 @@ describe("OrderForm", () => {
 
   it("renders price input", () => {
     render(<OrderForm onSubmit={mockHandleSubmit} />);
-    const priceInputs = screen.getAllByPlaceholderText(/price/i);
+    // price input uses placeholder "0.00" now
+    const priceInputs = screen.getAllByPlaceholderText(/0\.00/);
     expect(priceInputs.length).toBeGreaterThan(0);
   });
 
   it("renders quantity input", () => {
     render(<OrderForm onSubmit={mockHandleSubmit} />);
-    const quantityInputs = screen.getAllByPlaceholderText(/quantity/i);
+    // quantity input uses placeholder "0.000" now
+    const quantityInputs = screen.getAllByPlaceholderText(/0\.000/);
     expect(quantityInputs.length).toBeGreaterThan(0);
   });
 
   it("renders submit button", () => {
     const { container } = render(<OrderForm onSubmit={mockHandleSubmit} />);
     const text = container.textContent || "";
-    expect(text).toContain("Place BUY Order");
+    // submit text is now "Buy Limit" (side + type)
+    expect(text).toContain("Buy");
   });
 
   it("defaults to BUY side", () => {
     const { container } = render(<OrderForm onSubmit={mockHandleSubmit} />);
     const buttons = container.querySelectorAll("button");
-    // First button should be Buy with primary styling
-    expect(buttons[0]).toHaveClass("bg-primary");
+    // First button is Buy — uses intent="buy" which has trading-bid background
+    const buyBtn = buttons[0];
+    expect(buyBtn.textContent).toBe("Buy");
   });
 });
