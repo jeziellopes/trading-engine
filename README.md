@@ -1,16 +1,17 @@
 # Trading Engine
 
-A real-time trading terminal simulator built as a portfolio project to demonstrate React 19.2, Vite 8, Zustand, and WebSocket data handling with live Binance market data — rendered at 60fps with zero manual memoization.
+I'm building a real-time trading terminal simulator as a portfolio project to demonstrate React 19.2, Vite 8, Zustand, and WebSocket data handling with live Binance market data — rendered at 60fps with zero manual memoization.
 
 > **Status: Active development.** Core UI and design system are complete. WebSocket data layer in progress.
 
-## What It Is
+## What I'm Building
 
 A cyberpunk-themed crypto trading dashboard that mirrors the architecture of a real exchange frontend:
 
 - **Live order book** — bid/ask depth levels with depth bars, spread display, real-time tick animation
 - **Simulated order entry** — market and limit orders against live Binance prices
-- **Portfolio tracker** — balances, open positions, unrealized PnL
+- **Portfolio tracker** — balances, open positions, unrealized PnL, trade history
+- **Draggable dashboard** — panels resize and reorder via `react-grid-layout`, layout persisted to localStorage
 - **Design system** — five cyberpunk themes × three modes with WCAG contrast enforcement
 
 The UI is static/paper-trading only — no real money, no API keys, no backend. The `MarketDataSource` and `OrderGateway` interfaces are designed for a real backend swap.
@@ -23,6 +24,7 @@ The UI is static/paper-trading only — no real money, no API keys, no backend. 
 | Router | TanStack Router (file-based, typed params) |
 | State | Zustand (streaming) + TanStack Query (snapshots) |
 | Forms | React Hook Form + Zod |
+| Dashboard | react-grid-layout 2.x (draggable + resizable panels) |
 | Styling | Tailwind CSS 4 + CVA + CSS custom properties |
 | Compiler | React Compiler 1.0 (zero manual memoization) |
 | Testing | Vitest + React Testing Library |
@@ -88,6 +90,7 @@ Browse the live gallery at `/design-system` — includes a theme/mode switcher, 
 |----------|---------|--------|
 | P0 | Design system + token architecture | ✅ Done |
 | P0 | Order book UI components | ✅ Done |
+| P0 | Dashboard layout (react-grid-layout) | ✅ Done |
 | P0 | WebSocket data layer (Binance) | 🔄 In progress |
 | P0 | Symbol routing with typed params | 🔄 In progress |
 | P1 | Simulated order entry (fills at live price) | 📋 Spec ready |

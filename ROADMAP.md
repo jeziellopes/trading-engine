@@ -1,12 +1,12 @@
 # Trading Engine — Roadmap
 
-Portfolio project demonstrating React 19 + Vite 8 + Zustand + WebSocket real-time data handling with Binance market data.
+I'm building this as a portfolio project to demonstrate React 19 + Vite 8 + Zustand + WebSocket real-time data handling with Binance market data.
 
 ## Priority Tiers
 
 ### P0 — Must Ship
 
-These features form the core demo. Without them, the project doesn't tell a story.
+These features form the core demo. Without them, my project doesn't tell a story.
 
 | Feature | Spec | Status |
 |---|---|---|
@@ -16,7 +16,7 @@ These features form the core demo. Without them, the project doesn't tell a stor
 
 ### P1 — Should Ship
 
-Adds depth to the demo. Proves form handling, state management, and optimistic UI beyond read-only data display.
+Adds depth to my demo. Proves form handling, state management, and optimistic UI beyond read-only data display.
 
 | Feature | Spec | Status |
 |---|---|---|
@@ -25,7 +25,7 @@ Adds depth to the demo. Proves form handling, state management, and optimistic U
 
 ### P2 — Stretch Goals
 
-Impressive if polished, damaging if half-done. Only build these after P0 and P1 are tight.
+Impressive if polished, damaging if half-done. I'll only build these after P0 and P1 are tight.
 
 | Feature | Spec | Status |
 |---|---|---|
