@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/symbol/$symbol")({
+import { TradingLayout } from "./-trading-layout";
+
+export const Route = createFileRoute("/symbol/$symbol" as never)({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <div>Hello "/symbol/$symbol"!</div>;
+  const { symbol } = Route.useParams();
+  return <TradingLayout symbol={symbol} />;
 }
