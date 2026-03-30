@@ -3,10 +3,16 @@ import { describe, expect, it, vi } from "vitest";
 import { BotManagerPanel } from "./bot-manager-panel";
 import type { BotInstance, BotStatus, BotStrategy } from "./types";
 
-vi.mock("./bot-card", () => ({
-  BotCard: ({ bot }: { bot: { name: string } }) => (
-    <div data-testid="bot-card">{bot.name}</div>
+// Mock tanstack router Link
+vi.mock("@tanstack/react-router", () => ({
+  Link: ({ children, to, params, title, className }: { children: React.ReactNode; to: string; params?: Record<string, string>; title?: string; className?: string }) => (
+    <a href={`${to}${params ? `/${Object.values(params).join("/")}` : ""}`} title={title} className={className}>{children}</a>
   ),
+}));
+
+// Mock BotSparkline to avoid SVG rendering complexity in tests
+vi.mock("./bot-sparkline", () => ({
+  BotSparkline: () => <svg data-testid="bot-sparkline" />,
 }));
 
 function makeBots(overrides: Partial<BotInstance>[] = []): BotInstance[] {
@@ -27,10 +33,13 @@ function makeBots(overrides: Partial<BotInstance>[] = []): BotInstance[] {
 }
 
 describe("BotManagerPanel", () => {
-  it("renders all bot cards", () => {
+  it("renders a table with a row per bot", () => {
     const bots = makeBots([{}, {}, {}]);
     render(<BotManagerPanel bots={bots} onStatusChange={vi.fn()} />);
-    expect(screen.getAllByTestId("bot-card")).toHaveLength(3);
+    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(screen.getByText("Bot 0")).toBeInTheDocument();
+    expect(screen.getByText("Bot 1")).toBeInTheDocument();
+    expect(screen.getByText("Bot 2")).toBeInTheDocument();
   });
 
   it("shows correct running count", () => {
@@ -103,7 +112,14 @@ describe("BotManagerPanel", () => {
 
   it("renders empty state gracefully when no bots", () => {
     render(<BotManagerPanel bots={[]} onStatusChange={vi.fn()} />);
-    expect(screen.queryAllByTestId("bot-card")).toHaveLength(0);
+    expect(screen.getByRole("table")).toBeInTheDocument();
     expect(screen.getByText(/0 running/)).toBeInTheDocument();
+  });
+
+  it("details link points to /bots/:botId", () => {
+    const bots = makeBots([{ id: "bot-abc" }]);
+    render(<BotManagerPanel bots={bots} onStatusChange={vi.fn()} />);
+    const link = screen.getByTitle("View details");
+    expect(link).toHaveAttribute("href", expect.stringContaining("bot-abc"));
   });
 });

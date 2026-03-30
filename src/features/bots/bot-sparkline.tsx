@@ -1,14 +1,16 @@
 interface BotSparklineProps {
   data: number[];
+  width?: number;
+  height?: number;
 }
 
-export function BotSparkline({ data }: BotSparklineProps) {
+export function BotSparkline({ data, width = 80, height = 20 }: BotSparklineProps) {
   if (data.length < 2) return null;
   const min = Math.min(...data);
   const max = Math.max(...data);
   const range = max - min || 1;
-  const w = 80; // viewBox width
-  const h = 20;
+  const w = width;
+  const h = height;
   const pts = data
     .map((v, i) => {
       const x = (i / (data.length - 1)) * w;
@@ -22,8 +24,8 @@ export function BotSparkline({ data }: BotSparklineProps) {
   return (
     <svg
       viewBox={`0 0 ${w} ${h}`}
-      className="w-full"
-      style={{ height: 20 }}
+      width={w}
+      style={{ height: h }}
       preserveAspectRatio="none"
     >
       <polyline
