@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
 import { MOCK_BOTS } from '@/features/bots/mock-bots'
-import { BotSparkline } from '@/features/bots/bot-sparkline'
+import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis, ReferenceLine } from 'recharts'
 
 export const Route = createFileRoute('/bots/$botId')({
   component: BotDetailPage,
@@ -62,10 +62,50 @@ function BotDetailPage() {
         ))}
       </div>
 
-      {/* Sparkline */}
+      {/* P&L Chart */}
       <div className="rounded-md border border-border/60 p-4">
         <p className="text-[10px] text-muted-foreground uppercase tracking-wide mb-3">P&L History</p>
-        <BotSparkline data={bot.pnlHistory} width={400} height={80} />
+        <ResponsiveContainer width="100%" height={160}>
+          <LineChart
+            data={bot.pnlHistory.map((v, i) => ({ tick: i + 1, pnl: v }))}
+            margin={{ top: 4, right: 4, bottom: 0, left: 0 }}
+          >
+            <XAxis
+              dataKey="tick"
+              tick={{ fontSize: 9, fill: 'var(--color-muted-foreground)' }}
+              axisLine={false}
+              tickLine={false}
+              tickFormatter={(v) => `T${v}`}
+            />
+            <YAxis
+              tick={{ fontSize: 9, fill: 'var(--color-muted-foreground)' }}
+              axisLine={false}
+              tickLine={false}
+              tickFormatter={(v) => (v >= 0 ? `+${v}` : String(v))}
+              width={36}
+            />
+            <ReferenceLine y={0} stroke="var(--color-border)" strokeDasharray="3 3" />
+            <Tooltip
+              contentStyle={{
+                background: 'var(--color-card)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 6,
+                fontSize: 11,
+                color: 'var(--color-foreground)',
+              }}
+              formatter={(value) => { const n = Number(value); return [(n >= 0 ? '+' : '') + n.toFixed(2), 'P&L'] }}
+              labelFormatter={(label) => `Trade ${label}`}
+            />
+            <Line
+              type="monotone"
+              dataKey="pnl"
+              stroke={totalPnl >= 0 ? 'var(--trading-profit)' : 'var(--trading-loss)'}
+              strokeWidth={1.5}
+              dot={false}
+              activeDot={{ r: 3 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   )

@@ -135,18 +135,18 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
 
                   {/* Actions */}
                   <td className="px-2 py-1.5">
-                    <div className="flex items-center gap-0.5">
+                    <div className="flex items-center gap-1">
                       {bot.status === "running" && (
                         <>
                           <button
-                            className="p-0.5 text-muted-foreground hover:text-foreground transition-colors"
+                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                             title="Pause"
                             onClick={() => onStatusChange(bot.id, "paused")}
                           >
                             <Pause size={11} />
                           </button>
                           <button
-                            className="p-0.5 hover:text-foreground transition-colors"
+                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
                             style={{ color: "var(--trading-ask)" }}
                             title="Stop"
                             onClick={() => onStatusChange(bot.id, "stopped")}
@@ -158,7 +158,7 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
                       {bot.status === "paused" && (
                         <>
                           <button
-                            className="p-0.5 hover:text-foreground transition-colors"
+                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
                             style={{ color: "var(--trading-bid)" }}
                             title="Run"
                             onClick={() => onStatusChange(bot.id, "running")}
@@ -166,7 +166,7 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
                             <Play size={11} />
                           </button>
                           <button
-                            className="p-0.5 hover:text-foreground transition-colors"
+                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
                             style={{ color: "var(--trading-ask)" }}
                             title="Stop"
                             onClick={() => onStatusChange(bot.id, "stopped")}
@@ -177,7 +177,7 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
                       )}
                       {bot.status === "stopped" && (
                         <button
-                          className="p-0.5 hover:text-foreground transition-colors"
+                          className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
                           style={{ color: "var(--trading-bid)" }}
                           title="Run"
                           onClick={() => onStatusChange(bot.id, "running")}
@@ -193,7 +193,7 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
                     <Link
                       to="/bots/$botId"
                       params={{ botId: bot.id }}
-                      className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
+                      className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                       title="View details"
                     >
                       <ChevronRight size={13} />
