@@ -5,7 +5,6 @@ import "react-grid-layout/css/styles.css";
 import { OrderBook } from "@/features/order-book/order-book";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
-import { Portfolio } from "@/features/portfolio/portfolio";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -55,28 +54,13 @@ const mockOrderBookState = {
   lastPriceTick: "up" as const,
 };
 
-const mockPortfolioState = {
-  totalBalance: 10000.0,
-  availableBalance: 4328.5,
-  unrealizedPnL: 423.7,
-  positions: [
-    {
-      symbol: "BTCUSDT",
-      quantity: 0.083,
-      entryPrice: 62540.0,
-      markPrice: BASE,
-      unrealizedPnL: 441.0,
-      unrealizedPnLPercent: 0.85,
-    },
-    {
-      symbol: "ETHUSDT",
-      quantity: 1.5,
-      entryPrice: 3280.0,
-      markPrice: 3263.4,
-      unrealizedPnL: -24.9,
-      unrealizedPnLPercent: -0.51,
-    },
-  ],
+const mockPortfolioSummary = {
+  totalBalance: 10_423.7,
+  investments: 10_110.82,
+  dailyProfit: 142.3,
+  dailyProfitPct: 1.43,
+  totalPnL: 416.1,
+  totalPnLPct: 4.19,
 };
 
 interface Trade {
@@ -188,37 +172,51 @@ function CandleChart() {
 
 // ── Panel wrapper ──────────────────────────────────────────────────────────────
 
-function Panel({ title, children }: { title: string; children: React.ReactNode }) {
+interface PanelProps {
+  title: string;
+  children: React.ReactNode;
+  /** Disable inner scroll — use for chart panels that must fill height */
+  noScroll?: boolean;
+  /** Extra content rendered inline in the header (e.g. timeframe tabs) */
+  headerExtra?: React.ReactNode;
+}
+
+function Panel({ title, children, noScroll = false, headerExtra }: PanelProps) {
   return (
     <div className="bg-card rounded-md border border-border flex flex-col h-full overflow-hidden">
-      <div className="px-3 py-2 border-b border-border shrink-0 cursor-move">
+      <div className="px-3 py-2 border-b border-border shrink-0 cursor-move flex items-center justify-between gap-2">
         <h2 className="text-xs font-cypher font-semibold tracking-wide uppercase text-muted-foreground select-none">
           {title}
         </h2>
+        {headerExtra}
       </div>
-      <div className="flex-1 overflow-y-auto min-h-0">{children}</div>
+      <div
+        className={`flex-1 min-h-0 ${noScroll ? "flex flex-col overflow-hidden" : "overflow-y-auto"}`}
+      >
+        {children}
+      </div>
     </div>
   );
 }
 
 // ── Grid layout config ─────────────────────────────────────────────────────────
 
-const LAYOUT_KEY = "trading-grid-layout-v1";
+const LAYOUT_KEY = "trading-grid-layout-v2";
 
 const DEFAULT_LAYOUTS = {
   lg: [
-    { i: "book", x: 0, y: 0, w: 2, h: 8 },
-    { i: "chart", x: 2, y: 0, w: 7, h: 8 },
-    { i: "order", x: 9, y: 0, w: 3, h: 4 },
-    { i: "portfolio", x: 9, y: 4, w: 3, h: 4 },
+    { i: "book", x: 0, y: 0, w: 3, h: 8 },
+    { i: "chart", x: 3, y: 0, w: 6, h: 8 },
+    { i: "order", x: 9, y: 0, w: 3, h: 5 },
+    { i: "portfolio", x: 9, y: 5, w: 3, h: 3 },
     { i: "trades", x: 0, y: 8, w: 12, h: 4 },
   ],
   md: [
     { i: "book", x: 0, y: 0, w: 3, h: 8 },
     { i: "chart", x: 3, y: 0, w: 7, h: 8 },
-    { i: "order", x: 0, y: 8, w: 5, h: 4 },
-    { i: "portfolio", x: 5, y: 8, w: 5, h: 4 },
-    { i: "trades", x: 0, y: 12, w: 10, h: 4 },
+    { i: "order", x: 0, y: 8, w: 5, h: 5 },
+    { i: "portfolio", x: 5, y: 8, w: 5, h: 3 },
+    { i: "trades", x: 0, y: 13, w: 10, h: 4 },
   ],
 };
 
@@ -303,24 +301,32 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
         </div>
 
         <div key="chart">
-          <Panel title="Price Chart">
-            <div className="flex items-center gap-2 px-3 pb-1 border-b border-border">
-              {["1m", "5m", "15m", "1h", "4h", "1d"].map((tf) => (
-                <button
-                  key={tf}
-                  type="button"
-                  className="text-[10px] font-mono px-1.5 py-0.5 rounded transition-colors"
-                  style={
-                    tf === "15m"
-                      ? { color: "var(--t-primary)", backgroundColor: "var(--trading-bid-muted)" }
-                      : { color: "var(--color-muted-foreground)" }
-                  }
-                >
-                  {tf}
-                </button>
-              ))}
-            </div>
-            <div className="h-full p-2">
+          <Panel
+            title="Price Chart"
+            noScroll
+            headerExtra={
+              <div className="flex items-center gap-1">
+                {["1m", "5m", "15m", "1h", "4h", "1d"].map((tf) => (
+                  <button
+                    key={tf}
+                    type="button"
+                    className="text-[10px] font-mono px-1.5 py-0.5 rounded transition-colors"
+                    style={
+                      tf === "15m"
+                        ? {
+                            color: "var(--t-primary)",
+                            backgroundColor: "var(--trading-bid-muted)",
+                          }
+                        : { color: "var(--color-muted-foreground)" }
+                    }
+                  >
+                    {tf}
+                  </button>
+                ))}
+              </div>
+            }
+          >
+            <div className="flex-1 p-2 min-h-0">
               <CandleChart />
             </div>
           </Panel>
@@ -336,8 +342,64 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
 
         <div key="portfolio">
           <Panel title="Portfolio">
-            <div className="p-3">
-              <Portfolio state={mockPortfolioState} />
+            <div className="p-3 grid grid-cols-2 gap-x-4 gap-y-3">
+              <div>
+                <p className="text-[10px] uppercase font-medium text-muted-foreground mb-0.5">
+                  Total Balance
+                </p>
+                <p className="text-sm font-mono tabular-nums font-semibold">
+                  $
+                  {mockPortfolioSummary.totalBalance.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-medium text-muted-foreground mb-0.5">
+                  Investments
+                </p>
+                <p className="text-sm font-mono tabular-nums font-semibold">
+                  $
+                  {mockPortfolioSummary.investments.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-medium text-muted-foreground mb-0.5">
+                  Daily Profit
+                </p>
+                <p
+                  className="text-sm font-mono tabular-nums font-semibold"
+                  style={{ color: "var(--trading-profit)" }}
+                >
+                  +${mockPortfolioSummary.dailyProfit.toFixed(2)}{" "}
+                  <span className="text-xs opacity-70">
+                    +{mockPortfolioSummary.dailyProfitPct}%
+                  </span>
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-medium text-muted-foreground mb-0.5">
+                  Total PnL
+                </p>
+                <p
+                  className="text-sm font-mono tabular-nums font-semibold"
+                  style={{ color: "var(--trading-profit)" }}
+                >
+                  +${mockPortfolioSummary.totalPnL.toFixed(2)}{" "}
+                  <span className="text-xs opacity-70">+{mockPortfolioSummary.totalPnLPct}%</span>
+                </p>
+              </div>
+            </div>
+            <div className="px-3 pb-2">
+              <a
+                href="/portfolio"
+                className="text-[11px] font-medium"
+                style={{ color: "var(--t-primary)" }}
+              >
+                View full portfolio →
+              </a>
             </div>
           </Panel>
         </div>
