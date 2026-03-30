@@ -76,21 +76,24 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
         </Button>
       </div>
 
-      {/* Price Input (only for limit orders) */}
-      {type === "limit" && (
-        <div>
-          <p className="text-xs text-muted-foreground block mb-1">Price</p>
-          <Input
-            type="number"
-            placeholder="0.00"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            disabled={isLoading}
-            step="0.01"
-            size="sm"
-          />
-        </div>
-      )}
+      {/* Price Input — always visible; disabled for market orders */}
+      <div>
+        <p className="text-xs text-muted-foreground block mb-1">
+          Price
+          {type === "market" && (
+            <span className="ml-1.5 text-[10px] text-muted-foreground opacity-60">market</span>
+          )}
+        </p>
+        <Input
+          type="number"
+          placeholder={type === "market" ? "Market price" : "0.00"}
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          disabled={isLoading || type === "market"}
+          step="0.01"
+          size="sm"
+        />
+      </div>
 
       {/* Quantity Input */}
       <div>
