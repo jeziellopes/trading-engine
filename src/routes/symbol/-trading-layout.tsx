@@ -1,14 +1,19 @@
 import { useState } from "react";
+import type { Layout, ResponsiveLayouts } from "react-grid-layout/legacy";
+import { Responsive, WidthProvider } from "react-grid-layout/legacy";
+import "react-grid-layout/css/styles.css";
 import { OrderBook } from "@/features/order-book/order-book";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
 import { Portfolio } from "@/features/portfolio/portfolio";
 
+const ResponsiveGridLayout = WidthProvider(Responsive);
+
 interface TradingLayoutProps {
   symbol: string;
 }
 
-// ── Mock data ────────────────────────────────────────────────────────────────
+// ── Mock data ─────────────────────────────────────────────────────────────────
 
 const BASE = 67843.5;
 
@@ -99,7 +104,8 @@ const mockTrades: Trade[] = [
   { time: "14:31:53", price: 67851.5, qty: 0.088, side: "buy" },
 ];
 
-// Pseudo-candlestick bars for chart placeholder
+// ── Candle chart ───────────────────────────────────────────────────────────────
+
 const CANDLES = [
   { o: 67120, h: 67480, l: 67050, c: 67390 },
   { o: 67390, h: 67620, l: 67300, c: 67580 },
@@ -123,7 +129,6 @@ function pct(v: number) {
 function CandleChart() {
   return (
     <div className="relative w-full h-full select-none">
-      {/* Price labels */}
       <div
         className="absolute right-2 top-1 font-mono text-[9px]"
         style={{ color: "var(--color-muted-foreground)" }}
@@ -136,8 +141,6 @@ function CandleChart() {
       >
         {CANDLE_MIN.toLocaleString()}
       </div>
-
-      {/* Grid lines */}
       {[25, 50, 75].map((y) => (
         <div
           key={y}
@@ -145,8 +148,6 @@ function CandleChart() {
           style={{ top: `${100 - y}%`, borderColor: "var(--color-border)" }}
         />
       ))}
-
-      {/* Candles */}
       <div className="absolute inset-0 flex items-end px-6 pb-2 pt-4 gap-1">
         {CANDLES.map((c) => {
           const bull = c.c >= c.o;
@@ -159,7 +160,6 @@ function CandleChart() {
               key={`${c.o}-${c.c}-${c.h}-${c.l}`}
               className="flex-1 relative flex flex-col items-center justify-end h-full"
             >
-              {/* Wick */}
               <div
                 className="absolute w-px"
                 style={{
@@ -168,7 +168,6 @@ function CandleChart() {
                   height: `${pct(c.h) - pct(c.l)}%`,
                 }}
               />
-              {/* Body */}
               <div
                 className="absolute w-3/4"
                 style={{
@@ -187,10 +186,56 @@ function CandleChart() {
   );
 }
 
-// ── Component ────────────────────────────────────────────────────────────────
+// ── Panel wrapper ──────────────────────────────────────────────────────────────
+
+function Panel({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="bg-card rounded-md border border-border flex flex-col h-full overflow-hidden">
+      <div className="px-3 py-2 border-b border-border shrink-0 cursor-move">
+        <h2 className="text-xs font-cypher font-semibold tracking-wide uppercase text-muted-foreground select-none">
+          {title}
+        </h2>
+      </div>
+      <div className="flex-1 overflow-y-auto min-h-0">{children}</div>
+    </div>
+  );
+}
+
+// ── Grid layout config ─────────────────────────────────────────────────────────
+
+const LAYOUT_KEY = "trading-grid-layout-v1";
+
+const DEFAULT_LAYOUTS = {
+  lg: [
+    { i: "book", x: 0, y: 0, w: 2, h: 8 },
+    { i: "chart", x: 2, y: 0, w: 7, h: 8 },
+    { i: "order", x: 9, y: 0, w: 3, h: 4 },
+    { i: "portfolio", x: 9, y: 4, w: 3, h: 4 },
+    { i: "trades", x: 0, y: 8, w: 12, h: 4 },
+  ],
+  md: [
+    { i: "book", x: 0, y: 0, w: 3, h: 8 },
+    { i: "chart", x: 3, y: 0, w: 7, h: 8 },
+    { i: "order", x: 0, y: 8, w: 5, h: 4 },
+    { i: "portfolio", x: 5, y: 8, w: 5, h: 4 },
+    { i: "trades", x: 0, y: 12, w: 10, h: 4 },
+  ],
+};
+
+function loadLayouts(): ResponsiveLayouts<string> {
+  try {
+    const saved = localStorage.getItem(LAYOUT_KEY);
+    return saved ? (JSON.parse(saved) as ResponsiveLayouts<string>) : DEFAULT_LAYOUTS;
+  } catch {
+    return DEFAULT_LAYOUTS;
+  }
+}
+
+// ── Component ──────────────────────────────────────────────────────────────────
 
 export function TradingLayout({ symbol }: TradingLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
+  const [layouts, setLayouts] = useState<ResponsiveLayouts<string>>(loadLayouts);
 
   const handleOrderSubmit = async (_data: OrderFormData) => {
     setOrderSubmitting(true);
@@ -198,12 +243,17 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
     setOrderSubmitting(false);
   };
 
+  const handleLayoutChange = (_layout: Layout, allLayouts: Partial<Record<string, Layout>>) => {
+    setLayouts(allLayouts as ResponsiveLayouts<string>);
+    localStorage.setItem(LAYOUT_KEY, JSON.stringify(allLayouts));
+  };
+
   const isPositive = true;
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 pb-4 flex flex-col gap-3 h-[calc(100vh-3rem)]">
-      {/* ── Ticker header ──────────────────────────────── */}
-      <div className="flex items-center gap-6 py-2 border-b border-border">
+    <div className="w-full px-3 pb-3 flex flex-col gap-0">
+      {/* ── Ticker header ───────────────────────────────── */}
+      <div className="flex items-center gap-6 py-2 border-b border-border mb-2">
         <span className="font-cypher text-base font-bold" style={{ color: "var(--t-primary)" }}>
           {symbol}
         </span>
@@ -222,19 +272,12 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
         >
           {isPositive ? "+" : ""}2.34%
         </span>
-
         <div className="flex gap-5 text-xs font-mono tabular-nums text-muted-foreground ml-2">
           <span>
-            H{" "}
-            <span className="text-foreground">
-              {(68240.0).toLocaleString("en-US", { minimumFractionDigits: 2 })}
-            </span>
+            H <span className="text-foreground">68,240.00</span>
           </span>
           <span>
-            L{" "}
-            <span className="text-foreground">
-              {(65920.0).toLocaleString("en-US", { minimumFractionDigits: 2 })}
-            </span>
+            L <span className="text-foreground">65,920.00</span>
           </span>
           <span>
             Vol <span className="text-foreground">24,831 BTC</span>
@@ -242,99 +285,109 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
         </div>
       </div>
 
-      {/* ── Main grid ──────────────────────────────────── */}
-      <div className="grid grid-cols-[280px_1fr_280px] gap-3 flex-1 min-h-0">
-        {/* Left: Order Book */}
-        <div className="bg-card rounded-md border border-border overflow-hidden flex flex-col min-h-0">
-          <div className="px-3 py-2 border-b border-border shrink-0">
-            <h2 className="text-xs font-cypher font-semibold tracking-wide uppercase text-muted-foreground">
-              Order Book
-            </h2>
-          </div>
-          <div className="flex-1 overflow-y-auto min-h-0">
+      {/* ── Draggable grid ──────────────────────────────── */}
+      <ResponsiveGridLayout
+        className="layout"
+        layouts={layouts}
+        breakpoints={{ lg: 1200, md: 996, sm: 768 }}
+        cols={{ lg: 12, md: 10, sm: 6 }}
+        rowHeight={60}
+        margin={[8, 8]}
+        draggableHandle=".cursor-move"
+        onLayoutChange={handleLayoutChange}
+      >
+        <div key="book">
+          <Panel title="Order Book">
             <OrderBook state={mockOrderBookState} />
-          </div>
+          </Panel>
         </div>
 
-        {/* Center: Chart */}
-        <div className="bg-card rounded-md border border-border flex flex-col min-h-0">
-          <div className="px-3 py-2 border-b border-border shrink-0 flex items-center gap-3">
-            <h2 className="text-xs font-cypher font-semibold tracking-wide uppercase text-muted-foreground">
-              Price Chart
-            </h2>
-            <div className="flex gap-2 text-[10px] font-mono text-muted-foreground">
+        <div key="chart">
+          <Panel title="Price Chart">
+            <div className="flex items-center gap-2 px-3 pb-1 border-b border-border">
               {["1m", "5m", "15m", "1h", "4h", "1d"].map((tf) => (
                 <button
                   key={tf}
                   type="button"
-                  className="px-1.5 py-0.5 rounded transition-colors"
+                  className="text-[10px] font-mono px-1.5 py-0.5 rounded transition-colors"
                   style={
                     tf === "15m"
                       ? { color: "var(--t-primary)", backgroundColor: "var(--trading-bid-muted)" }
-                      : {}
+                      : { color: "var(--color-muted-foreground)" }
                   }
                 >
                   {tf}
                 </button>
               ))}
             </div>
-          </div>
-          <div className="flex-1 min-h-0 p-2">
-            <CandleChart />
-          </div>
+            <div className="h-full p-2">
+              <CandleChart />
+            </div>
+          </Panel>
         </div>
 
-        {/* Right: Order Entry + Portfolio */}
-        <div className="flex flex-col gap-3 min-h-0">
-          <div className="bg-card rounded-md border border-border p-3 shrink-0">
-            <h2 className="text-xs font-cypher font-semibold tracking-wide uppercase text-muted-foreground mb-3">
-              Place Order
-            </h2>
-            <OrderForm onSubmit={handleOrderSubmit} isLoading={orderSubmitting} />
-          </div>
-
-          <div className="bg-card rounded-md border border-border overflow-hidden flex flex-col flex-1 min-h-0">
-            <div className="px-3 py-2 border-b border-border shrink-0">
-              <h2 className="text-xs font-cypher font-semibold tracking-wide uppercase text-muted-foreground">
-                Portfolio
-              </h2>
+        <div key="order">
+          <Panel title="Place Order">
+            <div className="p-3">
+              <OrderForm onSubmit={handleOrderSubmit} isLoading={orderSubmitting} />
             </div>
-            <div className="flex-1 overflow-y-auto min-h-0 p-3">
+          </Panel>
+        </div>
+
+        <div key="portfolio">
+          <Panel title="Portfolio">
+            <div className="p-3">
               <Portfolio state={mockPortfolioState} />
             </div>
-          </div>
+          </Panel>
         </div>
-      </div>
 
-      {/* ── Trades feed ────────────────────────────────── */}
-      <div className="bg-card rounded-md border border-border shrink-0">
-        <div className="px-3 py-2 border-b border-border flex items-center gap-4">
-          <h2 className="text-xs font-cypher font-semibold tracking-wide uppercase text-muted-foreground">
-            Recent Trades
-          </h2>
-          <div className="flex gap-3 text-[10px] font-mono text-muted-foreground">
-            <span>Time</span>
-            <span className="ml-12">Price (USDT)</span>
-            <span className="ml-10">Amount (BTC)</span>
-          </div>
-        </div>
-        <div className="flex overflow-x-auto divide-x divide-border">
-          {mockTrades.map((t) => (
-            <div
-              key={`${t.time}-${t.price}`}
-              className="flex flex-col px-3 py-1.5 text-[11px] font-mono tabular-nums shrink-0 gap-0.5"
-            >
-              <span className="text-muted-foreground">{t.time}</span>
-              <span
-                style={{ color: t.side === "buy" ? "var(--trading-bid)" : "var(--trading-ask)" }}
-              >
-                {t.price.toLocaleString("en-US", { minimumFractionDigits: 1 })}
-              </span>
-              <span className="text-muted-foreground">{t.qty.toFixed(3)}</span>
+        <div key="trades">
+          <Panel title="Recent Trades">
+            <div className="overflow-y-auto" style={{ maxHeight: "200px" }}>
+              <table className="w-full text-xs font-mono tabular-nums">
+                <thead className="sticky top-0 bg-card border-b border-border">
+                  <tr className="text-muted-foreground text-left">
+                    <th className="px-3 py-1.5 font-medium">Time</th>
+                    <th className="px-3 py-1.5 font-medium">Side</th>
+                    <th className="px-3 py-1.5 font-medium text-right">Price (USDT)</th>
+                    <th className="px-3 py-1.5 font-medium text-right">Amount (BTC)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {mockTrades.map((t) => (
+                    <tr
+                      key={`${t.time}-${t.price}`}
+                      className="border-b border-border/40 hover:bg-muted/30 transition-colors"
+                    >
+                      <td className="px-3 py-1 text-muted-foreground">{t.time}</td>
+                      <td
+                        className="px-3 py-1 uppercase font-semibold"
+                        style={{
+                          color: t.side === "buy" ? "var(--trading-bid)" : "var(--trading-ask)",
+                        }}
+                      >
+                        {t.side}
+                      </td>
+                      <td
+                        className="px-3 py-1 text-right"
+                        style={{
+                          color: t.side === "buy" ? "var(--trading-bid)" : "var(--trading-ask)",
+                        }}
+                      >
+                        {t.price.toLocaleString("en-US", { minimumFractionDigits: 1 })}
+                      </td>
+                      <td className="px-3 py-1 text-right text-muted-foreground">
+                        {t.qty.toFixed(3)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          ))}
+          </Panel>
         </div>
-      </div>
+      </ResponsiveGridLayout>
     </div>
   );
 }
