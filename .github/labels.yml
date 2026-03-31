@@ -1,0 +1,57 @@
+# Label definitions for trading-engine
+# Apply with: gh label import --labels .github/labels.yml
+
+# Type
+- name: "enhancement"
+  color: "0075ca"
+  description: "New feature or improvement"
+
+- name: "bug"
+  color: "d73a4a"
+  description: "Something isn't working"
+
+- name: "fix"
+  color: "e4e669"
+  description: "Bug fix"
+
+- name: "feat"
+  color: "1A7F5E"
+  description: "New capability"
+
+- name: "refactor"
+  color: "e4e669"
+  description: "Code restructure without behavior change"
+
+- name: "test"
+  color: "0e8a16"
+  description: "Test additions or fixes"
+
+- name: "chore"
+  color: "6B7280"
+  description: "Build, CI, dependencies, tooling"
+
+- name: "documentation"
+  color: "0075ca"
+  description: "Documentation changes"
+
+- name: "performance"
+  color: "F59E0B"
+  description: "Performance improvement"
+
+# Domain
+- name: "design-system"
+  color: "7B5EA7"
+  description: "Design system — tokens, components, themes"
+
+- name: "ui"
+  color: "EC4899"
+  description: "UI / visual changes"
+
+# Status
+- name: "status:stale"
+  color: "E5E7EB"
+  description: "Inactive for 30+ days"
+
+- name: "status:blocked"
+  color: "FCA5A5"
+  description: "Blocked — cannot proceed"
