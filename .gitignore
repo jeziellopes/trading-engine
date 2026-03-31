@@ -29,3 +29,6 @@ coverage
 
 # TanStack Router internal cache
 .tanstack/
+
+# Local agent infrastructure (never commit)
+.claude/
