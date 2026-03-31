@@ -1,0 +1,147 @@
+name: PR Hygiene
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled, milestoned, demilestoned]
+
+jobs:
+  skip-check:
+    name: Skip check
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'release-please--')
+    steps:
+      - run: echo "Skipping hygiene checks for release-please branch"
+
+  pr-hygiene-title:
+    name: PR title format
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    steps:
+      - name: Check PR title format
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const pattern = /^(feat|fix|chore|docs|test|refactor|perf|ci)\([a-z][a-z0-9-]+\): .{3,}/;
+            if (!pattern.test(title)) {
+              core.setFailed(
+                `PR title "${title}" doesn't match required format.\n` +
+                `Expected: type(scope): description\n` +
+                `Examples:\n` +
+                `  feat(order-book): add independent bid/ask scroll\n` +
+                `  fix(tokens): map trading vars to @theme inline\n` +
+                `  chore(ci): fix workflow triggers for main-only repo\n` +
+                `Valid types: feat, fix, chore, docs, test, refactor, perf, ci`
+              );
+            } else {
+              core.notice(`✅ PR title format valid: "${title}"`);
+            }
+
+  pr-hygiene-labels:
+    name: Required labels
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    steps:
+      - name: Check required labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const validLabels = ['enhancement', 'bug', 'refactor', 'chore', 'design-system', 'documentation', 'performance', 'test'];
+            const hasValid = labels.some(l => validLabels.includes(l));
+            if (!hasValid) {
+              core.setFailed(
+                `PR is missing a required label.\n` +
+                `Add one of: ${validLabels.join(', ')}\n` +
+                `Labels describe what kind of change this PR contains.`
+              );
+            } else {
+              const matched = labels.filter(l => validLabels.includes(l));
+              core.notice(`✅ Labels present: ${matched.join(', ')}`);
+            }
+
+  pr-hygiene-milestone:
+    name: Milestone assignment
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    steps:
+      - name: Check milestone assignment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+            const milestone = context.payload.pull_request.milestone;
+            const isReleaseBranch = /^release\/v\d+\.\d+\.\d+/.test(branch);
+
+            if (!isReleaseBranch) {
+              core.notice(
+                `✅ Development PR — milestone optional (assigned at release time).`
+              );
+              return;
+            }
+            if (milestone) {
+              core.notice(`✅ Release PR has milestone: ${milestone.title}`);
+              return;
+            }
+            core.setFailed(
+              `Release PR "${branch}" is missing a required milestone.\n` +
+              `Assign the target version milestone before merging.`
+            );
+
+  pr-hygiene-docs:
+    name: Documentation freshness
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    steps:
+      - name: Check docs freshness on feat PRs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            if (!title.startsWith('feat(')) {
+              core.notice(`ℹ️  Not a feat PR — docs check skipped.`);
+              return;
+            }
+
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100,
+            });
+            const changed = files.map(f => f.filename);
+
+            const touchesSrc     = changed.some(f => f.startsWith('src/'));
+            const touchesReadme  = changed.includes('README.md');
+            const touchesRoadmap = changed.includes('ROADMAP.md');
+
+            if (!touchesSrc) {
+              core.notice(`✅ Feat PR doesn't touch src/ — docs check not required.`);
+              return;
+            }
+
+            const failures = [];
+            if (!touchesRoadmap) failures.push('ROADMAP.md not updated');
+            if (!touchesReadme)  failures.push('README.md not updated (if applicable)');
+
+            if (failures.length > 0) {
+              core.warning(
+                `⚠️  Feat PR modifies src/ but docs may need updating:\n` +
+                failures.map(f => `  • ${f}`).join('\n') + '\n' +
+                `Update ROADMAP.md to reflect progress, and README.md if behaviour changed.\n` +
+                `(This is a warning — update if relevant, skip if docs don't apply.)`
+              );
+            } else {
+              core.notice(`✅ Docs up-to-date (ROADMAP.md and README.md updated).`);
+            }
+
