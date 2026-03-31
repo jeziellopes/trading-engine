@@ -1,0 +1,70 @@
+import { describe, expect, it } from "vitest";
+import { DEFAULT_SYMBOL, SYMBOL_CATEGORIES, SYMBOLS, findSymbol } from "./symbols";
+
+describe("SYMBOLS", () => {
+  it("has 18 entries", () => {
+    expect(SYMBOLS).toHaveLength(18);
+  });
+
+  it("every symbol has symbol, base, quote, category fields", () => {
+    for (const s of SYMBOLS) {
+      expect(typeof s.symbol).toBe("string");
+      expect(typeof s.base).toBe("string");
+      expect(typeof s.quote).toBe("string");
+      expect(typeof s.category).toBe("string");
+    }
+  });
+
+  it("no duplicate symbol strings", () => {
+    const symbols = SYMBOLS.map((s) => s.symbol);
+    expect(new Set(symbols).size).toBe(symbols.length);
+  });
+
+  it("all categories are valid SYMBOL_CATEGORIES values", () => {
+    for (const s of SYMBOLS) {
+      expect(SYMBOL_CATEGORIES).toContain(s.category);
+    }
+  });
+});
+
+describe("DEFAULT_SYMBOL", () => {
+  it('equals "BTCUSDT"', () => {
+    expect(DEFAULT_SYMBOL).toBe("BTCUSDT");
+  });
+
+  it("exists in SYMBOLS array", () => {
+    const found = SYMBOLS.find((s) => s.symbol === DEFAULT_SYMBOL);
+    expect(found).toBeDefined();
+  });
+});
+
+describe("findSymbol", () => {
+  it("returns SymbolInfo for existing symbol", () => {
+    const result = findSymbol("BTCUSDT");
+    expect(result).toBeDefined();
+    expect(result?.symbol).toBe("BTCUSDT");
+    expect(result?.base).toBe("BTC");
+    expect(result?.quote).toBe("USDT");
+  });
+
+  it("returns undefined for non-existent symbol", () => {
+    expect(findSymbol("DOESNOTEXIST")).toBeUndefined();
+  });
+
+  it("is case-sensitive", () => {
+    expect(findSymbol("btcusdt")).toBeUndefined();
+  });
+});
+
+describe("SYMBOL_CATEGORIES", () => {
+  it("has 4 entries", () => {
+    expect(SYMBOL_CATEGORIES).toHaveLength(4);
+  });
+
+  it("contains USDT, BTC, ETH, BNB", () => {
+    expect(SYMBOL_CATEGORIES).toContain("USDT");
+    expect(SYMBOL_CATEGORIES).toContain("BTC");
+    expect(SYMBOL_CATEGORIES).toContain("ETH");
+    expect(SYMBOL_CATEGORIES).toContain("BNB");
+  });
+});
