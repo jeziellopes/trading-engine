@@ -6,49 +6,60 @@ import { Input } from "@/ui/input";
 
 const orderSchema = z
   .object({
+    symbol: z.string().min(1, "Symbol is required"),
     side: z.enum(["buy", "sell"]),
     type: z.enum(["market", "limit"]),
     quantity: z
       .string()
       .min(1, "Quantity is required")
-      .refine((v) => Number(v) > 0, { message: "Must be positive" }),
+      .refine((v) => parseFloat(v) > 0, { message: "Must be positive" }),
     price: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.type === "limit" && (!data.price || Number(data.price) <= 0)) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Limit price required",
-        path: ["price"],
-      });
+    if (data.type === "limit") {
+      const n = Number(data.price);
+      if (!data.price || isNaN(n) || !isFinite(n) || n <= 0) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Limit price required",
+          path: ["price"],
+        });
+      }
     }
   });
 
 export type OrderFormData = z.infer<typeof orderSchema>;
 
 interface OrderFormProps {
+  symbol: string;
   onSubmit: (data: OrderFormData) => void | Promise<void>;
   isLoading?: boolean;
 }
 
-export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
+export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProps) {
   const {
     register,
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<OrderFormData>({
     resolver: zodResolver(orderSchema),
-    defaultValues: { side: "buy", type: "limit", quantity: "", price: "" },
+    defaultValues: { symbol, side: "buy", type: "limit", quantity: "", price: "" },
   });
 
   const side = watch("side");
   const type = watch("type");
   const busy = isLoading || isSubmitting;
 
+  const internalSubmit = async (data: OrderFormData) => {
+    await onSubmit(data);
+    reset({ symbol, side: data.side, type: data.type, quantity: "", price: "" });
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-2.5">
+    <form onSubmit={handleSubmit(internalSubmit)} noValidate className="space-y-2.5">
       {/* Side Selection */}
       <div className="flex gap-1.5">
         <Button
@@ -86,7 +97,10 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
           type="button"
           intent={type === "market" ? "primary" : "ghost"}
           size="xs"
-          onClick={() => setValue("type", "market")}
+          onClick={() => {
+            setValue("type", "market");
+            setValue("price", ""); // clear stale limit price when switching to market
+          }}
           className="flex-1"
         >
           Market
@@ -109,16 +123,11 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
           disabled={busy || type === "market"}
           step="0.01"
           size="sm"
-          aria-invalid={errors.price ? "true" : "false"}
+          aria-invalid={errors.price ? "true" : undefined}
           aria-describedby={errors.price ? "order-price-error" : undefined}
         />
         {errors.price && (
-          <p
-            id="order-price-error"
-            role="alert"
-            className="text-xs mt-1"
-            style={{ color: "var(--trading-loss)" }}
-          >
+          <p id="order-price-error" role="alert" className="text-xs mt-1 text-destructive">
             {errors.price.message}
           </p>
         )}
@@ -137,25 +146,28 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
           disabled={busy}
           step="0.001"
           size="sm"
-          aria-invalid={errors.quantity ? "true" : "false"}
+          aria-invalid={errors.quantity ? "true" : undefined}
           aria-describedby={errors.quantity ? "order-quantity-error" : undefined}
         />
         {errors.quantity && (
-          <p
-            id="order-quantity-error"
-            role="alert"
-            className="text-xs mt-1"
-            style={{ color: "var(--trading-loss)" }}
-          >
+          <p id="order-quantity-error" role="alert" className="text-xs mt-1 text-destructive">
             {errors.quantity.message}
           </p>
         )}
       </div>
 
-      {/* Quick-fill shortcuts */}
+      {/* Quick-fill shortcuts — disabled until portfolio store is connected */}
       <div className="flex gap-1">
         {(["25%", "50%", "75%", "100%"] as const).map((pct) => (
-          <Button key={pct} type="button" intent="ghost" size="xs" className="flex-1">
+          <Button
+            key={pct}
+            type="button"
+            intent="ghost"
+            size="xs"
+            className="flex-1"
+            disabled
+            title="Requires portfolio store (coming soon)"
+          >
             {pct}
           </Button>
         ))}

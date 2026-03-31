@@ -223,6 +223,6 @@ function RootComponent() {
         <Outlet />
       </main>
     </div>
-    <Toaster position="bottom-right" theme="dark" richColors />
+    <Toaster position="bottom-right" theme="system" richColors />
   );
 }
