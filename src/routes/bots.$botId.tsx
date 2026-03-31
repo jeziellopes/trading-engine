@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { ErrorBoundary } from '@/ui/error-boundary'
 import { useState } from 'react'
 import { ArrowLeft, Pencil, X, Check, Play, Pause, Square } from 'lucide-react'
 import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis, ReferenceLine } from 'recharts'
@@ -58,6 +59,7 @@ function BotDetailPage() {
   }
 
   return (
+    <ErrorBoundary>
     <div className="h-full overflow-y-auto" style={{ backgroundColor: 'var(--color-background)' }}>
       <div className="p-6 space-y-6">
 
@@ -329,5 +331,6 @@ function BotDetailPage() {
 
       </div>
     </div>
+    </ErrorBoundary>
   )
 }

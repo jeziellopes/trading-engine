@@ -9,6 +9,7 @@ import { OrderForm } from "@/features/order-entry/order-form";
 import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import { MOCK_BOTS } from "@/features/bots/mock-bots";
 import type { BotInstance, BotStatus } from "@/features/bots/types";
+import { ErrorBoundary } from "@/ui/error-boundary";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -265,6 +266,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
   const [activeTimeframe, setActiveTimeframe] = useState("15m");
 
   return (
+    <ErrorBoundary>
     <div className="w-full px-3 pb-3 flex flex-col gap-0">
       {/* ── Ticker header ───────────────────────────────── */}
       <div className="flex items-center gap-6 py-2 border-b border-border mb-2">
@@ -314,9 +316,11 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
         onLayoutChange={handleLayoutChange}
       >
         <div key="book">
+          <ErrorBoundary>
           <Panel title="Order Book">
             <OrderBook state={mockOrderBookState} />
           </Panel>
+          </ErrorBoundary>
         </div>
 
         <div key="chart">
@@ -353,14 +357,17 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
         </div>
 
         <div key="order">
+          <ErrorBoundary>
           <Panel title="Place Order">
             <div className="p-3">
               <OrderForm onSubmit={handleOrderSubmit} isLoading={orderSubmitting} />
             </div>
           </Panel>
+          </ErrorBoundary>
         </div>
 
         <div key="portfolio">
+          <ErrorBoundary>
           <Panel title="Portfolio">
             <div className="p-3 grid grid-cols-2 gap-x-4 gap-y-3">
               <div>
@@ -433,12 +440,15 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
               </Link>
             </div>
           </Panel>
+          </ErrorBoundary>
         </div>
 
         <div key="bots">
+          <ErrorBoundary>
           <Panel title="Bots">
             <BotManagerPanel bots={bots} onStatusChange={handleBotStatusChange} />
           </Panel>
+          </ErrorBoundary>
         </div>
 
         <div key="trades">
@@ -513,5 +523,6 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
         </div>
       </ResponsiveGridLayout>
     </div>
+    </ErrorBoundary>
   );
 }
