@@ -1,13 +1,30 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 
-export interface OrderFormData {
-  side: "buy" | "sell";
-  type: "limit" | "market";
-  price?: string | undefined;
-  quantity: string;
-}
+const orderSchema = z
+  .object({
+    side: z.enum(["buy", "sell"]),
+    type: z.enum(["market", "limit"]),
+    quantity: z
+      .string()
+      .min(1, "Quantity is required")
+      .refine((v) => Number(v) > 0, { message: "Must be positive" }),
+    price: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.type === "limit" && (!data.price || Number(data.price) <= 0)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Limit price required",
+        path: ["price"],
+      });
+    }
+  });
+
+export type OrderFormData = z.infer<typeof orderSchema>;
 
 interface OrderFormProps {
   onSubmit: (data: OrderFormData) => void | Promise<void>;
@@ -15,30 +32,30 @@ interface OrderFormProps {
 }
 
 export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
-  const [side, setSide] = useState<"buy" | "sell">("buy");
-  const [type, setType] = useState<"limit" | "market">("limit");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<OrderFormData>({
+    resolver: zodResolver(orderSchema),
+    defaultValues: { side: "buy", type: "limit", quantity: "", price: "" },
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit({
-      side,
-      type,
-      price: type === "limit" ? price : undefined,
-      quantity,
-    });
-  };
+  const side = watch("side");
+  const type = watch("type");
+  const busy = isLoading || isSubmitting;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2.5">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-2.5">
       {/* Side Selection */}
       <div className="flex gap-1.5">
         <Button
           type="button"
           intent={side === "buy" ? "buy" : "ghost"}
           size="sm"
-          onClick={() => setSide("buy")}
+          onClick={() => setValue("side", "buy")}
           className="flex-1"
         >
           Buy
@@ -47,7 +64,7 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
           type="button"
           intent={side === "sell" ? "sell" : "ghost"}
           size="sm"
-          onClick={() => setSide("sell")}
+          onClick={() => setValue("side", "sell")}
           className="flex-1"
         >
           Sell
@@ -60,7 +77,7 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
           type="button"
           intent={type === "limit" ? "primary" : "ghost"}
           size="xs"
-          onClick={() => setType("limit")}
+          onClick={() => setValue("type", "limit")}
           className="flex-1"
         >
           Limit
@@ -69,7 +86,7 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
           type="button"
           intent={type === "market" ? "primary" : "ghost"}
           size="xs"
-          onClick={() => setType("market")}
+          onClick={() => setValue("type", "market")}
           className="flex-1"
         >
           Market
@@ -78,35 +95,61 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
 
       {/* Price Input — always visible; disabled for market orders */}
       <div>
-        <p className="text-xs text-muted-foreground block mb-1">
+        <label htmlFor="order-price" className="text-xs text-muted-foreground block mb-1">
           Price
           {type === "market" && (
             <span className="ml-1.5 text-[10px] text-muted-foreground opacity-60">market</span>
           )}
-        </p>
+        </label>
         <Input
+          id="order-price"
           type="number"
           placeholder={type === "market" ? "Market price" : "0.00"}
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          disabled={isLoading || type === "market"}
+          {...register("price")}
+          disabled={busy || type === "market"}
           step="0.01"
           size="sm"
+          aria-invalid={errors.price ? "true" : "false"}
+          aria-describedby={errors.price ? "order-price-error" : undefined}
         />
+        {errors.price && (
+          <p
+            id="order-price-error"
+            role="alert"
+            className="text-xs mt-1"
+            style={{ color: "var(--trading-loss)" }}
+          >
+            {errors.price.message}
+          </p>
+        )}
       </div>
 
       {/* Quantity Input */}
       <div>
-        <p className="text-xs text-muted-foreground block mb-1">Quantity</p>
+        <label htmlFor="order-quantity" className="text-xs text-muted-foreground block mb-1">
+          Quantity
+        </label>
         <Input
+          id="order-quantity"
           type="number"
           placeholder="0.000"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-          disabled={isLoading}
+          {...register("quantity")}
+          disabled={busy}
           step="0.001"
           size="sm"
+          aria-invalid={errors.quantity ? "true" : "false"}
+          aria-describedby={errors.quantity ? "order-quantity-error" : undefined}
         />
+        {errors.quantity && (
+          <p
+            id="order-quantity-error"
+            role="alert"
+            className="text-xs mt-1"
+            style={{ color: "var(--trading-loss)" }}
+          >
+            {errors.quantity.message}
+          </p>
+        )}
       </div>
 
       {/* Quick-fill shortcuts */}
@@ -124,9 +167,9 @@ export function OrderForm({ onSubmit, isLoading = false }: OrderFormProps) {
         intent={side === "buy" ? "buy" : "sell"}
         size="sm"
         className="w-full"
-        disabled={isLoading || !quantity || (type === "limit" && !price)}
+        disabled={busy}
       >
-        {isLoading
+        {busy
           ? "Placing..."
           : `${side === "buy" ? "Buy" : "Sell"} ${type === "limit" ? "Limit" : "Market"}`}
       </Button>
