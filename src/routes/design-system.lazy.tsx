@@ -230,6 +230,7 @@ function DesignSystemShowcase() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <title>Design System | Trading Engine</title>
       <div className="max-w-7xl mx-auto px-6 py-12 space-y-16">
         {/* Header */}
         <div className="space-y-4">
@@ -468,9 +469,9 @@ function DesignSystemShowcase() {
         {/* ── Input ───────────────────────────────────────── */}
         <Section title="Input">
           <div className="max-w-xs space-y-2">
-            <Input placeholder="Price (USDT)" type="number" />
-            <Input placeholder="Quantity (BTC)" type="number" />
-            <Input placeholder="Disabled" disabled />
+            <Input placeholder="Price (USDT)" type="number" aria-label="Price in USDT" />
+            <Input placeholder="Quantity (BTC)" type="number" aria-label="Quantity in BTC" />
+            <Input placeholder="Disabled" disabled aria-label="Disabled input example" />
           </div>
         </Section>
 
@@ -678,12 +679,12 @@ function DesignSystemShowcase() {
             </div>
             <div className="space-y-2">
               <div className="space-y-1">
-                <p className="text-[10px] font-mono text-muted-foreground">Price (USDT)</p>
-                <Input placeholder="67,843.50" type="number" className="h-8 text-sm" />
+                <label htmlFor="ds-price-input" className="text-[10px] font-mono text-muted-foreground">Price (USDT)</label>
+                <Input id="ds-price-input" placeholder="67,843.50" type="number" className="h-8 text-sm" />
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-mono text-muted-foreground">Amount (BTC)</p>
-                <Input placeholder="0.001" type="number" className="h-8 text-sm" />
+                <label htmlFor="ds-amount-input" className="text-[10px] font-mono text-muted-foreground">Amount (BTC)</label>
+                <Input id="ds-amount-input" placeholder="0.001" type="number" className="h-8 text-sm" />
               </div>
             </div>
             <div className="flex justify-between text-[10px] font-mono text-muted-foreground">

@@ -59,6 +59,7 @@ function BotDetailPage() {
 
   return (
     <div className="h-full overflow-y-auto" style={{ backgroundColor: 'var(--color-background)' }}>
+      <title>{bot ? `${bot.name} | Trading Engine` : 'Bot | Trading Engine'}</title>
       <div className="p-6 space-y-6">
 
         {/* Header */}
@@ -196,6 +197,7 @@ function BotDetailPage() {
                   onClick={startEdit}
                   className="flex items-center gap-1 w-6 h-6 rounded justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                   title="Edit settings"
+                  aria-label="Edit settings"
                 >
                   <Pencil size={11} />
                 </button>
@@ -206,6 +208,7 @@ function BotDetailPage() {
                     className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:bg-muted transition-colors"
                     style={{ color: 'var(--trading-profit)' }}
                     title="Save"
+                    aria-label="Save settings"
                   >
                     <Check size={11} />
                   </button>
@@ -213,6 +216,7 @@ function BotDetailPage() {
                     onClick={() => setEditing(false)}
                     className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                     title="Cancel"
+                    aria-label="Cancel edit"
                   >
                     <X size={11} />
                   </button>
@@ -223,10 +227,11 @@ function BotDetailPage() {
             <div className="space-y-3">
               {/* Name */}
               <div>
-                <label className="text-[10px] text-muted-foreground uppercase tracking-wide block mb-1">Name</label>
+                <label htmlFor="bot-name-input" className="text-[10px] text-muted-foreground uppercase tracking-wide block mb-1">Name</label>
                 {editing ? (
                   <input
-                    className="w-full rounded border border-border bg-card px-2 py-1 text-xs font-mono focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+                    id="bot-name-input"
+                    className="w-full rounded border border-border bg-card px-2 py-1 text-xs font-mono focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)]"
                     value={draft.name}
                     onChange={(e) => setDraft({ ...draft, name: e.target.value })}
                   />
@@ -237,10 +242,11 @@ function BotDetailPage() {
 
               {/* Strategy */}
               <div>
-                <label className="text-[10px] text-muted-foreground uppercase tracking-wide block mb-1">Strategy</label>
+                <label htmlFor="bot-strategy-select" className="text-[10px] text-muted-foreground uppercase tracking-wide block mb-1">Strategy</label>
                 {editing ? (
                   <select
-                    className="w-full rounded border border-border bg-card px-2 py-1 text-xs font-mono focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary cursor-pointer"
+                    id="bot-strategy-select"
+                    className="w-full rounded border border-border bg-card px-2 py-1 text-xs font-mono focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)] cursor-pointer"
                     value={draft.strategy}
                     onChange={(e) => setDraft({ ...draft, strategy: e.target.value as BotStrategy })}
                   >
@@ -255,10 +261,11 @@ function BotDetailPage() {
 
               {/* Symbol */}
               <div>
-                <label className="text-[10px] text-muted-foreground uppercase tracking-wide block mb-1">Symbol</label>
+                <label htmlFor="bot-symbol-input" className="text-[10px] text-muted-foreground uppercase tracking-wide block mb-1">Symbol</label>
                 {editing ? (
                   <input
-                    className="w-full rounded border border-border bg-card px-2 py-1 text-xs font-mono focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+                    id="bot-symbol-input"
+                    className="w-full rounded border border-border bg-card px-2 py-1 text-xs font-mono focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)]"
                     value={draft.symbol}
                     onChange={(e) => setDraft({ ...draft, symbol: e.target.value.toUpperCase() })}
                   />

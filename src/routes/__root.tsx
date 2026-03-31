@@ -115,6 +115,7 @@ function ThemeDropdown() {
                 key={m.id}
                 onClick={() => selectMode(m.id)}
                 title={m.label}
+                aria-label={m.label}
                 className="flex items-center justify-center flex-1 h-6 rounded cursor-pointer transition-colors"
                 style={{
                   backgroundColor: m.id === mode ? "var(--primary)" : "transparent",

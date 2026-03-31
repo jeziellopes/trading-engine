@@ -141,6 +141,7 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
                           <button
                             className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                             title="Pause"
+                            aria-label="Pause bot"
                             onClick={() => onStatusChange(bot.id, "paused")}
                           >
                             <Pause size={11} />
@@ -149,6 +150,7 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
                             className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
                             style={{ color: "var(--trading-ask)" }}
                             title="Stop"
+                            aria-label="Stop bot"
                             onClick={() => onStatusChange(bot.id, "stopped")}
                           >
                             <Square size={11} />
@@ -161,6 +163,7 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
                             className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
                             style={{ color: "var(--trading-bid)" }}
                             title="Run"
+                            aria-label="Run bot"
                             onClick={() => onStatusChange(bot.id, "running")}
                           >
                             <Play size={11} />
@@ -169,6 +172,7 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
                             className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
                             style={{ color: "var(--trading-ask)" }}
                             title="Stop"
+                            aria-label="Stop bot"
                             onClick={() => onStatusChange(bot.id, "stopped")}
                           >
                             <Square size={11} />
@@ -180,6 +184,7 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
                           className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
                           style={{ color: "var(--trading-bid)" }}
                           title="Run"
+                          aria-label="Run bot"
                           onClick={() => onStatusChange(bot.id, "running")}
                         >
                           <Play size={11} />

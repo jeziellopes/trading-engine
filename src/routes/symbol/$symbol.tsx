@@ -8,5 +8,10 @@ export const Route = createFileRoute("/symbol/$symbol" as never)({
 
 function RouteComponent() {
   const { symbol } = Route.useParams();
-  return <TradingLayout symbol={symbol} />;
+  return (
+    <>
+      <title>{symbol} | Trading Engine</title>
+      <TradingLayout symbol={symbol} />
+    </>
+  );
 }

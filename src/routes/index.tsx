@@ -28,6 +28,7 @@ const STACK = [
 export default function LandingPage() {
   return (
     <div className="w-full max-w-4xl mx-auto px-6 py-20 flex flex-col gap-16">
+      <title>Home | Trading Engine</title>
       {/* Hero */}
       <section className="flex flex-col gap-6">
         <div className="flex items-center gap-3">
