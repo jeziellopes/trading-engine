@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "description": "Real-time trading engine simulator with live Binance market data",
+  "packageManager": "pnpm@10.24.0",
   "engines": {
     "node": ">=22"
   },
