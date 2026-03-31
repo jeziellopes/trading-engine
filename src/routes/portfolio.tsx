@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ErrorBoundary } from "@/ui/error-boundary";
 import { BalanceDisplay } from "@/features/portfolio/balance-display";
 import { PositionCard } from "@/features/portfolio/position-card";
 
@@ -99,6 +100,7 @@ const mockTrades: TradeHistory[] = [
 
 function RouteComponent() {
   return (
+    <ErrorBoundary>
     <div className="w-full max-w-5xl mx-auto px-6 py-8 space-y-8">
       <title>Portfolio | Trading Engine</title>
       {/* Header */}
@@ -205,5 +207,6 @@ function RouteComponent() {
         </div>
       </div>
     </div>
+    </ErrorBoundary>
   );
 }

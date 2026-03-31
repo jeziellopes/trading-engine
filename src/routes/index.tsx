@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ErrorBoundary } from "@/ui/error-boundary";
 
 // biome-ignore lint/suspicious/noExplicitAny: TanStack Router codegen pending
 export const Route = createFileRoute("/" as any)({
@@ -27,6 +28,7 @@ const STACK = [
 
 export default function LandingPage() {
   return (
+    <ErrorBoundary>
     <div className="w-full max-w-4xl mx-auto px-6 py-20 flex flex-col gap-16">
       <title>Home | Trading Engine</title>
       {/* Hero */}
@@ -150,5 +152,6 @@ export default function LandingPage() {
         </div>
       </section>
     </div>
+    </ErrorBoundary>
   );
 }
