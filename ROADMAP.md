@@ -31,8 +31,10 @@ Impressive if polished, damaging if half-done. I'll only build these after P0 an
 |---|---|---|
 | Strategy Engine (auto-trading) | [`specs/strategy-engine.spec.md`](specs/strategy-engine.spec.md) | Spec ready |
 | Matching engine visualizer | — | Not started |
-| Leaderboard | — | Not started |
+| Strategy leaderboard | — | Not started |
 | Multi-exchange plugin architecture | — | Not started |
+
+> **Partial implementation:** `src/features/bots/` (bot manager table, detail route, mock data) was built as an early UI scaffold for the Strategy Engine. Issue [#3](https://github.com/jeziellopes/trading-engine/issues/3) — bot configuration form (strategy picker, symbol, params) — is the `StrategyPanel` UI gap that closes this feature. The full engine (domain layer, infra adapters, Zustand stores) depends on P0 + P1 being complete first.
 
 #### Strategy Engine — Domain Cost
 

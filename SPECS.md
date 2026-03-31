@@ -10,6 +10,8 @@ Feature specs with testable acceptance criteria. Each spec follows the SDD forma
 | [Symbol Routing](specs/symbol-routing.spec.md) | 9 | WebSocket Data Layer | P0 |
 | [Order Book UI](specs/order-book-ui.spec.md) | 10 | WebSocket Data Layer | P0 |
 | [Simulated Order Entry](specs/simulated-order-entry.spec.md) | 10 | WebSocket Data Layer, Symbol Routing | P1 |
+| [Strategy Engine](specs/strategy-engine.spec.md) | 10 | Order Entry, WebSocket Data Layer | P2 |
+| [Design System](specs/design-system.spec.md) | — | — | Cross-cutting |
 
 ## Reference Specs
 

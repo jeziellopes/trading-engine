@@ -33,6 +33,7 @@ Build a real-time trading engine simulator that showcases modern frontend engine
 ### In Scope (P0 + P1)
 
 - Live order book with bid/ask depth, spread, and depth chart
+- **OHLCV candlestick price chart** (lightweight-charts) — issue [#8](https://github.com/jeziellopes/trading-engine/issues/8)
 - Real-time trades feed (ring buffer, last 100)
 - Symbol routing with typed params and search state in URL
 - Simulated order entry (market + limit orders against live prices)
@@ -42,10 +43,15 @@ Build a real-time trading engine simulator that showcases modern frontend engine
 
 ### Out of Scope (P2 Stretch)
 
-- Matching engine visualizer (heatmap, execution tape)
-- Random trader bots with strategy leaderboard
+- **Strategy Engine** (configurable auto-trading bots) — `specs/strategy-engine.spec.md` · MA/RSI/Grid strategies, paper-only fills, kill switch. The bot manager table and detail route (`src/features/bots/`) are a partial early implementation. Issue [#3](https://github.com/jeziellopes/trading-engine/issues/3) (bot configuration form) is the `StrategyPanel` UI that closes the loop. Depends on P0 + P1 being complete first.
+- **Matching engine visualizer** — heatmap, execution tape (no spec, not started)
+- **Strategy leaderboard** — ranked bots by P&L (no spec, lowest priority)
 - Multi-exchange plugin architecture
 - Backend server, persistence, authentication
+
+### Bonus / Not Required for Portfolio Demo
+
+- **Flowa brand theme** — additional `data-theme="flowa"` dark + light variant using the Flowatech brand palette. Tracked in issue [#12](https://github.com/jeziellopes/trading-engine/issues/12). Not required for interview readiness.
 
 ### Explicitly Not Building
 
