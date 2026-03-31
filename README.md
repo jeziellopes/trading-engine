@@ -24,6 +24,7 @@ The UI is static/paper-trading only — no real money, no API keys, no backend. 
 | Router | TanStack Router (file-based, typed params) |
 | State | Zustand (streaming) + TanStack Query (snapshots) |
 | Forms | React Hook Form + Zod |
+| Notifications | Sonner 2 (toast system, single `<Toaster>` at root) |
 | Dashboard | react-grid-layout 2.x (draggable + resizable panels) |
 | Styling | Tailwind CSS 4 + CVA + CSS custom properties |
 | Compiler | React Compiler 1.0 (zero manual memoization) |

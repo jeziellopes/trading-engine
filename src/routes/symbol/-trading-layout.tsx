@@ -10,6 +10,7 @@ import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import { MOCK_BOTS } from "@/features/bots/mock-bots";
 import type { BotInstance, BotStatus } from "@/features/bots/types";
 import { ErrorBoundary } from "@/ui/error-boundary";
+import { toast } from "sonner";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -247,10 +248,28 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
   const [layouts, setLayouts] = useState<ResponsiveLayouts<string>>(loadLayouts);
   const [bots, setBots] = useState<BotInstance[]>(MOCK_BOTS);
 
-  const handleOrderSubmit = async (_data: OrderFormData) => {
+  const handleOrderSubmit = async (data: OrderFormData) => {
     setOrderSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    setOrderSubmitting(false);
+    try {
+      // Stub: replace with await submitOrder(data) when fill engine is wired
+      await new Promise<void>((resolve, reject) => {
+        setTimeout(() => {
+          // Real implementation may reject — this stub always resolves
+          void reject; // suppress unused-variable lint
+          resolve();
+        }, 600);
+      });
+      const side = data.side === "buy" ? "Buy" : "Sell";
+      const orderType = data.type === "limit" ? "Limit" : "Market";
+      toast.success(`${side} ${orderType} order placed`, {
+        description: `${data.quantity} @ ${data.type === "market" ? "market price" : data.price}`,
+      });
+    } catch (err) {
+      const description = err instanceof Error ? err.message : "Please try again.";
+      toast.error("Order failed", { description });
+    } finally {
+      setOrderSubmitting(false);
+    }
   };
 
   const handleBotStatusChange = (id: string, status: BotStatus) => {
@@ -360,7 +379,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
           <ErrorBoundary>
           <Panel title="Place Order">
             <div className="p-3">
-              <OrderForm onSubmit={handleOrderSubmit} isLoading={orderSubmitting} />
+              <OrderForm symbol={symbol} onSubmit={handleOrderSubmit} isLoading={orderSubmitting} />
             </div>
           </Panel>
           </ErrorBoundary>

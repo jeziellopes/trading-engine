@@ -20,7 +20,7 @@ Adds depth to my demo. Proves form handling, state management, and optimistic UI
 
 | Feature | Spec | Status |
 |---|---|---|
-| Simulated order entry | `specs/simulated-order-entry.spec.md` | Spec ready |
+| Simulated order entry | `specs/simulated-order-entry.spec.md` | 🔄 In progress |
 | Portfolio tracker (balances, PnL, history) | Included in order entry spec | Spec ready |
 
 ### P2 — Stretch Goals
