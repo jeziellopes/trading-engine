@@ -2,6 +2,7 @@ import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import { Check, ChevronDown, Moon, Sun, Zap } from "lucide-react";
 import { SymbolSelector } from "@/ui/symbol-selector";
+import { Toaster } from "sonner";
 
 type ThemeId = "soft" | "night-city" | "maelstrom" | "corpo-ice" | "netrunner";
 type ModeId = "dark" | "light" | "vibrant";
@@ -221,6 +222,7 @@ function RootComponent() {
       <main className="flex-1 min-h-0">
         <Outlet />
       </main>
+      <Toaster position="bottom-right" theme="system" richColors />
     </div>
   );
 }

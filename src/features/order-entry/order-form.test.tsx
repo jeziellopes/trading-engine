@@ -1,50 +1,92 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { OrderForm } from "./order-form";
+
+const TEST_SYMBOL = "BTCUSDT";
 
 describe("OrderForm", () => {
   const mockHandleSubmit = vi.fn();
 
+  beforeEach(() => {
+    mockHandleSubmit.mockReset();
+  });
+
   it("renders side select (buy/sell)", () => {
-    const { container } = render(<OrderForm onSubmit={mockHandleSubmit} />);
-    const text = container.textContent || "";
+    const { container } = render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    const text = container.textContent ?? "";
     expect(text).toContain("Buy");
     expect(text).toContain("Sell");
   });
 
   it("renders order type select", () => {
-    const { container } = render(<OrderForm onSubmit={mockHandleSubmit} />);
-    const text = container.textContent || "";
+    const { container } = render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    const text = container.textContent ?? "";
     expect(text).toContain("Limit");
     expect(text).toContain("Market");
   });
 
-  it("renders price input", () => {
-    render(<OrderForm onSubmit={mockHandleSubmit} />);
-    // price input uses placeholder "0.00" now
-    const priceInputs = screen.getAllByPlaceholderText(/0\.00/);
-    expect(priceInputs.length).toBeGreaterThan(0);
+  it("renders price input with label", () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    expect(screen.getByLabelText(/price/i)).toBeInTheDocument();
   });
 
-  it("renders quantity input", () => {
-    render(<OrderForm onSubmit={mockHandleSubmit} />);
-    // quantity input uses placeholder "0.000" now
-    const quantityInputs = screen.getAllByPlaceholderText(/0\.000/);
-    expect(quantityInputs.length).toBeGreaterThan(0);
+  it("renders quantity input with label", () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    expect(screen.getByLabelText(/quantity/i)).toBeInTheDocument();
   });
 
-  it("renders submit button", () => {
-    const { container } = render(<OrderForm onSubmit={mockHandleSubmit} />);
-    const text = container.textContent || "";
-    // submit text is now "Buy Limit" (side + type)
-    expect(text).toContain("Buy");
+  it("renders submit button defaulting to buy limit", () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    expect(screen.getByRole("button", { name: /buy limit/i })).toBeInTheDocument();
   });
 
-  it("defaults to BUY side", () => {
-    const { container } = render(<OrderForm onSubmit={mockHandleSubmit} />);
-    const buttons = container.querySelectorAll("button");
-    // First button is Buy — uses intent="buy" which has trading-bid background
-    const buyBtn = buttons[0];
-    expect(buyBtn.textContent).toBe("Buy");
+  it("shows quantity validation error when submitting empty form", async () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    await userEvent.click(screen.getByRole("button", { name: /buy limit/i }));
+    await waitFor(() => {
+      expect(screen.getAllByRole("alert").length).toBeGreaterThan(0);
+    });
+    expect(mockHandleSubmit).not.toHaveBeenCalled();
+  });
+
+  it("shows limit price error when quantity is set but price is missing", async () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    await userEvent.type(screen.getByLabelText(/quantity/i), "0.5");
+    await userEvent.click(screen.getByRole("button", { name: /buy limit/i }));
+    await waitFor(() => {
+      expect(screen.getByText(/limit price required/i)).toBeInTheDocument();
+    });
+    expect(mockHandleSubmit).not.toHaveBeenCalled();
+  });
+
+  it("calls onSubmit with valid limit order data", async () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    await userEvent.type(screen.getByLabelText(/quantity/i), "0.5");
+    await userEvent.type(screen.getByLabelText(/price/i), "30000");
+    await userEvent.click(screen.getByRole("button", { name: /buy limit/i }));
+    await waitFor(() => {
+      expect(mockHandleSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({ symbol: TEST_SYMBOL, side: "buy", type: "limit", quantity: "0.5", price: "30000" }),
+      );
+    });
+  });
+
+  it("does not require price for market orders", async () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    await userEvent.click(screen.getByRole("button", { name: /market/i }));
+    await userEvent.type(screen.getByLabelText(/quantity/i), "0.1");
+    await userEvent.click(screen.getByRole("button", { name: /buy market/i }));
+    await waitFor(() => {
+      expect(mockHandleSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({ symbol: TEST_SYMBOL, side: "buy", type: "market", quantity: "0.1" }),
+      );
+    });
+  });
+
+  it("switches to sell side and updates submit button text", async () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    await userEvent.click(screen.getByRole("button", { name: /^sell$/i }));
+    expect(screen.getByRole("button", { name: /sell limit/i })).toBeInTheDocument();
   });
 });
