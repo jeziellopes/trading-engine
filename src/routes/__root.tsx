@@ -2,7 +2,9 @@ import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import { Check, ChevronDown, Moon, Sun, Zap } from "lucide-react";
 import { SymbolSelector } from "@/ui/symbol-selector";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
+import { ErrorBoundary } from "@/ui/error-boundary";
+import { Button } from "@/ui/button";
 
 type ThemeId = "soft" | "night-city" | "maelstrom" | "corpo-ice" | "netrunner";
 type ModeId = "dark" | "light" | "vibrant";
@@ -153,6 +155,18 @@ const MOCK_NAV = {
 
 function RootComponent() {
   return (
+    <ErrorBoundary
+      fallback={(error) => (
+        <div className="flex flex-col items-center justify-center min-h-screen gap-4 p-8 bg-card">
+          <p className="text-base font-semibold text-destructive">Application Error</p>
+          <p className="text-sm text-muted-foreground">{error.message}</p>
+          <Button intent="secondary" size="sm" onClick={() => window.location.reload()}>
+            Reload page
+          </Button>
+        </div>
+      )}
+      onError={(error) => toast.error(error.message)}
+    >
     <div
       className="min-h-screen flex flex-col"
       style={{ backgroundColor: "var(--color-background)" }}
@@ -224,5 +238,6 @@ function RootComponent() {
       </main>
       <Toaster position="bottom-right" theme="system" richColors />
     </div>
+    </ErrorBoundary>
   );
 }
