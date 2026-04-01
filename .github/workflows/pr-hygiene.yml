@@ -146,3 +146,38 @@ jobs:
               core.notice(`✅ Docs up-to-date (ROADMAP.md and README.md updated).`);
             }
 
+
+  pr-hygiene-no-coauthor:
+    name: No Co-authored-by trailers
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - name: Check commits for Co-authored-by trailers
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { data: commits } = await github.rest.pulls.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100,
+            });
+
+            const violations = commits.filter(c =>
+              /^co-authored-by:/im.test(c.commit.message)
+            );
+
+            if (violations.length > 0) {
+              const list = violations
+                .map(c => `  • ${c.sha.slice(0, 7)}: ${c.commit.message.split('\n')[0]}`)
+                .join('\n');
+              core.setFailed(
+                `${violations.length} commit(s) contain a Co-authored-by trailer:\n${list}\n\n` +
+                `Remove Co-authored-by lines and amend/rebase before merging.\n` +
+                `The post-commit hook should prevent this — check your local hook setup.`
+              );
+            } else {
+              core.notice(`✅ No Co-authored-by trailers found in ${commits.length} commit(s).`);
+            }
