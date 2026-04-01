@@ -1,3 +1,10 @@
+# [1.0.0-next.4](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.3...v1.0.0-next.4) (2026-04-01)
+
+
+### Features
+
+* **design-system:** close [@theme](https://github.com/theme) gaps and standardise token usage ([b2b0bd0](https://github.com/jeziellopes/trading-engine/commit/b2b0bd02641480c6c8de407b587b4cdafbb7d11e)), closes [#13](https://github.com/jeziellopes/trading-engine/issues/13)
+
 # [1.0.0-next.3](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.2...v1.0.0-next.3) (2026-04-01)
 
 
