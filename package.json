@@ -1,7 +1,7 @@
 {
   "name": "trading-engine",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.0",
   "type": "module",
   "description": "Real-time trading engine simulator with live Binance market data",
   "packageManager": "pnpm@10.24.0",
@@ -43,6 +43,9 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.9",
     "@eslint/js": "^9.39.4",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.6",
     "@tailwindcss/vite": "4.2.2",
     "@tanstack/react-query-devtools": "5.95.2",
     "@tanstack/react-router-devtools": "1.166.11",
@@ -62,6 +65,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
     "jsdom": "29.0.1",
+    "semantic-release": "^25.0.3",
     "tailwindcss": "4.2.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.57.0",

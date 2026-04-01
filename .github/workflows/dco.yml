@@ -2,7 +2,7 @@ name: DCO Check
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, develop]
 
 jobs:
   dco:
@@ -11,8 +11,6 @@ jobs:
     permissions:
       pull-requests: read
       contents: read
-    # Skip release-please automation branches.
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
     steps:
       - name: Check DCO sign-off on all commits
         uses: actions/github-script@v7
