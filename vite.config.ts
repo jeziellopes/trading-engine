@@ -5,6 +5,8 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
+// PRD target: initial bundle ≤ 200KB gzipped
+// recharts and react-grid-layout are lazy-loaded via React.lazy()
 export default defineConfig({
   plugins: [
     TanStackRouterVite(),

@@ -2,101 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { BalanceDisplay } from "@/features/portfolio/balance-display";
 import { PositionCard } from "@/features/portfolio/position-card";
+import { MOCK_PORTFOLIO_STATE, MOCK_PORTFOLIO_TRADES } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/portfolio")({
   component: RouteComponent,
 });
 
-const BASE_BTC = 67843.5;
-const BASE_ETH = 3263.4;
-
-const mockState = {
-  totalBalance: 10_423.7,
-  availableBalance: 4_328.5,
-  unrealizedPnL: 416.1,
-  positions: [
-    {
-      symbol: "BTCUSDT",
-      quantity: 0.083,
-      entryPrice: 62_540.0,
-      markPrice: BASE_BTC,
-      unrealizedPnL: 441.0,
-      unrealizedPnLPercent: 0.85,
-    },
-    {
-      symbol: "ETHUSDT",
-      quantity: 1.5,
-      entryPrice: 3_280.0,
-      markPrice: BASE_ETH,
-      unrealizedPnL: -24.9,
-      unrealizedPnLPercent: -0.51,
-    },
-  ],
-};
-
-interface TradeHistory {
-  id: string;
-  symbol: string;
-  side: "buy" | "sell";
-  price: number;
-  qty: number;
-  total: number;
-  pnl: number;
-  time: string;
-}
-
-const mockTrades: TradeHistory[] = [
-  {
-    id: "1",
-    symbol: "BTCUSDT",
-    side: "buy",
-    price: 62_540.0,
-    qty: 0.083,
-    total: 5_190.82,
-    pnl: 218.5,
-    time: "2026-03-28 09:14",
-  },
-  {
-    id: "2",
-    symbol: "ETHUSDT",
-    side: "buy",
-    price: 3_280.0,
-    qty: 1.5,
-    total: 4_920.0,
-    pnl: -54.3,
-    time: "2026-03-27 14:33",
-  },
-  {
-    id: "3",
-    symbol: "BTCUSDT",
-    side: "sell",
-    price: 65_100.0,
-    qty: 0.05,
-    total: 3_255.0,
-    pnl: 128.0,
-    time: "2026-03-25 11:07",
-  },
-  {
-    id: "4",
-    symbol: "SOLUSDT",
-    side: "buy",
-    price: 148.4,
-    qty: 10,
-    total: 1_484.0,
-    pnl: -32.1,
-    time: "2026-03-22 16:50",
-  },
-  {
-    id: "5",
-    symbol: "SOLUSDT",
-    side: "sell",
-    price: 155.2,
-    qty: 10,
-    total: 1_552.0,
-    pnl: 68.0,
-    time: "2026-03-24 08:21",
-  },
-];
 
 function RouteComponent() {
   return (
@@ -128,9 +39,9 @@ function RouteComponent() {
           style={{ backgroundColor: "var(--color-card)" }}
         >
           <BalanceDisplay
-            totalBalance={mockState.totalBalance}
-            availableBalance={mockState.availableBalance}
-            unrealizedPnL={mockState.unrealizedPnL}
+            totalBalance={MOCK_PORTFOLIO_STATE.totalBalance}
+            availableBalance={MOCK_PORTFOLIO_STATE.availableBalance}
+            unrealizedPnL={MOCK_PORTFOLIO_STATE.unrealizedPnL}
           />
         </div>
 
@@ -139,7 +50,7 @@ function RouteComponent() {
             Open Positions
           </h2>
           <div className="grid grid-cols-2 gap-3">
-            {mockState.positions.map((pos) => (
+            {MOCK_PORTFOLIO_STATE.positions.map((pos) => (
               <PositionCard key={pos.symbol} position={pos} />
             ))}
           </div>
@@ -168,7 +79,7 @@ function RouteComponent() {
               </tr>
             </thead>
             <tbody>
-              {mockTrades.map((t) => (
+              {MOCK_PORTFOLIO_TRADES.map((t) => (
                 <tr
                   key={t.id}
                   className="border-b border-border/40 hover:bg-muted/20 transition-colors"

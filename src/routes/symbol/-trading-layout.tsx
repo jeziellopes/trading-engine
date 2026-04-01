@@ -1,103 +1,34 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
+import type { Layout, ResponsiveLayouts } from "@/features/trading/trading-grid";
+
+const TradingGrid = lazy(() => import("@/features/trading/trading-grid"));
 import { Link } from "@tanstack/react-router";
-import type { Layout, ResponsiveLayouts } from "react-grid-layout/legacy";
-import { Responsive, WidthProvider } from "react-grid-layout/legacy";
-import "react-grid-layout/css/styles.css";
 import { OrderBook } from "@/features/order-book/order-book";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
 import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
-import { MOCK_BOTS } from "@/features/bots/mock-bots";
+import {
+  MOCK_BASE_BTC,
+  MOCK_BOTS,
+  MOCK_CANDLE_MAX,
+  MOCK_CANDLE_MIN,
+  MOCK_CANDLE_RANGE,
+  MOCK_CANDLES,
+  MOCK_CHANGE_PCT,
+  MOCK_ORDER_BOOK_STATE,
+  MOCK_PORTFOLIO_SUMMARY,
+  MOCK_TRADING_TRADES,
+} from "@/lib/mock-data";
 import type { BotInstance, BotStatus } from "@/features/bots/types";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { CandleChart } from "@/features/chart/candle-chart";
 import { toast } from "sonner";
 
-const ResponsiveGridLayout = WidthProvider(Responsive);
 
 interface TradingLayoutProps {
   symbol: string;
 }
 
-// ── Mock data ─────────────────────────────────────────────────────────────────
-
-const BASE = 67843.5;
-const MOCK_CHANGE_PCT = 2.34; // positive = up day
-
-const mockOrderBookState = {
-  bids: [
-    { price: 67843.5, quantity: 0.842, total: 57154.4, percent: 72 },
-    { price: 67840.0, quantity: 1.205, total: 81746.4, percent: 65 },
-    { price: 67836.5, quantity: 2.1, total: 142456.7, percent: 55 },
-    { price: 67833.0, quantity: 0.56, total: 37986.5, percent: 48 },
-    { price: 67829.0, quantity: 3.42, total: 231975.2, percent: 88 },
-    { price: 67825.5, quantity: 1.875, total: 127173.2, percent: 62 },
-    { price: 67821.0, quantity: 0.33, total: 22380.9, percent: 28 },
-    { price: 67817.5, quantity: 4.2, total: 284833.5, percent: 100 },
-    { price: 67813.0, quantity: 1.05, total: 71203.7, percent: 45 },
-    { price: 67809.0, quantity: 2.68, total: 181728.1, percent: 78 },
-    { price: 67804.5, quantity: 0.92, total: 62380.1, percent: 38 },
-    { price: 67800.0, quantity: 5.15, total: 349170.0, percent: 95 },
-  ],
-  asks: [
-    { price: 67846.0, quantity: 0.612, total: 41522.0, percent: 42 },
-    { price: 67849.5, quantity: 1.43, total: 97024.8, percent: 58 },
-    { price: 67853.0, quantity: 0.275, total: 18659.6, percent: 22 },
-    { price: 67856.5, quantity: 2.8, total: 189998.2, percent: 82 },
-    { price: 67860.0, quantity: 1.1, total: 74646.0, percent: 50 },
-    { price: 67863.5, quantity: 0.455, total: 30877.9, percent: 32 },
-    { price: 67867.0, quantity: 3.6, total: 244321.2, percent: 90 },
-    { price: 67870.5, quantity: 0.89, total: 60404.8, percent: 40 },
-    { price: 67874.0, quantity: 1.76, total: 119458.2, percent: 68 },
-    { price: 67877.5, quantity: 0.34, total: 23078.4, percent: 25 },
-    { price: 67881.0, quantity: 2.1, total: 142550.1, percent: 72 },
-    { price: 67884.5, quantity: 4.8, total: 325845.6, percent: 98 },
-  ],
-  bestBid: 67843.5,
-  bestAsk: 67846.0,
-  lastPrice: BASE,
-  spreadAmount: 2.5,
-  spreadPercent: 0.0037,
-  connectionStatus: "connected" as const,
-  lastPriceTick: "up" as const,
-};
-
-const mockPortfolioSummary = {
-  totalBalance: 10_423.7,
-  investments: 10_110.82,
-  dailyProfit: 142.3,
-  dailyProfitPct: 1.43,
-  totalPnL: 416.1,
-  totalPnLPct: 4.19,
-};
-
-interface Trade {
-  time: string;
-  price: number;
-  qty: number;
-  side: "buy" | "sell";
-  total: number;
-  pnl: number;
-  botId?: string;
-}
-
-const mockTrades: Trade[] = [
-  { time: "14:32:07", price: 67843.5, qty: 0.042, side: "buy", total: 2848.83, pnl: 12.4, botId: "bot-1" },
-  { time: "14:32:06", price: 67841.0, qty: 0.18, side: "sell", total: 12211.38, pnl: -34.2, botId: "bot-1" },
-  { time: "14:32:05", price: 67844.5, qty: 0.012, side: "buy", total: 814.13, pnl: 3.1, botId: "bot-2" },
-  { time: "14:32:04", price: 67840.0, qty: 0.56, side: "sell", total: 37990.4, pnl: -88.5, botId: "bot-2" },
-  { time: "14:32:03", price: 67845.0, qty: 0.091, side: "buy", total: 6173.9, pnl: 21.7, botId: "bot-1" },
-  { time: "14:32:02", price: 67842.5, qty: 0.033, side: "sell", total: 2238.8, pnl: -9.3, botId: "bot-2" },
-  { time: "14:32:01", price: 67846.0, qty: 0.207, side: "buy", total: 14044.12, pnl: 45.8, botId: "bot-1" },
-  { time: "14:32:00", price: 67839.5, qty: 0.115, side: "sell", total: 7801.54, pnl: -22.1, botId: "bot-2" },
-  { time: "14:31:59", price: 67847.0, qty: 0.044, side: "buy", total: 2985.27, pnl: 8.9 },
-  { time: "14:31:58", price: 67838.0, qty: 0.38, side: "sell", total: 25778.44, pnl: -61.0 },
-  { time: "14:31:57", price: 67848.5, qty: 0.022, side: "buy", total: 1492.67, pnl: 4.2 },
-  { time: "14:31:56", price: 67836.5, qty: 0.095, side: "sell", total: 6444.47, pnl: -18.7 },
-  { time: "14:31:55", price: 67850.0, qty: 0.611, side: "buy", total: 41456.35, pnl: 103.5 },
-  { time: "14:31:54", price: 67835.0, qty: 0.017, side: "sell", total: 1153.2, pnl: -5.4 },
-  { time: "14:31:53", price: 67851.5, qty: 0.088, side: "buy", total: 5970.93, pnl: 17.6 },
-];
 
 // ── Panel wrapper ──────────────────────────────────────────────────────────────
 
@@ -215,7 +146,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
           className="font-mono text-xl tabular-nums font-semibold"
           style={{ color: "var(--trading-tick-up)" }}
         >
-          {BASE.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+          {MOCK_BASE_BTC.toLocaleString("en-US", { minimumFractionDigits: 2 })}
         </span>
         <span
           className="font-mono text-xs tabular-nums px-1.5 py-0.5 rounded"
@@ -243,7 +174,8 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
       </div>
 
       {/* ── Draggable grid ──────────────────────────────── */}
-      <ResponsiveGridLayout
+      <Suspense fallback={<div className="w-full h-[600px] grid grid-cols-12 gap-2 p-3">{[...Array(6)].map((_, i) => <div key={i} className="col-span-4 h-[200px] rounded-md bg-muted animate-pulse" />)}</div>}>
+      <TradingGrid
         className="layout"
         layouts={layouts}
         breakpoints={{ lg: 1200, md: 996, sm: 768 }}
@@ -256,7 +188,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
         <div key="book">
           <ErrorBoundary>
           <Panel title="Order Book">
-            <OrderBook state={mockOrderBookState} />
+            <OrderBook state={MOCK_ORDER_BOOK_STATE} />
           </Panel>
           </ErrorBoundary>
         </div>
@@ -314,7 +246,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                 </p>
                 <p className="text-sm font-mono tabular-nums font-semibold">
                   $
-                  {mockPortfolioSummary.totalBalance.toLocaleString("en-US", {
+                  {MOCK_PORTFOLIO_SUMMARY.totalBalance.toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                   })}
                 </p>
@@ -325,7 +257,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                 </p>
                 <p className="text-sm font-mono tabular-nums font-semibold">
                   $
-                  {mockPortfolioSummary.investments.toLocaleString("en-US", {
+                  {MOCK_PORTFOLIO_SUMMARY.investments.toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                   })}
                 </p>
@@ -338,9 +270,9 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                   className="text-sm font-mono tabular-nums font-semibold"
                   style={{ color: "var(--trading-profit)" }}
                 >
-                  +${mockPortfolioSummary.dailyProfit.toFixed(2)}{" "}
+                  +${MOCK_PORTFOLIO_SUMMARY.dailyProfit.toFixed(2)}{" "}
                   <span className="text-xs opacity-70">
-                    +{mockPortfolioSummary.dailyProfitPct}%
+                    +{MOCK_PORTFOLIO_SUMMARY.dailyProfitPct}%
                   </span>
                 </p>
               </div>
@@ -352,8 +284,8 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                   className="text-sm font-mono tabular-nums font-semibold"
                   style={{ color: "var(--trading-profit)" }}
                 >
-                  +${mockPortfolioSummary.totalPnL.toFixed(2)}{" "}
-                  <span className="text-xs opacity-70">+{mockPortfolioSummary.totalPnLPct}%</span>
+                  +${MOCK_PORTFOLIO_SUMMARY.totalPnL.toFixed(2)}{" "}
+                  <span className="text-xs opacity-70">+{MOCK_PORTFOLIO_SUMMARY.totalPnLPct}%</span>
                 </p>
               </div>
               <div>
@@ -404,7 +336,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                   </tr>
                 </thead>
                 <tbody>
-                  {mockTrades.map((t) => (
+                  {MOCK_TRADING_TRADES.map((t) => (
                     <tr
                       key={`${t.time}-${t.price}`}
                       className="border-b border-border/40 hover:bg-muted/30 transition-colors"
@@ -459,7 +391,8 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
             </div>
           </Panel>
         </div>
-      </ResponsiveGridLayout>
+      </TradingGrid>
+      </Suspense>
     </div>
     </ErrorBoundary>
   );
