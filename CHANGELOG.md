@@ -1,3 +1,10 @@
+# [1.0.0-next.5](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.4...v1.0.0-next.5) (2026-04-01)
+
+
+### Bug Fixes
+
+* **design-system:** correct Flowa theme — forest primary, full 3-colour palette, DS page visibility ([243737c](https://github.com/jeziellopes/trading-engine/commit/243737cfd301c877f8431c740543514ec988e2ac)), closes [#12](https://github.com/jeziellopes/trading-engine/issues/12) [#25352D](https://github.com/jeziellopes/trading-engine/issues/25352D) [#c2e189](https://github.com/jeziellopes/trading-engine/issues/c2e189) [#9354BB](https://github.com/jeziellopes/trading-engine/issues/9354BB)
+
 # [1.0.0-next.4](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.3...v1.0.0-next.4) (2026-04-01)
 
 
