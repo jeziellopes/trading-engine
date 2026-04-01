@@ -6,6 +6,30 @@ on:
     types: [opened, edited, synchronize, reopened, labeled, unlabeled, milestoned, demilestoned]
 
 jobs:
+  pr-hygiene-base-branch:
+    name: Base branch
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Enforce develop as base for feature PRs
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const base = context.payload.pull_request.base.ref;
+            const head = context.payload.pull_request.head.ref;
+
+            // develop → main is the only PR allowed to target main
+            if (base === 'main' && head !== 'develop') {
+              core.setFailed(
+                `PRs must target \`develop\`, not \`main\`.\n` +
+                `Only the release promotion PR (develop → main) may target main.\n` +
+                `Re-open this PR with base: develop.`
+              );
+            } else {
+              core.notice(`✅ Base branch valid: ${head} → ${base}`);
+            }
+
   pr-hygiene-title:
     name: PR title format
     runs-on: ubuntu-latest
