@@ -70,4 +70,22 @@ describe("Button", () => {
     render(<Button ref={ref}>Ref</Button>);
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);
   });
+
+  it("applies font-normal on base variant", () => {
+    render(<Button>Base</Button>);
+    const btn = screen.getByRole("button");
+    expect(btn).toHaveClass("font-normal");
+  });
+
+  it("applies font-medium on buy variant", () => {
+    render(<Button intent="buy">Buy</Button>);
+    const btn = screen.getByRole("button");
+    expect(btn).toHaveClass("font-medium");
+  });
+
+  it("applies font-medium on sell variant", () => {
+    render(<Button intent="sell">Sell</Button>);
+    const btn = screen.getByRole("button");
+    expect(btn).toHaveClass("font-medium");
+  });
 });

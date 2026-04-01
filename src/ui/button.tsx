@@ -2,15 +2,15 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)] disabled:opacity-50 disabled:cursor-not-allowed",
+  "inline-flex items-center justify-center rounded-md font-normal transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)] disabled:opacity-50 disabled:cursor-not-allowed",
   {
     variants: {
       intent: {
         primary: "bg-primary text-primary-foreground hover:bg-primary/90",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
         danger: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        buy: "bg-[color:var(--trading-bid)] text-foreground font-semibold hover:opacity-90",
-        sell: "bg-[color:var(--trading-ask)] text-foreground font-semibold hover:opacity-90",
+        buy: "bg-[color:var(--trading-bid)] text-foreground font-medium hover:opacity-90",
+        sell: "bg-[color:var(--trading-ask)] text-foreground font-medium hover:opacity-90",
         ghost: "bg-transparent text-foreground hover:bg-muted",
       },
       size: {
