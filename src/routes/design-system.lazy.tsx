@@ -23,7 +23,7 @@ export const Route = createLazyFileRoute("/design-system")({
 
 // ── Theme switcher ───────────────────────────────────────────────────────────────────────────────────
 
-type ThemeId = "soft" | "night-city" | "maelstrom" | "corpo-ice" | "netrunner";
+type ThemeId = "soft" | "night-city" | "maelstrom" | "corpo-ice" | "netrunner" | "flowa";
 type ModeId = "dark" | "light" | "vibrant";
 
 const THEMES: { id: ThemeId; label: string; accent: string }[] = [
@@ -32,6 +32,7 @@ const THEMES: { id: ThemeId; label: string; accent: string }[] = [
   { id: "maelstrom", label: "Maelstrom", accent: "oklch(0.56 0.28 316)" },
   { id: "corpo-ice", label: "Corpo Ice", accent: "oklch(0.88 0.18 215)" },
   { id: "netrunner", label: "Netrunner", accent: "oklch(0.62 0.22 280)" },
+  { id: "flowa",      label: "Flowa",      accent: "oklch(0.21 0.030 155)" },
 ];
 
 const MODES: { id: ModeId; label: string }[] = [
