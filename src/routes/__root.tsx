@@ -4,6 +4,7 @@ import { Check, ChevronDown, Moon, Sun, Zap } from "lucide-react";
 import { SymbolSelector } from "@/ui/symbol-selector";
 import { toast, Toaster } from "sonner";
 import { ErrorBoundary } from "@/ui/error-boundary";
+import { MOCK_NAV } from "@/lib/mock-data";
 import { Button } from "@/ui/button";
 
 type ThemeId = "soft" | "night-city" | "maelstrom" | "corpo-ice" | "netrunner" | "flowa";
@@ -150,10 +151,6 @@ export const Route = createRootRoute({
   component: RootComponent,
 });
 
-const MOCK_NAV = {
-  balance: 10_423.7,
-  dailyPnLPct: 1.43,
-};
 
 function RootComponent() {
   return (

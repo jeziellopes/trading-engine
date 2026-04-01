@@ -1,66 +1,49 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { MOCK_ORDER_BOOK_STATE } from "@/lib/mock-data";
 import { OrderBook } from "./order-book";
 
 describe("OrderBook", () => {
-  const mockState = {
-    bids: [
-      { price: 42502.0, quantity: 1.5, total: 63753.0, percent: 55 },
-      { price: 42501.0, quantity: 2.2, total: 93502.2, percent: 45 },
-    ],
-    asks: [
-      { price: 42504.0, quantity: 1.0, total: 42504.0, percent: 40 },
-      { price: 42505.0, quantity: 2.5, total: 106262.5, percent: 60 },
-    ],
-    bestBid: 42502.0,
-    bestAsk: 42504.0,
-    lastPrice: 42503.0,
-    spreadAmount: 2.0,
-    spreadPercent: 0.0047,
-    connectionStatus: "connected" as const,
-    lastPriceTick: "up" as const,
-  };
-
   it("renders connection banner", () => {
-    const state = { ...mockState, connectionStatus: "reconnecting" as const };
+    const state = { ...MOCK_ORDER_BOOK_STATE, connectionStatus: "reconnecting" as const };
     render(<OrderBook state={state} />);
     expect(screen.getByText(/Reconnecting/)).toBeInTheDocument();
   });
 
   it("renders spread bar", () => {
-    render(<OrderBook state={mockState} />);
+    render(<OrderBook state={MOCK_ORDER_BOOK_STATE} />);
     expect(screen.getByText(/Spread:/)).toBeInTheDocument();
   });
 
   it("renders bid and ask tables", () => {
-    const { container } = render(<OrderBook state={mockState} />);
+    const { container } = render(<OrderBook state={MOCK_ORDER_BOOK_STATE} />);
     // Should have bids and asks
     const allText = container.textContent;
-    expect(allText).toContain("42502.00"); // bid
-    expect(allText).toContain("42504.00"); // ask
+    expect(allText).toContain("67843.50"); // bid
+    expect(allText).toContain("67846.00"); // ask
   });
 
   it("applies correct container styling", () => {
-    const { container } = render(<OrderBook state={mockState} />);
+    const { container } = render(<OrderBook state={MOCK_ORDER_BOOK_STATE} />);
     const orderbook = container.firstChild;
     expect(orderbook).toHaveClass("flex", "flex-col", "w-full", "h-full", "font-mono", "text-sm");
     expect(orderbook).not.toHaveClass("overflow-y-auto");
   });
 
   it("asks container scrolls independently", () => {
-    render(<OrderBook state={mockState} />);
+    render(<OrderBook state={MOCK_ORDER_BOOK_STATE} />);
     const asksContainer = screen.getByTestId("asks-container");
     expect(asksContainer).toHaveClass("overflow-y-auto", "flex-1");
   });
 
   it("bids container scrolls independently", () => {
-    render(<OrderBook state={mockState} />);
+    render(<OrderBook state={MOCK_ORDER_BOOK_STATE} />);
     const bidsContainer = screen.getByTestId("bids-container");
     expect(bidsContainer).toHaveClass("overflow-y-auto", "flex-1");
   });
 
   it("spread bar is not inside a scrollable container", () => {
-    const { container } = render(<OrderBook state={mockState} />);
+    const { container } = render(<OrderBook state={MOCK_ORDER_BOOK_STATE} />);
     const spreadText = screen.getByText(/Spread:/);
     const rootContainer = container.firstChild;
     // Walk up from the spread text to find the direct child of root
@@ -73,7 +56,7 @@ describe("OrderBook", () => {
   });
 
   it("asks container is bottom-aligned", () => {
-    render(<OrderBook state={mockState} />);
+    render(<OrderBook state={MOCK_ORDER_BOOK_STATE} />);
     const asksContainer = screen.getByTestId("asks-container");
     expect(asksContainer).toHaveClass("justify-end");
   });

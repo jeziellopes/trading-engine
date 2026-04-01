@@ -15,6 +15,7 @@ import { Button } from "@/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/ui/card";
 import { DepthBar } from "@/ui/depth-bar";
 import { Input } from "@/ui/input";
+import { MOCK_DS_BIDS, MOCK_DS_ASKS, MOCK_DS_TRADES } from "@/lib/mock-data";
 
 export const Route = createLazyFileRoute("/design-system")({
   component: DesignSystemShowcase,
@@ -124,27 +125,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   );
 }
 
-const MOCK_BIDS = [
-  { price: 67842.5, quantity: 1.24, total: 84124.7, percent: 72 },
-  { price: 67840.0, quantity: 0.85, total: 57664.0, percent: 55 },
-  { price: 67838.5, quantity: 2.1, total: 142460.9, percent: 88 },
-  { price: 67835.0, quantity: 0.42, total: 28490.7, percent: 28 },
-];
 
-const MOCK_ASKS = [
-  { price: 67845.0, quantity: 0.92, total: 62417.4, percent: 48 },
-  { price: 67847.5, quantity: 1.55, total: 105163.6, percent: 65 },
-  { price: 67850.0, quantity: 3.21, total: 217798.5, percent: 100 },
-  { price: 67852.5, quantity: 0.78, total: 52925.0, percent: 38 },
-];
-
-const MOCK_TRADES = [
-  { time: "14:32:51", price: 67843.5, qty: 0.52, side: "buy" as const },
-  { time: "14:32:49", price: 67841.0, qty: 1.2, side: "sell" as const },
-  { time: "14:32:48", price: 67843.5, qty: 2.1, side: "buy" as const },
-  { time: "14:32:46", price: 67840.0, qty: 0.35, side: "sell" as const },
-  { time: "14:32:44", price: 67844.0, qty: 0.88, side: "buy" as const },
-];
 
 // ── Contrast audit (live DOM read) ───────────────────────────────────────────────
 
@@ -551,7 +532,7 @@ function DesignSystemShowcase() {
           <div className="max-w-xs bg-ds-gray-100 rounded-md border border-border overflow-hidden">
             {/* Asks (reversed — lowest ask at bottom, closest to spread) */}
             <div className="flex flex-col-reverse">
-              {MOCK_ASKS.map((level) => (
+              {MOCK_DS_ASKS.map((level) => (
                 <div
                   key={level.price}
                   className="relative grid grid-cols-3 gap-2 tabular-nums font-mono text-sm px-2 py-px"
@@ -579,7 +560,7 @@ function DesignSystemShowcase() {
 
             {/* Bids */}
             <div>
-              {MOCK_BIDS.map((level) => (
+              {MOCK_DS_BIDS.map((level) => (
                 <div
                   key={level.price}
                   className="relative grid grid-cols-3 gap-2 tabular-nums font-mono text-sm px-2 py-px"
@@ -630,7 +611,7 @@ function DesignSystemShowcase() {
               <span>Price</span>
               <span className="text-right">Qty</span>
             </div>
-            {MOCK_TRADES.map((trade) => (
+            {MOCK_DS_TRADES.map((trade) => (
               <div
                 key={`${trade.time}-${trade.price}`}
                 className="grid grid-cols-3 gap-x-2 px-2 py-px text-xs font-mono tabular-nums"
