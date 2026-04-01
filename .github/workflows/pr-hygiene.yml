@@ -2,23 +2,15 @@ name: PR Hygiene
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, develop]
     types: [opened, edited, synchronize, reopened, labeled, unlabeled, milestoned, demilestoned]
 
 jobs:
-  skip-check:
-    name: Skip check
-    runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'release-please--')
-    steps:
-      - run: echo "Skipping hygiene checks for release-please branch"
-
   pr-hygiene-title:
     name: PR title format
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
     steps:
       - name: Check PR title format
         uses: actions/github-script@v7
@@ -45,7 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
     steps:
       - name: Check required labels
         uses: actions/github-script@v7
@@ -70,30 +61,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
     steps:
       - name: Check milestone assignment
         uses: actions/github-script@v7
         with:
           script: |
-            const branch = context.payload.pull_request.head.ref;
             const milestone = context.payload.pull_request.milestone;
-            const isReleaseBranch = /^release\/v\d+\.\d+\.\d+/.test(branch);
-
-            if (!isReleaseBranch) {
-              core.notice(
-                `✅ Development PR — milestone optional (assigned at release time).`
-              );
-              return;
-            }
             if (milestone) {
-              core.notice(`✅ Release PR has milestone: ${milestone.title}`);
-              return;
+              core.notice(`✅ Milestone assigned: ${milestone.title}`);
+            } else {
+              core.notice(`ℹ️  No milestone — semantic-release handles versioning automatically.`);
             }
-            core.setFailed(
-              `Release PR "${branch}" is missing a required milestone.\n` +
-              `Assign the target version milestone before merging.`
-            );
 
   pr-hygiene-docs:
     name: Documentation freshness
@@ -101,7 +79,6 @@ jobs:
     permissions:
       pull-requests: read
       contents: read
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
     steps:
       - name: Check docs freshness on feat PRs
         uses: actions/github-script@v7
