@@ -1,3 +1,15 @@
+# [1.0.0-next.6](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.5...v1.0.0-next.6) (2026-04-01)
+
+
+### Bug Fixes
+
+* **ci:** remove invalid biome --check flag from code-quality workflow ([5755ea4](https://github.com/jeziellopes/trading-engine/commit/5755ea45cce165ddb29d9f16132271b05f5f480b))
+
+
+### Features
+
+* **ui:** add Select, Label, Textarea primitives; wire Button/Input in bot forms ([d53c7be](https://github.com/jeziellopes/trading-engine/commit/d53c7be248a340ea9ba6f4108f6472ab35ee6ca3))
+
 # [1.0.0-next.5](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.4...v1.0.0-next.5) (2026-04-01)
 
 
