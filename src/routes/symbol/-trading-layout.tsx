@@ -130,22 +130,22 @@ function Panel({ title, children, noScroll = false, headerExtra }: PanelProps) {
 
 // ── Grid layout config ─────────────────────────────────────────────────────────
 
-const LAYOUT_KEY = "trading-grid-layout-v3";
+const LAYOUT_KEY = "trading-grid-layout-v4";
 
 const DEFAULT_LAYOUTS = {
   lg: [
     { i: "book", x: 0, y: 0, w: 3, h: 8 },
     { i: "chart", x: 3, y: 0, w: 6, h: 8 },
-    { i: "order", x: 9, y: 0, w: 3, h: 5 },
-    { i: "portfolio", x: 9, y: 5, w: 3, h: 3 },
+    { i: "order", x: 9, y: 3, w: 3, h: 5 },
+    { i: "portfolio", x: 9, y: 0, w: 3, h: 3 },
     { i: "bots", x: 0, y: 8, w: 12, h: 5 },
     { i: "trades", x: 0, y: 13, w: 12, h: 4 },
   ],
   md: [
     { i: "book", x: 0, y: 0, w: 3, h: 8 },
     { i: "chart", x: 3, y: 0, w: 7, h: 8 },
-    { i: "order", x: 0, y: 8, w: 5, h: 5 },
-    { i: "portfolio", x: 5, y: 8, w: 5, h: 3 },
+    { i: "order", x: 5, y: 8, w: 5, h: 5 },
+    { i: "portfolio", x: 0, y: 8, w: 5, h: 3 },
     { i: "bots", x: 0, y: 13, w: 10, h: 5 },
     { i: "trades", x: 0, y: 18, w: 10, h: 4 },
   ],
