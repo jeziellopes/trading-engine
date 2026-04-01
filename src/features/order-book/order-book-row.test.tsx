@@ -20,13 +20,13 @@ describe("OrderBookRow", () => {
   it("applies bid styling to side=bid", () => {
     render(<OrderBookRow level={mockLevel} side="bid" />);
     const priceCell = screen.getByText("42500.50");
-    expect(priceCell).toHaveClass("text-[color:var(--trading-bid)]");
+    expect(priceCell).toHaveClass("text-trading-bid");
   });
 
   it("applies ask styling to side=ask", () => {
     render(<OrderBookRow level={mockLevel} side="ask" />);
     const priceCell = screen.getByText("42500.50");
-    expect(priceCell).toHaveClass("text-[color:var(--trading-ask)]");
+    expect(priceCell).toHaveClass("text-trading-ask");
   });
 
   it("renders with correct layout classes", () => {

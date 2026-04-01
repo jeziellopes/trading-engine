@@ -14,8 +14,7 @@ interface OrderBookRowProps {
 }
 
 export function OrderBookRow({ level, side }: OrderBookRowProps) {
-  const textColor =
-    side === "bid" ? "text-[color:var(--trading-bid)]" : "text-[color:var(--trading-ask)]";
+  const textColor = side === "bid" ? "text-trading-bid" : "text-trading-ask";
 
   return (
     <div

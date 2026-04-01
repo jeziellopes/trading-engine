@@ -44,5 +44,37 @@ describe("OrderBook", () => {
     const { container } = render(<OrderBook state={mockState} />);
     const orderbook = container.firstChild;
     expect(orderbook).toHaveClass("flex", "flex-col", "w-full", "h-full", "font-mono", "text-sm");
+    expect(orderbook).not.toHaveClass("overflow-y-auto");
+  });
+
+  it("asks container scrolls independently", () => {
+    render(<OrderBook state={mockState} />);
+    const asksContainer = screen.getByTestId("asks-container");
+    expect(asksContainer).toHaveClass("overflow-y-auto", "flex-1");
+  });
+
+  it("bids container scrolls independently", () => {
+    render(<OrderBook state={mockState} />);
+    const bidsContainer = screen.getByTestId("bids-container");
+    expect(bidsContainer).toHaveClass("overflow-y-auto", "flex-1");
+  });
+
+  it("spread bar is not inside a scrollable container", () => {
+    const { container } = render(<OrderBook state={mockState} />);
+    const spreadText = screen.getByText(/Spread:/);
+    const rootContainer = container.firstChild;
+    // Walk up from the spread text to find the direct child of root
+    let el: HTMLElement | null = spreadText;
+    while (el && el.parentElement !== rootContainer) {
+      el = el.parentElement;
+    }
+    expect(el).not.toBeNull();
+    expect(el?.parentElement).toBe(rootContainer);
+  });
+
+  it("asks container is bottom-aligned", () => {
+    render(<OrderBook state={mockState} />);
+    const asksContainer = screen.getByTestId("asks-container");
+    expect(asksContainer).toHaveClass("justify-end");
   });
 });
