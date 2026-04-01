@@ -1,6 +1,7 @@
-import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronRight, Pause, Play, Plus, Square } from "lucide-react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { BotConfigForm, type BotConfigFormData } from "./bot-config-form";
 import { BotSparkline } from "./bot-sparkline";
 import type { BotInstance, BotStatus } from "./types";
@@ -11,16 +12,10 @@ interface BotManagerPanelProps {
   onCreateBot?: (data: BotConfigFormData) => void | Promise<void>;
 }
 
-function statusColor(status: BotInstance["status"]): string {
-  if (status === "running") return "var(--trading-bid)";
-  if (status === "paused") return "var(--color-muted-foreground)";
-  return "var(--trading-ask)";
-}
-
-function statusBg(status: BotInstance["status"]): string {
-  if (status === "running") return "var(--trading-bid-muted)";
-  if (status === "paused") return "var(--color-muted)";
-  return "var(--trading-ask-muted)";
+function statusClasses(status: BotInstance["status"]): string {
+  if (status === "running") return "text-trading-bid bg-trading-bid-muted";
+  if (status === "paused") return "text-muted-foreground bg-muted";
+  return "text-trading-ask bg-trading-ask-muted";
 }
 
 export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManagerPanelProps) {
@@ -37,11 +32,7 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
       <div className="px-3 pt-2 pb-1.5">
         <p className="text-[10px] font-mono text-muted-foreground">
           {runningCount} running ·{" "}
-          <span
-            style={{
-              color: totalPnl >= 0 ? "var(--trading-profit)" : "var(--trading-loss)",
-            }}
-          >
+          <span className={totalPnl >= 0 ? "text-trading-profit" : "text-trading-loss"}>
             {totalPnl >= 0 ? "+" : ""}
             {totalPnl.toFixed(2)} total P&L
           </span>{" "}
@@ -74,19 +65,27 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
 
       {/* Bot table */}
       <div className="px-3 pb-3 overflow-x-auto">
-        <table className="w-full text-xs" role="table">
+        <table className="w-full text-xs">
           <thead>
             <tr>
-              {["Name", "Strategy", "Symbol", "Status", "P&L", "Win%", "Sparkline", "Actions", ""].map(
-                (col) => (
-                  <th
-                    key={col}
-                    className="px-2 py-1.5 text-left text-[10px] text-muted-foreground font-normal uppercase tracking-wide"
-                  >
-                    {col}
-                  </th>
-                )
-              )}
+              {[
+                "Name",
+                "Strategy",
+                "Symbol",
+                "Status",
+                "P&L",
+                "Win%",
+                "Sparkline",
+                "Actions",
+                "",
+              ].map((col) => (
+                <th
+                  key={col}
+                  className="px-2 py-1.5 text-left text-[10px] text-muted-foreground font-normal uppercase tracking-wide"
+                >
+                  {col}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -110,13 +109,7 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
 
                   {/* Strategy */}
                   <td className="px-2 py-1.5">
-                    <span
-                      className="rounded-full px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wide"
-                      style={{
-                        backgroundColor: "var(--color-muted)",
-                        color: "var(--color-muted-foreground)",
-                      }}
-                    >
+                    <span className="rounded-full px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wide bg-muted text-muted-foreground">
                       {bot.strategy}
                     </span>
                   </td>
@@ -129,11 +122,10 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
                   {/* Status */}
                   <td className="px-2 py-1.5">
                     <span
-                      className="rounded-full px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wide font-semibold"
-                      style={{
-                        backgroundColor: statusBg(bot.status),
-                        color: statusColor(bot.status),
-                      }}
+                      className={cn(
+                        "rounded-full px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wide font-semibold",
+                        statusClasses(bot.status),
+                      )}
                     >
                       {bot.status}
                     </span>
@@ -142,10 +134,10 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
                   {/* P&L */}
                   <td className="px-2 py-1.5">
                     <span
-                      className="text-xs font-mono"
-                      style={{
-                        color: pnl >= 0 ? "var(--trading-profit)" : "var(--trading-loss)",
-                      }}
+                      className={cn(
+                        "text-xs font-mono",
+                        pnl >= 0 ? "text-trading-profit" : "text-trading-loss",
+                      )}
                     >
                       {pnl >= 0 ? "+" : ""}
                       {pnl.toFixed(2)}
@@ -166,6 +158,7 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
                       {bot.status === "running" && (
                         <>
                           <button
+                            type="button"
                             className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                             title="Pause"
                             aria-label="Pause bot"
@@ -174,8 +167,8 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
                             <Pause size={11} />
                           </button>
                           <button
-                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
-                            style={{ color: "var(--trading-ask)" }}
+                            type="button"
+                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-trading-ask hover:text-foreground hover:bg-muted transition-colors"
                             title="Stop"
                             aria-label="Stop bot"
                             onClick={() => onStatusChange(bot.id, "stopped")}
@@ -187,8 +180,8 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
                       {bot.status === "paused" && (
                         <>
                           <button
-                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
-                            style={{ color: "var(--trading-bid)" }}
+                            type="button"
+                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-trading-bid hover:text-foreground hover:bg-muted transition-colors"
                             title="Run"
                             aria-label="Run bot"
                             onClick={() => onStatusChange(bot.id, "running")}
@@ -196,8 +189,8 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
                             <Play size={11} />
                           </button>
                           <button
-                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
-                            style={{ color: "var(--trading-ask)" }}
+                            type="button"
+                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-trading-ask hover:text-foreground hover:bg-muted transition-colors"
                             title="Stop"
                             aria-label="Stop bot"
                             onClick={() => onStatusChange(bot.id, "stopped")}
@@ -208,8 +201,8 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
                       )}
                       {bot.status === "stopped" && (
                         <button
-                          className="flex items-center justify-center w-6 h-6 rounded cursor-pointer hover:text-foreground hover:bg-muted transition-colors"
-                          style={{ color: "var(--trading-bid)" }}
+                          type="button"
+                          className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-trading-bid hover:text-foreground hover:bg-muted transition-colors"
                           title="Run"
                           aria-label="Run bot"
                           onClick={() => onStatusChange(bot.id, "running")}

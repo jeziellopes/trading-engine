@@ -13,11 +13,10 @@ const badgeVariants = cva("inline-flex items-center rounded font-mono transition
       // Numeric stat with dark bg
       stat: "text-xs bg-ds-gray-800 px-2 py-1",
       // Trading side badges
-      buy: "text-[10px] px-1.5 py-0.5 text-[color:var(--trading-bid)] border border-[color:var(--trading-bid)]/30",
-      sell: "text-[10px] px-1.5 py-0.5 text-[color:var(--trading-ask)] border border-[color:var(--trading-ask)]/30",
+      buy: "text-[10px] px-1.5 py-0.5 text-trading-bid border border-trading-bid/30",
+      sell: "text-[10px] px-1.5 py-0.5 text-trading-ask border border-trading-ask/30",
       // Order status
-      filled:
-        "text-[10px] px-1.5 py-0.5 text-[color:var(--trading-profit)] border border-[color:var(--trading-profit)]/30",
+      filled: "text-[10px] px-1.5 py-0.5 text-trading-profit border border-trading-profit/30",
       cancelled: "text-[10px] px-1.5 py-0.5 text-muted-foreground border border-border",
       open: "text-[10px] px-1.5 py-0.5 text-primary border border-primary/30",
     },

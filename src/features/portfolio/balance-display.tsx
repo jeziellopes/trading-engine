@@ -12,9 +12,7 @@ export function BalanceDisplay({
   unrealizedPnL,
 }: BalanceDisplayProps) {
   const isProfitable = unrealizedPnL >= 0;
-  const pnlColor = isProfitable
-    ? "text-[color:var(--trading-profit)]"
-    : "text-[color:var(--trading-loss)]";
+  const pnlColor = isProfitable ? "text-trading-profit" : "text-trading-loss";
 
   return (
     <div className="space-y-4 font-mono text-xs">
