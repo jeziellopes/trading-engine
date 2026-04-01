@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_SYMBOL, SYMBOL_CATEGORIES, SYMBOLS, findSymbol } from "./symbols";
+import { DEFAULT_SYMBOL, findSymbol, SYMBOL_CATEGORIES, SYMBOLS } from "./symbols";
 
 describe("SYMBOLS", () => {
   it("has 18 entries", () => {

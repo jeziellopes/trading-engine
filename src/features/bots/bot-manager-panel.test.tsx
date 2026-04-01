@@ -5,8 +5,26 @@ import type { BotInstance, BotStatus, BotStrategy } from "./types";
 
 // Mock tanstack router Link
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ children, to, params, title, className }: { children: React.ReactNode; to: string; params?: Record<string, string>; title?: string; className?: string }) => (
-    <a href={`${to}${params ? `/${Object.values(params).join("/")}` : ""}`} title={title} className={className}>{children}</a>
+  Link: ({
+    children,
+    to,
+    params,
+    title,
+    className,
+  }: {
+    children: React.ReactNode;
+    to: string;
+    params?: Record<string, string>;
+    title?: string;
+    className?: string;
+  }) => (
+    <a
+      href={`${to}${params ? `/${Object.values(params).join("/")}` : ""}`}
+      title={title}
+      className={className}
+    >
+      {children}
+    </a>
   ),
 }));
 
@@ -43,21 +61,13 @@ describe("BotManagerPanel", () => {
   });
 
   it("shows correct running count", () => {
-    const bots = makeBots([
-      { status: "running" },
-      { status: "running" },
-      { status: "paused" },
-    ]);
+    const bots = makeBots([{ status: "running" }, { status: "running" }, { status: "paused" }]);
     render(<BotManagerPanel bots={bots} onStatusChange={vi.fn()} />);
     expect(screen.getByText(/2 running/)).toBeInTheDocument();
   });
 
   it("shows zero running when all stopped", () => {
-    const bots = makeBots([
-      { status: "stopped" },
-      { status: "stopped" },
-      { status: "stopped" },
-    ]);
+    const bots = makeBots([{ status: "stopped" }, { status: "stopped" }, { status: "stopped" }]);
     render(<BotManagerPanel bots={bots} onStatusChange={vi.fn()} />);
     expect(screen.getByText(/0 running/)).toBeInTheDocument();
   });
@@ -74,17 +84,13 @@ describe("BotManagerPanel", () => {
   });
 
   it("total P&L shows + prefix when positive", () => {
-    const bots = makeBots([
-      { realizedPnl: 200, unrealizedPnl: 50 },
-    ]);
+    const bots = makeBots([{ realizedPnl: 200, unrealizedPnl: 50 }]);
     render(<BotManagerPanel bots={bots} onStatusChange={vi.fn()} />);
     expect(screen.getByText(/\+250\.00 total P&L/)).toBeInTheDocument();
   });
 
   it("total P&L shows no + prefix when negative", () => {
-    const bots = makeBots([
-      { realizedPnl: -100, unrealizedPnl: -30 },
-    ]);
+    const bots = makeBots([{ realizedPnl: -100, unrealizedPnl: -30 }]);
     render(<BotManagerPanel bots={bots} onStatusChange={vi.fn()} />);
     const text = screen.getByText(/-130\.00 total P&L/);
     expect(text).toBeInTheDocument();

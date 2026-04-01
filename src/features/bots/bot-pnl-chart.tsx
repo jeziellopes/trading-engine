@@ -1,11 +1,11 @@
 import {
-  LineChart,
   Line,
+  LineChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
-  ReferenceLine,
 } from "recharts";
 
 interface BotPnlChartProps {

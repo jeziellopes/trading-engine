@@ -1,8 +1,8 @@
 import {
-  createChart,
+  type CandlestickData,
   CandlestickSeries,
   ColorType,
-  type CandlestickData,
+  createChart,
   type Time,
 } from "lightweight-charts";
 
