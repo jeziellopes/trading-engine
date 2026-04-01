@@ -32,7 +32,7 @@ const THEMES: { id: ThemeId; label: string; accent: string }[] = [
   { id: "maelstrom", label: "Maelstrom", accent: "oklch(0.56 0.28 316)" },
   { id: "corpo-ice", label: "Corpo Ice", accent: "oklch(0.88 0.18 215)" },
   { id: "netrunner", label: "Netrunner", accent: "oklch(0.62 0.22 280)" },
-  { id: "flowa", label: "Flowa", accent: "oklch(0.21 0.030 155)" },
+  { id: "flowa", label: "Flowa", accent: "oklch(0.87 0.12 124.61)" },
 ];
 
 const MODES: { id: ModeId; label: string }[] = [
@@ -81,7 +81,7 @@ function useTheme() {
       applyTheme(t, m);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setThemeState(t as ThemeId);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+
       setModeState(m);
     } catch {
       // storage unavailable — use defaults
