@@ -10,6 +10,7 @@ import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import { MOCK_BOTS } from "@/features/bots/mock-bots";
 import type { BotInstance, BotStatus } from "@/features/bots/types";
 import { ErrorBoundary } from "@/ui/error-boundary";
+import { CandleChart } from "@/features/chart/candle-chart";
 import { toast } from "sonner";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -97,88 +98,6 @@ const mockTrades: Trade[] = [
   { time: "14:31:54", price: 67835.0, qty: 0.017, side: "sell", total: 1153.2, pnl: -5.4 },
   { time: "14:31:53", price: 67851.5, qty: 0.088, side: "buy", total: 5970.93, pnl: 17.6 },
 ];
-
-// ── Candle chart ───────────────────────────────────────────────────────────────
-
-const CANDLES = [
-  { o: 67120, h: 67480, l: 67050, c: 67390 },
-  { o: 67390, h: 67620, l: 67300, c: 67580 },
-  { o: 67580, h: 67710, l: 67520, c: 67490 },
-  { o: 67490, h: 67550, l: 67320, c: 67350 },
-  { o: 67350, h: 67400, l: 67180, c: 67220 },
-  { o: 67220, h: 67680, l: 67200, c: 67650 },
-  { o: 67650, h: 67820, l: 67610, c: 67780 },
-  { o: 67780, h: 67900, l: 67730, c: 67860 },
-  { o: 67860, h: 67940, l: 67800, c: 67844 },
-];
-
-const CANDLE_MIN = 67050;
-const CANDLE_MAX = 67940;
-const CANDLE_RANGE = CANDLE_MAX - CANDLE_MIN;
-
-function pct(v: number) {
-  return ((v - CANDLE_MIN) / CANDLE_RANGE) * 100;
-}
-
-function CandleChart() {
-  return (
-    <div className="relative w-full h-full select-none">
-      <div
-        className="absolute right-2 top-1 font-mono text-[9px]"
-        style={{ color: "var(--color-muted-foreground)" }}
-      >
-        {CANDLE_MAX.toLocaleString()}
-      </div>
-      <div
-        className="absolute right-2 bottom-1 font-mono text-[9px]"
-        style={{ color: "var(--color-muted-foreground)" }}
-      >
-        {CANDLE_MIN.toLocaleString()}
-      </div>
-      {[25, 50, 75].map((y) => (
-        <div
-          key={y}
-          className="absolute w-full border-t border-dashed"
-          style={{ top: `${100 - y}%`, borderColor: "var(--color-border)" }}
-        />
-      ))}
-      <div className="absolute inset-0 flex items-end px-6 pb-2 pt-4 gap-1">
-        {CANDLES.map((c) => {
-          const bull = c.c >= c.o;
-          const color = bull ? "var(--trading-bid)" : "var(--trading-ask)";
-          const bodyTop = Math.max(pct(c.o), pct(c.c));
-          const bodyBot = Math.min(pct(c.o), pct(c.c));
-          const bodyH = Math.max(bodyTop - bodyBot, 0.5);
-          return (
-            <div
-              key={`${c.o}-${c.c}-${c.h}-${c.l}`}
-              className="flex-1 relative flex flex-col items-center justify-end h-full"
-            >
-              <div
-                className="absolute w-px"
-                style={{
-                  backgroundColor: color,
-                  bottom: `${pct(c.l)}%`,
-                  height: `${pct(c.h) - pct(c.l)}%`,
-                }}
-              />
-              <div
-                className="absolute w-3/4"
-                style={{
-                  backgroundColor: color,
-                  opacity: bull ? 0.85 : 0.7,
-                  bottom: `${bodyBot}%`,
-                  height: `${bodyH}%`,
-                  minHeight: 2,
-                }}
-              />
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
 
 // ── Panel wrapper ──────────────────────────────────────────────────────────────
 
