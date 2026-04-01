@@ -1,6 +1,10 @@
 import { Check, Pencil, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Select } from "@/ui/select";
 import type { BotStrategy } from "./types";
 
 const STRATEGIES: BotStrategy[] = ["grid", "dca", "rsi", "macd"];
@@ -37,51 +41,55 @@ export function BotSettingsPanel({ data, onSave, className }: BotSettingsPanelPr
       <div className="flex items-center justify-between">
         <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Settings</p>
         {!editing ? (
-          <button
+          <Button
+            intent="ghost"
+            size="xs"
             type="button"
             onClick={startEdit}
-            className="flex items-center gap-1 w-6 h-6 rounded justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            className="w-6 h-6 p-0"
             title="Edit settings"
             aria-label="Edit settings"
           >
             <Pencil size={11} />
-          </button>
+          </Button>
         ) : (
           <div className="flex gap-1">
-            <button
+            <Button
+              intent="ghost"
+              size="xs"
               type="button"
               onClick={saveEdit}
-              className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-trading-profit hover:bg-muted transition-colors"
+              className="w-6 h-6 p-0 text-trading-profit"
               title="Save"
               aria-label="Save settings"
             >
               <Check size={11} />
-            </button>
-            <button
+            </Button>
+            <Button
+              intent="ghost"
+              size="xs"
               type="button"
               onClick={() => setEditing(false)}
-              className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              className="w-6 h-6 p-0"
               title="Cancel"
               aria-label="Cancel edit"
             >
               <X size={11} />
-            </button>
+            </Button>
           </div>
         )}
       </div>
 
       <div className="space-y-3">
         <div>
-          <label
-            htmlFor="bot-name-input"
-            className="text-[10px] text-muted-foreground uppercase tracking-wide block mb-1"
-          >
+          <Label htmlFor="bot-name-input" className="text-[10px] uppercase tracking-wide">
             Name
-          </label>
+          </Label>
           {editing ? (
-            <input
+            <Input
               id="bot-name-input"
-              className="w-full rounded border border-border bg-card px-2 py-1 text-xs font-mono focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+              size="sm"
+              className="font-mono text-xs"
               value={draft.name}
               onChange={(e) => setDraft({ ...draft, name: e.target.value })}
             />
@@ -91,16 +99,13 @@ export function BotSettingsPanel({ data, onSave, className }: BotSettingsPanelPr
         </div>
 
         <div>
-          <label
-            htmlFor="bot-strategy-select"
-            className="text-[10px] text-muted-foreground uppercase tracking-wide block mb-1"
-          >
+          <Label htmlFor="bot-strategy-select" className="text-[10px] uppercase tracking-wide">
             Strategy
-          </label>
+          </Label>
           {editing ? (
-            <select
+            <Select
               id="bot-strategy-select"
-              className="w-full rounded border border-border bg-card px-2 py-1 text-xs font-mono focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring cursor-pointer"
+              className="font-mono text-xs"
               value={draft.strategy}
               onChange={(e) => setDraft({ ...draft, strategy: e.target.value as BotStrategy })}
             >
@@ -109,23 +114,21 @@ export function BotSettingsPanel({ data, onSave, className }: BotSettingsPanelPr
                   {s.toUpperCase()}
                 </option>
               ))}
-            </select>
+            </Select>
           ) : (
             <p className="text-xs font-mono uppercase">{data.strategy}</p>
           )}
         </div>
 
         <div>
-          <label
-            htmlFor="bot-symbol-input"
-            className="text-[10px] text-muted-foreground uppercase tracking-wide block mb-1"
-          >
+          <Label htmlFor="bot-symbol-input" className="text-[10px] uppercase tracking-wide">
             Symbol
-          </label>
+          </Label>
           {editing ? (
-            <input
+            <Input
               id="bot-symbol-input"
-              className="w-full rounded border border-border bg-card px-2 py-1 text-xs font-mono focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+              size="sm"
+              className="font-mono text-xs"
               value={draft.symbol}
               onChange={(e) => setDraft({ ...draft, symbol: e.target.value.toUpperCase() })}
             />

@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronRight, Pause, Play, Plus, Square } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/ui/button";
 import { BotConfigForm, type BotConfigFormData } from "./bot-config-form";
 import { BotSparkline } from "./bot-sparkline";
 import type { BotInstance, BotStatus } from "./types";
@@ -39,14 +40,16 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
           · {winRate}% win rate
         </p>
         {onCreateBot && (
-          <button
+          <Button
+            intent="primary"
+            size="sm"
             type="button"
             onClick={() => setShowConfigForm(true)}
-            className="mt-1.5 inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className="mt-1.5 gap-1"
           >
             <Plus size={12} />
             New Bot
-          </button>
+          </Button>
         )}
       </div>
 
@@ -157,24 +160,28 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
                     <div className="flex items-center gap-1">
                       {bot.status === "running" && (
                         <>
-                          <button
+                          <Button
+                            intent="ghost"
+                            size="xs"
                             type="button"
-                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                            className="w-6 h-6 p-0"
                             title="Pause"
                             aria-label="Pause bot"
                             onClick={() => onStatusChange(bot.id, "paused")}
                           >
                             <Pause size={11} />
-                          </button>
-                          <button
+                          </Button>
+                          <Button
+                            intent="ghost"
+                            size="xs"
                             type="button"
-                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-trading-ask hover:text-foreground hover:bg-muted transition-colors"
+                            className="w-6 h-6 p-0 text-trading-ask"
                             title="Stop"
                             aria-label="Stop bot"
                             onClick={() => onStatusChange(bot.id, "stopped")}
                           >
                             <Square size={11} />
-                          </button>
+                          </Button>
                         </>
                       )}
                       {bot.status === "paused" && (
@@ -188,27 +195,31 @@ export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManage
                           >
                             <Play size={11} />
                           </button>
-                          <button
+                          <Button
+                            intent="ghost"
+                            size="xs"
                             type="button"
-                            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-trading-ask hover:text-foreground hover:bg-muted transition-colors"
+                            className="w-6 h-6 p-0 text-trading-ask"
                             title="Stop"
                             aria-label="Stop bot"
                             onClick={() => onStatusChange(bot.id, "stopped")}
                           >
                             <Square size={11} />
-                          </button>
+                          </Button>
                         </>
                       )}
                       {bot.status === "stopped" && (
-                        <button
+                        <Button
+                          intent="ghost"
+                          size="xs"
                           type="button"
-                          className="flex items-center justify-center w-6 h-6 rounded cursor-pointer text-trading-bid hover:text-foreground hover:bg-muted transition-colors"
+                          className="w-6 h-6 p-0 text-trading-bid"
                           title="Run"
                           aria-label="Run bot"
                           onClick={() => onStatusChange(bot.id, "running")}
                         >
                           <Play size={11} />
-                        </button>
+                        </Button>
                       )}
                     </div>
                   </td>

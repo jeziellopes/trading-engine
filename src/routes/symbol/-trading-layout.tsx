@@ -18,6 +18,7 @@ import {
   MOCK_PORTFOLIO_SUMMARY,
   MOCK_TRADING_TRADES,
 } from "@/lib/mock-data";
+import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { Panel } from "@/ui/panel";
 
@@ -94,14 +95,16 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
   const timeframeTabs = (
     <div className="flex items-center gap-1">
       {["1m", "5m", "15m", "1h", "4h", "1d"].map((tf) => (
-        <button
+        <Button
           key={tf}
+          intent="ghost"
+          size="xs"
           type="button"
           onClick={() => setActiveTimeframe(tf)}
-          className={`text-[10px] font-mono px-1.5 py-0.5 rounded transition-colors ${tf === activeTimeframe ? "text-primary bg-trading-bid-muted" : "text-muted-foreground"}`}
+          className={`font-mono text-[10px] px-1.5 py-0.5 ${tf === activeTimeframe ? "text-primary bg-trading-bid-muted" : "text-muted-foreground"}`}
         >
           {tf}
-        </button>
+        </Button>
       ))}
     </div>
   );
