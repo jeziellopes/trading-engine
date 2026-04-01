@@ -22,7 +22,7 @@ export interface BotInstance {
 
 export interface BotTrade {
   id: string;
-  side: 'buy' | 'sell';
+  side: "buy" | "sell";
   price: number;
   qty: number;
   pnl: number;
