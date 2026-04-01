@@ -1,4 +1,5 @@
 import { Pause, Play, Square } from "lucide-react";
+import { Button } from "@/ui/button";
 import type { BotStatus } from "./types";
 
 interface BotStatusControlsProps {
@@ -10,31 +11,31 @@ export function BotStatusControls({ status, onStatusChange }: BotStatusControlsP
   return (
     <div className="flex items-center gap-1">
       {status !== "running" && (
-        <button
+        <Button
+          intent="ghost"
+          size="xs"
           type="button"
           onClick={() => onStatusChange("running")}
-          className="flex items-center gap-1.5 px-3 h-7 rounded text-xs cursor-pointer text-trading-bid hover:bg-muted transition-colors"
+          className="text-trading-bid hover:text-trading-bid"
         >
           <Play size={11} /> Run
-        </button>
+        </Button>
       )}
       {status === "running" && (
-        <button
-          type="button"
-          onClick={() => onStatusChange("paused")}
-          className="flex items-center gap-1.5 px-3 h-7 rounded text-xs cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-        >
+        <Button intent="ghost" size="xs" type="button" onClick={() => onStatusChange("paused")}>
           <Pause size={11} /> Pause
-        </button>
+        </Button>
       )}
       {status !== "stopped" && (
-        <button
+        <Button
+          intent="ghost"
+          size="xs"
           type="button"
           onClick={() => onStatusChange("stopped")}
-          className="flex items-center gap-1.5 px-3 h-7 rounded text-xs cursor-pointer text-trading-ask hover:bg-muted transition-colors"
+          className="text-trading-ask hover:text-trading-ask"
         >
           <Square size={11} /> Stop
-        </button>
+        </Button>
       )}
     </div>
   );

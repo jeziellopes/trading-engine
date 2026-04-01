@@ -4,6 +4,10 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Select } from "@/ui/select";
 
 const ALLOWED_SYMBOLS = [
   "BTCUSDT",
@@ -241,9 +245,7 @@ function FormField({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="text-xs text-muted-foreground block mb-1">
-        {label}
-      </label>
+      <Label htmlFor={id}>{label}</Label>
       {children}
       {error && (
         <p id={`${id}-error`} role="alert" className="text-xs mt-1 text-destructive">
@@ -305,12 +307,6 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
     toast.success("Bot created successfully");
   };
 
-  const inputClasses =
-    "flex w-full rounded-md border border-input bg-input px-3 h-8 py-1 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed";
-
-  const selectClasses =
-    "flex w-full rounded-md border border-input bg-input px-3 h-8 py-1 text-sm text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed";
-
   return (
     <div className="rounded-lg border border-border bg-card text-card-foreground p-4 mb-3">
       {/* Header */}
@@ -319,24 +315,26 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
           <Settings size={16} className="text-muted-foreground" />
           <h3 className="text-sm font-medium">Configure New Bot</h3>
         </div>
-        <button
+        <Button
+          intent="ghost"
+          size="xs"
           type="button"
           onClick={onCancel}
-          className="flex items-center justify-center w-6 h-6 rounded text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          className="w-6 h-6 p-0"
           title="Close"
         >
           <X size={14} />
-        </button>
+        </Button>
       </div>
 
       <form onSubmit={handleSubmit(internalSubmit)} noValidate className="space-y-4">
         {/* Common Fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <FormField label="Bot Name" id="bot-name" error={errors.name?.message}>
-            <input
+            <Input
+              size="sm"
               id="bot-name"
               type="text"
-              className={inputClasses}
               {...register("name")}
               disabled={busy}
               aria-invalid={errors.name ? "true" : undefined}
@@ -345,9 +343,8 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
           </FormField>
 
           <FormField label="Strategy" id="bot-strategy" error={errors.strategy?.message}>
-            <select
+            <Select
               id="bot-strategy"
-              className={selectClasses}
               {...register("strategy")}
               disabled={busy}
               aria-invalid={errors.strategy ? "true" : undefined}
@@ -358,13 +355,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   {s.toUpperCase()}
                 </option>
               ))}
-            </select>
+            </Select>
           </FormField>
 
           <FormField label="Symbol" id="bot-symbol" error={errors.symbol?.message}>
-            <select
+            <Select
               id="bot-symbol"
-              className={selectClasses}
               {...register("symbol")}
               disabled={busy}
               aria-invalid={errors.symbol ? "true" : undefined}
@@ -375,13 +371,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   {s}
                 </option>
               ))}
-            </select>
+            </Select>
           </FormField>
 
           <FormField label="Interval" id="bot-interval" error={errors.interval?.message}>
-            <select
+            <Select
               id="bot-interval"
-              className={selectClasses}
               {...register("interval")}
               disabled={busy}
               aria-invalid={errors.interval ? "true" : undefined}
@@ -392,7 +387,7 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   {i}
                 </option>
               ))}
-            </select>
+            </Select>
           </FormField>
         </div>
 
@@ -409,12 +404,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="grid-lower-price"
                   error={errors.gridLowerPrice?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="grid-lower-price"
                     type="number"
                     step="any"
                     placeholder="0.00"
-                    className={inputClasses}
                     {...register("gridLowerPrice")}
                     disabled={busy}
                     aria-invalid={errors.gridLowerPrice ? "true" : undefined}
@@ -426,12 +421,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="grid-upper-price"
                   error={errors.gridUpperPrice?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="grid-upper-price"
                     type="number"
                     step="any"
                     placeholder="0.00"
-                    className={inputClasses}
                     {...register("gridUpperPrice")}
                     disabled={busy}
                     aria-invalid={errors.gridUpperPrice ? "true" : undefined}
@@ -439,12 +434,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   />
                 </FormField>
                 <FormField label="Grid Count" id="grid-count" error={errors.gridCount?.message}>
-                  <input
+                  <Input
+                    size="sm"
                     id="grid-count"
                     type="number"
                     step="1"
                     placeholder="10"
-                    className={inputClasses}
                     {...register("gridCount")}
                     disabled={busy}
                     aria-invalid={errors.gridCount ? "true" : undefined}
@@ -456,12 +451,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="grid-amount"
                   error={errors.gridAmountPerGrid?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="grid-amount"
                     type="number"
                     step="any"
                     placeholder="0.001"
-                    className={inputClasses}
                     {...register("gridAmountPerGrid")}
                     disabled={busy}
                     aria-invalid={errors.gridAmountPerGrid ? "true" : undefined}
@@ -478,12 +473,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="dca-base-amount"
                   error={errors.dcaBaseAmount?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="dca-base-amount"
                     type="number"
                     step="any"
                     placeholder="100"
-                    className={inputClasses}
                     {...register("dcaBaseAmount")}
                     disabled={busy}
                     aria-invalid={errors.dcaBaseAmount ? "true" : undefined}
@@ -495,12 +490,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="dca-safety-amount"
                   error={errors.dcaSafetyAmount?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="dca-safety-amount"
                     type="number"
                     step="any"
                     placeholder="50"
-                    className={inputClasses}
                     {...register("dcaSafetyAmount")}
                     disabled={busy}
                     aria-invalid={errors.dcaSafetyAmount ? "true" : undefined}
@@ -514,12 +509,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="dca-max-safety"
                   error={errors.dcaMaxSafetyOrders?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="dca-max-safety"
                     type="number"
                     step="1"
                     placeholder="5"
-                    className={inputClasses}
                     {...register("dcaMaxSafetyOrders")}
                     disabled={busy}
                     aria-invalid={errors.dcaMaxSafetyOrders ? "true" : undefined}
@@ -533,12 +528,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="dca-price-dev"
                   error={errors.dcaPriceDeviation?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="dca-price-dev"
                     type="number"
                     step="any"
                     placeholder="2.0"
-                    className={inputClasses}
                     {...register("dcaPriceDeviation")}
                     disabled={busy}
                     aria-invalid={errors.dcaPriceDeviation ? "true" : undefined}
@@ -551,12 +546,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
             {strategy === "rsi" && (
               <>
                 <FormField label="RSI Period" id="rsi-period" error={errors.rsiPeriod?.message}>
-                  <input
+                  <Input
+                    size="sm"
                     id="rsi-period"
                     type="number"
                     step="1"
                     placeholder="14"
-                    className={inputClasses}
                     {...register("rsiPeriod")}
                     disabled={busy}
                     aria-invalid={errors.rsiPeriod ? "true" : undefined}
@@ -568,12 +563,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="rsi-oversold"
                   error={errors.rsiOversold?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="rsi-oversold"
                     type="number"
                     step="1"
                     placeholder="30"
-                    className={inputClasses}
                     {...register("rsiOversold")}
                     disabled={busy}
                     aria-invalid={errors.rsiOversold ? "true" : undefined}
@@ -585,12 +580,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="rsi-overbought"
                   error={errors.rsiOverbought?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="rsi-overbought"
                     type="number"
                     step="1"
                     placeholder="70"
-                    className={inputClasses}
                     {...register("rsiOverbought")}
                     disabled={busy}
                     aria-invalid={errors.rsiOverbought ? "true" : undefined}
@@ -602,12 +597,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="rsi-position-size"
                   error={errors.rsiPositionSize?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="rsi-position-size"
                     type="number"
                     step="any"
                     placeholder="0.01"
-                    className={inputClasses}
                     {...register("rsiPositionSize")}
                     disabled={busy}
                     aria-invalid={errors.rsiPositionSize ? "true" : undefined}
@@ -626,12 +621,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="macd-fast"
                   error={errors.macdFastPeriod?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="macd-fast"
                     type="number"
                     step="1"
                     placeholder="12"
-                    className={inputClasses}
                     {...register("macdFastPeriod")}
                     disabled={busy}
                     aria-invalid={errors.macdFastPeriod ? "true" : undefined}
@@ -643,12 +638,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="macd-slow"
                   error={errors.macdSlowPeriod?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="macd-slow"
                     type="number"
                     step="1"
                     placeholder="26"
-                    className={inputClasses}
                     {...register("macdSlowPeriod")}
                     disabled={busy}
                     aria-invalid={errors.macdSlowPeriod ? "true" : undefined}
@@ -660,12 +655,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="macd-signal"
                   error={errors.macdSignalPeriod?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="macd-signal"
                     type="number"
                     step="1"
                     placeholder="9"
-                    className={inputClasses}
                     {...register("macdSignalPeriod")}
                     disabled={busy}
                     aria-invalid={errors.macdSignalPeriod ? "true" : undefined}
@@ -677,12 +672,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   id="macd-position-size"
                   error={errors.macdPositionSize?.message}
                 >
-                  <input
+                  <Input
+                    size="sm"
                     id="macd-position-size"
                     type="number"
                     step="any"
                     placeholder="0.01"
-                    className={inputClasses}
                     {...register("macdPositionSize")}
                     disabled={busy}
                     aria-invalid={errors.macdPositionSize ? "true" : undefined}
@@ -707,12 +702,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
               id="max-drawdown"
               error={errors.maxDrawdown?.message}
             >
-              <input
+              <Input
+                size="sm"
                 id="max-drawdown"
                 type="number"
                 step="any"
                 placeholder="10"
-                className={inputClasses}
                 {...register("maxDrawdown")}
                 disabled={busy}
                 aria-invalid={errors.maxDrawdown ? "true" : undefined}
@@ -720,12 +715,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
               />
             </FormField>
             <FormField label="Stop Loss (%)" id="stop-loss" error={errors.stopLoss?.message}>
-              <input
+              <Input
+                size="sm"
                 id="stop-loss"
                 type="number"
                 step="any"
                 placeholder="5"
-                className={inputClasses}
                 {...register("stopLoss")}
                 disabled={busy}
                 aria-invalid={errors.stopLoss ? "true" : undefined}
@@ -733,12 +728,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
               />
             </FormField>
             <FormField label="Take Profit (%)" id="take-profit" error={errors.takeProfit?.message}>
-              <input
+              <Input
+                size="sm"
                 id="take-profit"
                 type="number"
                 step="any"
                 placeholder="10"
-                className={inputClasses}
                 {...register("takeProfit")}
                 disabled={busy}
                 aria-invalid={errors.takeProfit ? "true" : undefined}
@@ -750,21 +745,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
 
         {/* Action Buttons */}
         <div className="flex justify-end gap-2 pt-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            disabled={busy}
-            className="inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-normal bg-muted text-muted-foreground hover:bg-muted/80 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          <Button intent="ghost" size="sm" type="button" onClick={onCancel} disabled={busy}>
             Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={busy}
-            className="inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          </Button>
+          <Button intent="primary" size="sm" type="submit" disabled={busy}>
             {busy ? "Creating..." : "Create Bot"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>
