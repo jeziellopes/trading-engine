@@ -77,6 +77,7 @@ export function SymbolSelector() {
               ref={searchRef}
               type="text"
               placeholder="Search pair..."
+              aria-label="Search trading pair"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-transparent text-foreground placeholder:text-muted-foreground text-xs font-mono focus-visible:outline-none"
