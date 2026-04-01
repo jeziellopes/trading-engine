@@ -18,16 +18,24 @@ const MOCK_CANDLES: CandlestickData<Time>[] = [
   { time: "2024-01-09" as Time, open: 67860, high: 67940, low: 67800, close: 67844 },
 ];
 
-function cssVar(container: HTMLElement, name: string): string {
-  return getComputedStyle(container).getPropertyValue(name).trim();
+/** Resolve a CSS custom property to a browser-normalized rgb() string.
+ * lightweight-charts cannot parse oklch — the probe element forces the browser
+ * to convert the computed value to sRGB before we read it back. */
+function resolveColor(container: HTMLElement, name: string): string {
+  const probe = document.createElement("div");
+  probe.style.cssText = `position:absolute;visibility:hidden;color:var(${name})`;
+  container.appendChild(probe);
+  const color = getComputedStyle(probe).color;
+  container.removeChild(probe);
+  return color;
 }
 
 export function CandleChart() {
   const chartRef = (el: HTMLDivElement | null) => {
     if (!el) return;
 
-    const textColor = cssVar(el, "--muted-foreground");
-    const borderColor = cssVar(el, "--border");
+    const textColor = resolveColor(el, "--muted-foreground");
+    const borderColor = resolveColor(el, "--border");
 
     const chart = createChart(el, {
       layout: {
@@ -52,10 +60,10 @@ export function CandleChart() {
     });
 
     const series = chart.addSeries(CandlestickSeries, {
-      upColor: cssVar(el, "--trading-bid"),
-      downColor: cssVar(el, "--trading-ask"),
-      wickUpColor: cssVar(el, "--trading-tick-up"),
-      wickDownColor: cssVar(el, "--trading-tick-down"),
+      upColor: resolveColor(el, "--trading-bid"),
+      downColor: resolveColor(el, "--trading-ask"),
+      wickUpColor: resolveColor(el, "--trading-tick-up"),
+      wickDownColor: resolveColor(el, "--trading-tick-down"),
       borderVisible: false,
     });
 
