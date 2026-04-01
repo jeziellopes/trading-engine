@@ -2,15 +2,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const logoVariants = cva("inline-flex items-center rounded font-mono transition-colors", {
-  variants: {
+  variants: { 
     variant: {
-      dark: "text-primary/90 group-hover:text-primary",
-      light: "text-primary/90 group-hover:text-primary",
-      pill: "text-primary/90 group-hover:text-primary",
+      default: "text-primary",
+      subtle: "text-muted-foreground",
     },
   },
   defaultVariants: {
-    variant: "pill",
+    variant: "default",
   },
 });
 
