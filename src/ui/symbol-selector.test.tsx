@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { SymbolSelector } from "./symbol-selector";
 
 const mockNavigate = vi.fn();
 let mockPathname = "/symbol/BTCUSDT";
@@ -10,8 +11,6 @@ vi.mock("@tanstack/react-router", () => ({
   useRouterState: ({ select }: { select: (state: unknown) => unknown }) =>
     select({ location: { pathname: mockPathname } }),
 }));
-
-import { SymbolSelector } from "./symbol-selector";
 
 describe("SymbolSelector", () => {
   it("renders button with current symbol from URL", () => {
@@ -68,11 +67,10 @@ describe("SymbolSelector", () => {
     // Click on ETHUSDT row — find the "ETH" text within the list (not the category header)
     const ethButtons = screen.getAllByRole("button", { name: /ETH/ });
     // The first button is the selector trigger, find the list buttons
-    const listButton = ethButtons.find(
-      (btn) => btn.textContent?.includes("/USDT"),
-    );
+    const listButton = ethButtons.find((btn) => btn.textContent?.includes("/USDT"));
     expect(listButton).toBeDefined();
-    await user.click(listButton!);
+    if (!listButton) throw new Error("listButton not found");
+    await user.click(listButton);
     expect(mockNavigate).toHaveBeenCalledWith(
       expect.objectContaining({
         params: expect.objectContaining({ symbol: "ETHUSDT" }),
@@ -86,10 +84,9 @@ describe("SymbolSelector", () => {
     await user.click(screen.getByRole("button", { name: /BTCUSDT/ }));
     expect(screen.getByPlaceholderText("Search pair...")).toBeInTheDocument();
     const ethButtons = screen.getAllByRole("button", { name: /ETH/ });
-    const listButton = ethButtons.find(
-      (btn) => btn.textContent?.includes("/USDT"),
-    );
-    await user.click(listButton!);
+    const listButton = ethButtons.find((btn) => btn.textContent?.includes("/USDT"));
+    if (!listButton) throw new Error("listButton not found");
+    await user.click(listButton);
     expect(screen.queryByPlaceholderText("Search pair...")).not.toBeInTheDocument();
   });
 

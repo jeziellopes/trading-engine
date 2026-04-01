@@ -22,7 +22,14 @@ export function BotSparkline({ data, width = 80, height = 20 }: BotSparklineProp
   const isPositive = lastValue >= 0;
   const color = isPositive ? "var(--trading-profit)" : "var(--trading-loss)";
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} width={w} style={{ height: h }} preserveAspectRatio="none">
+    <svg
+      viewBox={`0 0 ${w} ${h}`}
+      width={w}
+      style={{ height: h }}
+      preserveAspectRatio="none"
+      aria-label="P&L sparkline"
+    >
+      <title>P&L sparkline</title>
       <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
     </svg>
   );

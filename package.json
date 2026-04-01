@@ -19,7 +19,8 @@
     "check": "biome check src/",
     "typecheck": "tsc --noEmit",
     "tokens": "tsx scripts/build-tokens.ts",
-    "contrast": "tsx scripts/check-contrast.ts"
+    "contrast": "tsx scripts/check-contrast.ts",
+    "format:check": "biome format --check src/"
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.2",
