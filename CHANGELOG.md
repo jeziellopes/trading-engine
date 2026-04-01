@@ -1,3 +1,16 @@
+# [1.0.0-next.3](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.2...v1.0.0-next.3) (2026-04-01)
+
+
+### Bug Fixes
+
+* **perf:** remove unused MOCK_CANDLE_* imports from trading layout ([2d126d8](https://github.com/jeziellopes/trading-engine/commit/2d126d835f8adc93b4012dc851fd119f9633670f))
+* **test:** replace undefined mockState with MOCK_ORDER_BOOK_STATE in order-book tests ([66315d4](https://github.com/jeziellopes/trading-engine/commit/66315d4cd626c100ba8aa561eff74627080898b9))
+
+
+### Performance Improvements
+
+* **bundle:** lazy-load recharts and react-grid-layout ([9d845ba](https://github.com/jeziellopes/trading-engine/commit/9d845baf5a81e042bdce25b93c596f7cb1779bf3)), closes [#20](https://github.com/jeziellopes/trading-engine/issues/20)
+
 # [1.0.0-next.2](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.1...v1.0.0-next.2) (2026-04-01)
 
 
