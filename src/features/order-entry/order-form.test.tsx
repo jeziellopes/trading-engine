@@ -67,7 +67,13 @@ describe("OrderForm", () => {
     await userEvent.click(screen.getByRole("button", { name: /buy limit/i }));
     await waitFor(() => {
       expect(mockHandleSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({ symbol: TEST_SYMBOL, side: "buy", type: "limit", quantity: "0.5", price: "30000" }),
+        expect.objectContaining({
+          symbol: TEST_SYMBOL,
+          side: "buy",
+          type: "limit",
+          quantity: "0.5",
+          price: "30000",
+        }),
       );
     });
   });
@@ -79,7 +85,12 @@ describe("OrderForm", () => {
     await userEvent.click(screen.getByRole("button", { name: /buy market/i }));
     await waitFor(() => {
       expect(mockHandleSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({ symbol: TEST_SYMBOL, side: "buy", type: "market", quantity: "0.1" }),
+        expect.objectContaining({
+          symbol: TEST_SYMBOL,
+          side: "buy",
+          type: "market",
+          quantity: "0.1",
+        }),
       );
     });
   });

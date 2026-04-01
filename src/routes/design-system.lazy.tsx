@@ -10,12 +10,12 @@ import {
   parseOklch,
   wcagLevel,
 } from "@/lib/contrast";
+import { MOCK_DS_ASKS, MOCK_DS_BIDS, MOCK_DS_TRADES } from "@/lib/mock-data";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/ui/card";
 import { DepthBar } from "@/ui/depth-bar";
 import { Input } from "@/ui/input";
-import { MOCK_DS_BIDS, MOCK_DS_ASKS, MOCK_DS_TRADES } from "@/lib/mock-data";
 
 export const Route = createLazyFileRoute("/design-system")({
   component: DesignSystemShowcase,
@@ -32,7 +32,7 @@ const THEMES: { id: ThemeId; label: string; accent: string }[] = [
   { id: "maelstrom", label: "Maelstrom", accent: "oklch(0.56 0.28 316)" },
   { id: "corpo-ice", label: "Corpo Ice", accent: "oklch(0.88 0.18 215)" },
   { id: "netrunner", label: "Netrunner", accent: "oklch(0.62 0.22 280)" },
-  { id: "flowa",      label: "Flowa",      accent: "oklch(0.21 0.030 155)" },
+  { id: "flowa", label: "Flowa", accent: "oklch(0.21 0.030 155)" },
 ];
 
 const MODES: { id: ModeId; label: string }[] = [
@@ -125,8 +125,6 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
     </div>
   );
 }
-
-
 
 // ── Contrast audit (live DOM read) ───────────────────────────────────────────────
 
@@ -661,12 +659,32 @@ function DesignSystemShowcase() {
             </div>
             <div className="space-y-2">
               <div className="space-y-1">
-                <label htmlFor="ds-price-input" className="text-[10px] font-mono text-muted-foreground">Price (USDT)</label>
-                <Input id="ds-price-input" placeholder="67,843.50" type="number" className="h-8 text-sm" />
+                <label
+                  htmlFor="ds-price-input"
+                  className="text-[10px] font-mono text-muted-foreground"
+                >
+                  Price (USDT)
+                </label>
+                <Input
+                  id="ds-price-input"
+                  placeholder="67,843.50"
+                  type="number"
+                  className="h-8 text-sm"
+                />
               </div>
               <div className="space-y-1">
-                <label htmlFor="ds-amount-input" className="text-[10px] font-mono text-muted-foreground">Amount (BTC)</label>
-                <Input id="ds-amount-input" placeholder="0.001" type="number" className="h-8 text-sm" />
+                <label
+                  htmlFor="ds-amount-input"
+                  className="text-[10px] font-mono text-muted-foreground"
+                >
+                  Amount (BTC)
+                </label>
+                <Input
+                  id="ds-amount-input"
+                  placeholder="0.001"
+                  type="number"
+                  className="h-8 text-sm"
+                />
               </div>
             </div>
             <div className="flex justify-between text-[10px] font-mono text-muted-foreground">

@@ -25,7 +25,10 @@ export function OrderBook({ state }: OrderBookProps) {
       <ConnectionBanner status={state.connectionStatus} />
 
       {/* Asks — independent scroll, bottom-aligned */}
-      <div data-testid="asks-container" className="flex-1 min-h-0 overflow-y-auto flex flex-col justify-end">
+      <div
+        data-testid="asks-container"
+        className="flex-1 min-h-0 overflow-y-auto flex flex-col justify-end"
+      >
         <AskTable levels={state.asks} />
       </div>
 

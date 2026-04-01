@@ -1,5 +1,5 @@
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
@@ -18,7 +18,7 @@ const orderSchema = z
   .superRefine((data, ctx) => {
     if (data.type === "limit") {
       const n = Number(data.price);
-      if (!data.price || isNaN(n) || !isFinite(n) || n <= 0) {
+      if (!data.price || Number.isNaN(n) || !Number.isFinite(n) || n <= 0) {
         ctx.addIssue({
           code: "custom",
           message: "Limit price required",
