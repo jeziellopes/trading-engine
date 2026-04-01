@@ -1,3 +1,10 @@
+# [1.0.0-next.2](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.1...v1.0.0-next.2) (2026-04-01)
+
+
+### Bug Fixes
+
+* **layout:** swap order-entry and portfolio panel positions ([6a81be8](https://github.com/jeziellopes/trading-engine/commit/6a81be8b89bdf7195b9d8e991a76ef3a53e59bd3)), closes [#9](https://github.com/jeziellopes/trading-engine/issues/9)
+
 # 1.0.0-next.1 (2026-04-01)
 
 
