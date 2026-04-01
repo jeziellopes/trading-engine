@@ -37,7 +37,7 @@ describe("BalanceDisplay", () => {
       />,
     );
     const pnlElement = screen.getByText(/416\.10/);
-    expect(pnlElement).toHaveClass("text-[color:var(--trading-profit)]");
+    expect(pnlElement).toHaveClass("text-trading-profit");
   });
 
   it("renders negative PnL with loss color", () => {
@@ -45,6 +45,6 @@ describe("BalanceDisplay", () => {
       <BalanceDisplay totalBalance={10000.0} availableBalance={5000.0} unrealizedPnL={-500.0} />,
     );
     const pnlElement = screen.getByText(/-500\.00/);
-    expect(pnlElement).toHaveClass("text-[color:var(--trading-loss)]");
+    expect(pnlElement).toHaveClass("text-trading-loss");
   });
 });

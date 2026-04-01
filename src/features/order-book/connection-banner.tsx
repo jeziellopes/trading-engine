@@ -11,17 +11,8 @@ export function ConnectionBanner({ status }: ConnectionBannerProps) {
 
   if (status === "reconnecting") {
     return (
-      <div
-        className={cn(base)}
-        style={{
-          backgroundColor: "var(--trading-reconnecting-bg)",
-          borderColor: "var(--trading-reconnecting-border)",
-        }}
-      >
-        <div
-          className="w-2 h-2 rounded-full animate-pulse flex-shrink-0"
-          style={{ backgroundColor: "var(--trading-reconnecting)" }}
-        />
+      <div className={cn(base, "bg-trading-reconnecting-bg border-trading-reconnecting-border")}>
+        <div className="w-2 h-2 rounded-full animate-pulse flex-shrink-0 bg-trading-reconnecting" />
         <span>Reconnecting...</span>
       </div>
     );

@@ -30,6 +30,40 @@
   --color-input:              var(--input);
   --color-ring:               var(--ring);
 
+  /* ── Trading domain tokens ──────────────────────────────── */
+  --color-trading-bid:                  var(--trading-bid);
+  --color-trading-bid-muted:            var(--trading-bid-muted);
+  --color-trading-ask:                  var(--trading-ask);
+  --color-trading-ask-muted:            var(--trading-ask-muted);
+  --color-trading-profit:               var(--trading-profit);
+  --color-trading-loss:                 var(--trading-loss);
+  --color-trading-tick-up:              var(--trading-tick-up);
+  --color-trading-tick-down:            var(--trading-tick-down);
+  --color-trading-tick-neutral:         var(--trading-tick-neutral);
+  --color-trading-connected:            var(--trading-connected);
+  --color-trading-reconnecting:         var(--trading-reconnecting);
+  --color-trading-disconnected:         var(--trading-disconnected);
+  --color-trading-reconnecting-bg:      var(--trading-reconnecting-bg);
+  --color-trading-reconnecting-border:  var(--trading-reconnecting-border);
+  --color-trading-disconnected-bg:      var(--trading-disconnected-bg);
+  --color-trading-disconnected-border:  var(--trading-disconnected-border);
+
+  /* ── Sidebar tokens ──────────────────────────────────────── */
+  --color-sidebar:                      var(--sidebar);
+  --color-sidebar-foreground:           var(--sidebar-foreground);
+  --color-sidebar-primary:              var(--sidebar-primary);
+  --color-sidebar-primary-foreground:   var(--sidebar-primary-foreground);
+  --color-sidebar-accent:               var(--sidebar-accent);
+  --color-sidebar-accent-foreground:    var(--sidebar-accent-foreground);
+  --color-sidebar-border:               var(--sidebar-border);
+
+  /* ── Duration tokens ─────────────────────────────────────── */
+  --duration-fast:    150ms;
+  --duration-default: 200ms;
+  --duration-medium:  300ms;
+  --duration-slow:    500ms;
+  --duration-xslow:   700ms;
+
   /* ── Gray scale ────────────────────────────────────────── */
   --color-ds-gray-100: var(--ds-gray-100);
   --color-ds-gray-500: var(--ds-gray-500);

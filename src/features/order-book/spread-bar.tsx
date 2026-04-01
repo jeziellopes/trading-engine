@@ -15,8 +15,8 @@ export function SpreadBar({
 }: SpreadBarProps) {
   const tickIcon = tickDirection === "up" ? "↑" : tickDirection === "down" ? "↓" : "–";
   const tickColor = {
-    up: "text-[color:var(--trading-tick-up)]",
-    down: "text-[color:var(--trading-tick-down)]",
+    up: "text-trading-tick-up",
+    down: "text-trading-tick-down",
     neutral: "text-foreground",
   }[tickDirection];
 

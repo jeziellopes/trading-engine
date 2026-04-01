@@ -1,6 +1,7 @@
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { SYMBOL_CATEGORIES, SYMBOLS, type SymbolInfo } from "@/lib/symbols";
+import { cn } from "@/lib/utils";
 
 export function SymbolSelector() {
   const [open, setOpen] = useState(false);
@@ -59,18 +60,17 @@ export function SymbolSelector() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 text-xs font-mono px-2.5 py-1 rounded border border-border/60 hover:border-border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)]"
-        style={{ color: currentSymbol ? "var(--primary)" : "var(--color-muted-foreground)" }}
+        className={cn(
+          "flex items-center gap-1.5 text-xs font-mono px-2.5 py-1 rounded border border-border/60 hover:border-border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring",
+          currentSymbol ? "text-primary" : "text-muted-foreground",
+        )}
       >
         <span className="font-semibold">{currentSymbol ?? "SELECT PAIR"}</span>
         <span className="text-[10px] opacity-60">{open ? "▴" : "▾"}</span>
       </button>
 
       {open && (
-        <div
-          className="absolute top-full left-0 mt-1 z-50 w-56 rounded border border-border shadow-xl font-mono text-xs"
-          style={{ backgroundColor: "var(--color-card)" }}
-        >
+        <div className="absolute top-full left-0 mt-1 z-50 w-56 rounded border border-border shadow-xl font-mono text-xs bg-card">
           {/* Search input */}
           <div className="px-2 py-1.5 border-b border-border">
             <input
@@ -136,20 +136,14 @@ function SymbolRow({ info, active, onSelect }: SymbolRowProps) {
     <button
       type="button"
       onClick={() => onSelect(info.symbol)}
-      className="w-full text-left px-3 py-1.5 flex items-center gap-1 hover:bg-muted/60 transition-colors"
-      style={
-        active
-          ? { color: "var(--primary)", backgroundColor: "var(--trading-bid-muted)" }
-          : undefined
-      }
+      className={cn(
+        "w-full text-left px-3 py-1.5 flex items-center gap-1 hover:bg-muted/60 transition-colors",
+        active && "text-primary bg-trading-bid-muted",
+      )}
     >
       <span className="font-semibold tabular-nums">{info.base}</span>
       <span className="text-muted-foreground">/{info.quote}</span>
-      {active && (
-        <span className="ml-auto text-[10px]" style={{ color: "var(--primary)" }}>
-          ●
-        </span>
-      )}
+      {active && <span className="ml-auto text-[10px] text-primary">●</span>}
     </button>
   );
 }

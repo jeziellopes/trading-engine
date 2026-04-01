@@ -137,3 +137,13 @@ The frontend interfaces are delivered with P0/P1. Backend implementations are a 
 - [`specs/architecture.spec.md`](specs/architecture.spec.md) — Hexagonal architecture, layers, dependency rules, domain model
 - [`specs/tech-stack.spec.md`](specs/tech-stack.spec.md) — Stack feature rationale
 - [`specs/integration-boundaries.spec.md`](specs/integration-boundaries.spec.md) — Backend swap interfaces
+
+## Design System Status
+
+| Area | Status |
+|------|--------|
+| Three-layer token architecture (`--t-*` → semantic → @theme) | ✅ Complete |
+| `@theme inline` — semantic + trading + sidebar + duration tokens | ✅ Complete (#13) |
+| Component token usage (`bg-trading-bid`, `text-trading-ask`, etc.) | ✅ Complete (#13) |
+| React composition patterns (compound components, prop grouping) | 🔄 In progress (#14) |
+| Route component extraction into `features/` + `ui/` primitives | 🔄 In progress (#15) |
