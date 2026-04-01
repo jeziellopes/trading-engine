@@ -10,10 +10,6 @@ import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import {
   MOCK_BASE_BTC,
   MOCK_BOTS,
-  MOCK_CANDLE_MAX,
-  MOCK_CANDLE_MIN,
-  MOCK_CANDLE_RANGE,
-  MOCK_CANDLES,
   MOCK_CHANGE_PCT,
   MOCK_ORDER_BOOK_STATE,
   MOCK_PORTFOLIO_SUMMARY,
