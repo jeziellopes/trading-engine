@@ -18,9 +18,10 @@ const MOCK_CANDLES: CandlestickData<Time>[] = [
   { time: "2024-01-09" as Time, open: 67860, high: 67940, low: 67800, close: 67844 },
 ];
 
-/** Resolve a CSS custom property to a browser-normalized rgb() string.
- * lightweight-charts cannot parse oklch. Modern Chrome (119+) returns oklch
- * values as-is from getComputedStyle, so we force sRGB via canvas fillStyle. */
+/** Resolve a CSS custom property to an rgb() string safe for lightweight-charts.
+ * Modern Chrome (119+) returns oklch values as-is from getComputedStyle AND
+ * preserves them in canvas fillStyle. The only reliable conversion is to draw
+ * a pixel and read it back via getImageData — that forces sRGB rasterisation. */
 function resolveColor(container: HTMLElement, name: string): string {
   const probe = document.createElement("div");
   probe.style.cssText = `position:absolute;visibility:hidden;color:var(${name})`;
@@ -28,14 +29,15 @@ function resolveColor(container: HTMLElement, name: string): string {
   const raw = getComputedStyle(probe).color;
   container.removeChild(probe);
 
-  // Canvas fillStyle normalizes any color (oklch, p3, etc.) to sRGB #rrggbb
-  if (raw.toLowerCase().startsWith("oklch") || raw.toLowerCase().startsWith("color(")) {
+  if (!raw.startsWith("rgb")) {
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = 1;
     const ctx = canvas.getContext("2d");
     if (ctx) {
       ctx.fillStyle = raw;
-      return ctx.fillStyle;
+      ctx.fillRect(0, 0, 1, 1);
+      const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+      return `rgb(${r}, ${g}, ${b})`;
     }
   }
   return raw;
