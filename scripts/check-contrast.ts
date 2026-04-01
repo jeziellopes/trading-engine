@@ -52,6 +52,9 @@ const COMBOS: Array<{ label: string; vars: VarMap }> = [
   { label: 'netrunner / light',     vars: buildVars('[data-theme="netrunner"]',  '[data-theme="netrunner"][data-mode="light"]') },
   { label: 'netrunner / dark',      vars: buildVars('[data-theme="netrunner"]',  '[data-theme="netrunner"][data-mode="dark"]') },
   { label: 'netrunner / vibrant',   vars: buildVars('[data-theme="netrunner"]',  '[data-theme="netrunner"][data-mode="vibrant"]') },
+  { label: 'flowa / light',         vars: buildVars('[data-theme="flowa"]',       '[data-theme="flowa"][data-mode="light"]') },
+  { label: 'flowa / dark',          vars: buildVars('[data-theme="flowa"]',       '[data-theme="flowa"][data-mode="dark"]') },
+  { label: 'flowa / vibrant',       vars: buildVars('[data-theme="flowa"]',       '[data-theme="flowa"][data-mode="vibrant"]') },
 ]
 
 // ── Run audit ─────────────────────────────────────────────────────────────────
