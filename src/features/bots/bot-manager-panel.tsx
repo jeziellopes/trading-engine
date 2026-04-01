@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronRight, Pause, Play, Square } from "lucide-react";
+import { ChevronRight, Pause, Play, Plus, Square } from "lucide-react";
+import { BotConfigForm, type BotConfigFormData } from "./bot-config-form";
 import { BotSparkline } from "./bot-sparkline";
 import type { BotInstance, BotStatus } from "./types";
 
 interface BotManagerPanelProps {
   bots: BotInstance[];
   onStatusChange: (id: string, status: BotStatus) => void;
+  onCreateBot?: (data: BotConfigFormData) => void | Promise<void>;
 }
 
 function statusColor(status: BotInstance["status"]): string {
@@ -20,7 +23,8 @@ function statusBg(status: BotInstance["status"]): string {
   return "var(--trading-ask-muted)";
 }
 
-export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) {
+export function BotManagerPanel({ bots, onStatusChange, onCreateBot }: BotManagerPanelProps) {
+  const [showConfigForm, setShowConfigForm] = useState(false);
   const runningCount = bots.filter((b) => b.status === "running").length;
   const totalPnl = bots.reduce((sum, b) => sum + b.realizedPnl + b.unrealizedPnl, 0);
   const totalTrades = bots.reduce((sum, b) => sum + b.tradeCount, 0);
@@ -43,7 +47,30 @@ export function BotManagerPanel({ bots, onStatusChange }: BotManagerPanelProps) 
           </span>{" "}
           · {winRate}% win rate
         </p>
+        {onCreateBot && (
+          <button
+            type="button"
+            onClick={() => setShowConfigForm(true)}
+            className="mt-1.5 inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          >
+            <Plus size={12} />
+            New Bot
+          </button>
+        )}
       </div>
+
+      {/* Bot config form */}
+      {showConfigForm && onCreateBot && (
+        <div className="px-3 pb-2">
+          <BotConfigForm
+            onSubmit={async (data) => {
+              await onCreateBot(data);
+              setShowConfigForm(false);
+            }}
+            onCancel={() => setShowConfigForm(false)}
+          />
+        </div>
+      )}
 
       {/* Bot table */}
       <div className="px-3 pb-3 overflow-x-auto">
