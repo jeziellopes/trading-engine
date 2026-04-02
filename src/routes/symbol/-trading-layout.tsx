@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState } from "react";
 import { toast } from "sonner";
 import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
-import type { BotInstance, BotStatus } from "@/features/bots/types";
+import type { BotStatus } from "@/features/bots/types";
 import { CandleChart } from "@/features/chart/candle-chart";
 import { OrderBook } from "@/features/order-book/order-book";
 import type { OrderFormData } from "@/features/order-entry/order-form";
@@ -12,12 +12,12 @@ import { TickerHeader } from "@/features/trading/ticker-header";
 import type { Layout, ResponsiveLayouts } from "@/features/trading/trading-grid";
 import {
   MOCK_BASE_BTC,
-  MOCK_BOTS,
   MOCK_CHANGE_PCT,
   MOCK_ORDER_BOOK_STATE,
   MOCK_PORTFOLIO_SUMMARY,
   MOCK_TRADING_TRADES,
 } from "@/lib/mock-data";
+import { useTradingStore } from "@/stores/trading-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { Panel } from "@/ui/panel";
@@ -60,7 +60,8 @@ function loadLayouts(): ResponsiveLayouts<string> {
 export function TradingLayout({ symbol }: TradingLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const [layouts, setLayouts] = useState<ResponsiveLayouts<string>>(loadLayouts);
-  const [bots, setBots] = useState<BotInstance[]>(MOCK_BOTS);
+  const bots = useTradingStore((s) => s.bots);
+  const setBotStatus = useTradingStore((s) => s.setBotStatus);
   const [activeTimeframe, setActiveTimeframe] = useState("15m");
 
   const handleOrderSubmit = async (data: OrderFormData) => {
@@ -135,52 +136,63 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
             <div key="book">
               <ErrorBoundary>
                 <Panel title="Order Book">
-                  <OrderBook state={MOCK_ORDER_BOOK_STATE} />
+                  <Panel.Content noScroll>
+                    <OrderBook state={MOCK_ORDER_BOOK_STATE} />
+                  </Panel.Content>
                 </Panel>
               </ErrorBoundary>
             </div>
             <div key="chart">
-              <Panel title="Price Chart" noScroll headerExtra={timeframeTabs}>
-                <div className="flex-1 p-2 min-h-0">
-                  <CandleChart />
-                </div>
+              <Panel title="Price Chart">
+                <Panel.Header extra={timeframeTabs} />
+                <Panel.Content noScroll>
+                  <div className="flex-1 p-2 min-h-0">
+                    <CandleChart />
+                  </div>
+                </Panel.Content>
               </Panel>
             </div>
             <div key="order">
               <ErrorBoundary>
                 <Panel title="Place Order">
-                  <div className="p-3">
-                    <OrderForm
-                      symbol={symbol}
-                      onSubmit={handleOrderSubmit}
-                      isLoading={orderSubmitting}
-                    />
-                  </div>
+                  <Panel.Content>
+                    <div className="p-3">
+                      <OrderForm
+                        symbol={symbol}
+                        onSubmit={handleOrderSubmit}
+                        isLoading={orderSubmitting}
+                      />
+                    </div>
+                  </Panel.Content>
                 </Panel>
               </ErrorBoundary>
             </div>
             <div key="portfolio">
               <ErrorBoundary>
                 <Panel title="Portfolio">
-                  <PortfolioSummaryWidget {...MOCK_PORTFOLIO_SUMMARY} botPnl={botPnl} />
+                  <Panel.Content>
+                    <PortfolioSummaryWidget {...MOCK_PORTFOLIO_SUMMARY} botPnl={botPnl} />
+                  </Panel.Content>
                 </Panel>
               </ErrorBoundary>
             </div>
             <div key="bots">
               <ErrorBoundary>
                 <Panel title="Bots">
-                  <BotManagerPanel
-                    bots={bots}
-                    onStatusChange={(id: string, s: BotStatus) =>
-                      setBots((prev) => prev.map((b) => (b.id === id ? { ...b, status: s } : b)))
-                    }
-                  />
+                  <Panel.Content>
+                    <BotManagerPanel
+                      bots={bots}
+                      onStatusChange={(id: string, s: BotStatus) => setBotStatus(id, s)}
+                    />
+                  </Panel.Content>
                 </Panel>
               </ErrorBoundary>
             </div>
             <div key="trades">
               <Panel title="Recent Trades">
-                <RecentTradesTable trades={MOCK_TRADING_TRADES} />
+                <Panel.Content>
+                  <RecentTradesTable trades={MOCK_TRADING_TRADES} />
+                </Panel.Content>
               </Panel>
             </div>
           </TradingGrid>

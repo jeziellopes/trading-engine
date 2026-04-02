@@ -1,7 +1,7 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { Toaster, toast } from "sonner";
 import { ThemeDropdown } from "@/features/theme/theme-dropdown";
-import { MOCK_NAV } from "@/lib/mock-data";
+import { useTradingStore } from "@/stores/trading-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { LiveIndicator } from "@/ui/live-indicator";
@@ -13,6 +13,9 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  const totalBalance = useTradingStore((s) => s.portfolioSummary.totalBalance);
+  const dailyProfitPct = useTradingStore((s) => s.portfolioSummary.dailyProfitPct);
+
   return (
     <ErrorBoundary
       fallback={(error) => (
@@ -45,9 +48,9 @@ function RootComponent() {
               className="flex items-center gap-3 px-3 py-1 rounded border border-border/60 transition-colors hover:border-border text-xs font-mono bg-background"
             >
               <span className="tabular-nums font-semibold">
-                ${MOCK_NAV.balance.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                ${totalBalance.toLocaleString("en-US", { minimumFractionDigits: 2 })}
               </span>
-              <span className="tabular-nums text-trading-profit">+{MOCK_NAV.dailyPnLPct}%</span>
+              <span className="tabular-nums text-trading-profit">+{dailyProfitPct}%</span>
               <span className="text-[10px] text-muted-foreground">Portfolio →</span>
             </Link>
             <div className="w-px h-5 bg-border mx-1" />

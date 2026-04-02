@@ -624,9 +624,8 @@ function DesignSystemShowcase() {
             </div>
 
             <SpreadBar
+              spread={{ amount: 2.5, percent: 0.0037 }}
               lastPrice={67843.5}
-              spreadAmount={2.5}
-              spreadPercent={0.0037}
               tickDirection="up"
             />
 

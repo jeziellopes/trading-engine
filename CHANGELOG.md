@@ -163,3 +163,18 @@
 * **tokens:** add WCAG contrast lib, CSS token parser, and audit script ([cb29a6c](https://github.com/jeziellopes/trading-engine/commit/cb29a6c4f03f663ddcf86f26d3ae2a3934f1652d))
 * **tokens:** implement three-layer theme architecture ([d7b436c](https://github.com/jeziellopes/trading-engine/commit/d7b436c0713963c952e4d555938446eabcfb2a20))
 * **ui:** add badge, button, card, depth bar, and input components with tests ([34cd787](https://github.com/jeziellopes/trading-engine/commit/34cd787440eab62e6131c2c351916b4fcfb3802d))
+
+## [Unreleased]
+
+### Refactor
+- **Panel**: compound sub-components `Panel.Header` (extra slot) + `Panel.Content` (noScroll) — removes boolean props from top-level API
+- **OrderBook**: compound sub-components `OrderBook.Asks`, `OrderBook.Bids`, `OrderBook.Spread`, `OrderBook.ConnectionBanner` via React context; default layout preserved
+- **SpreadBar**: grouped `spread: { amount, percent }` prop replaces flat `spreadAmount`/`spreadPercent`
+- **BalanceDisplay**: grouped `balance: { total, available, unrealizedPnL }` prop replaces flat numeric props
+- **useTradingStore**: new Zustand store in `src/stores/` centralises bots state + mock market/portfolio data
+- **SymbolSelector**: `useSymbolSearch` hook extracted to `use-symbol-search.ts`; `SymbolRow` moved to own file
+- **__root.tsx**: nav balance sourced from `useTradingStore` instead of `MOCK_NAV`
+- **TradingLayout**: bots state lifted to `useTradingStore`; all Panel usages updated to compound API
+
+### Tests
+- Updated Panel, SpreadBar, BalanceDisplay tests to match new prop shapes
