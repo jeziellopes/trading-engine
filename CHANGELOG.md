@@ -28,6 +28,12 @@
 
 ## [Unreleased]
 
+### Changed
+- `corpo-ice` theme: differentiate `--secondary` from primary — light mode hue 192 → 220 (blue-steel). Now consistent across all three modes.
+
+### Changed
+- `corpo-ice` theme: differentiate `--secondary` from primary — light mode now uses hue 220 (blue-steel) instead of 192 (identical to primary ice-blue). Consistent with dark/vibrant modes.
+
 ### Features
 
 * **design-system:** introduce `--on-primary`, `--primary-container` and on-* colour roles for all 6 themes × 3 modes (#57)
