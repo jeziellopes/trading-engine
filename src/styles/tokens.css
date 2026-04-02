@@ -312,6 +312,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -387,6 +389,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -461,6 +465,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -537,6 +543,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -609,6 +617,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -682,6 +692,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -758,6 +770,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -831,6 +845,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -904,6 +920,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -980,6 +998,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -1053,6 +1073,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -1126,6 +1148,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -1203,6 +1227,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -1276,6 +1302,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.25);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -1349,6 +1377,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -1424,6 +1454,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -1495,6 +1527,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);
@@ -1568,6 +1602,8 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
   /* on-* colour roles */
   --on-primary:              var(--primary-foreground);
   --on-secondary:            var(--secondary-foreground);

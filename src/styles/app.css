@@ -56,6 +56,8 @@
   --color-trading-reconnecting-border:  var(--trading-reconnecting-border);
   --color-trading-disconnected-bg:      var(--trading-disconnected-bg);
   --color-trading-disconnected-border:  var(--trading-disconnected-border);
+  --color-on-trading-bid:               var(--on-trading-bid);
+  --color-on-trading-ask:               var(--on-trading-ask);
 
   /* ── Sidebar tokens ──────────────────────────────────────── */
   --color-sidebar:                      var(--sidebar);

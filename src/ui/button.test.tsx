@@ -90,11 +90,13 @@ describe("Button", () => {
     render(<Button intent="buy">Buy</Button>);
     const btn = screen.getByRole("button");
     expect(btn).toHaveClass("font-medium");
+    expect(btn).toHaveClass("text-on-trading-bid");
   });
 
   it("applies font-medium on sell variant", () => {
     render(<Button intent="sell">Sell</Button>);
     const btn = screen.getByRole("button");
     expect(btn).toHaveClass("font-medium");
+    expect(btn).toHaveClass("text-on-trading-ask");
   });
 });
