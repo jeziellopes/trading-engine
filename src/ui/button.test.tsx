@@ -27,6 +27,7 @@ describe("Button", () => {
     render(<Button intent="secondary">Cancel</Button>);
     const btn = screen.getByRole("button", { name: /cancel/i });
     expect(btn).toHaveClass("bg-secondary");
+    expect(btn).toHaveClass("text-on-secondary");
   });
 
   it("applies danger intent", () => {

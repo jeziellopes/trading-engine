@@ -7,7 +7,7 @@ const buttonVariants = cva(
     variants: {
       intent: {
         primary: "bg-primary text-on-primary hover:bg-primary/90",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
+        secondary: "bg-secondary text-on-secondary hover:bg-secondary/90",
         danger: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         buy: "bg-trading-bid text-foreground font-medium hover:opacity-90",
         sell: "bg-trading-ask text-foreground font-medium hover:opacity-90",
