@@ -1,5 +1,13 @@
 # [1.0.0-next.7](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.6...v1.0.0-next.7) (2026-04-02)
 
+## [Unreleased]
+
+### Bug Fixes
+
+* **design-system:** differentiate `--secondary` vs `--accent` surfaces across all themes (#51)
+* **design-system:** wire second brand colour to `--secondary`/`--accent` for night-city, maelstrom, corpo-ice (#52)
+
+
 
 ### Bug Fixes
 
