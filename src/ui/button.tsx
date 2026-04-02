@@ -6,11 +6,12 @@ const buttonVariants = cva(
   {
     variants: {
       intent: {
-        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+        primary: "bg-primary text-on-primary hover:bg-primary/90",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
         danger: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         buy: "bg-trading-bid text-foreground font-medium hover:opacity-90",
         sell: "bg-trading-ask text-foreground font-medium hover:opacity-90",
+        tonal: "bg-primary-container text-on-primary-container hover:bg-primary-container/80",
         ghost: "bg-transparent text-foreground hover:bg-muted",
       },
       size: {

@@ -13,6 +13,14 @@ describe("Button", () => {
     render(<Button>Submit</Button>);
     const btn = screen.getByRole("button", { name: /submit/i });
     expect(btn).toHaveClass("bg-primary");
+    expect(btn).toHaveClass("text-on-primary");
+  });
+
+  it("applies tonal intent", () => {
+    render(<Button intent="tonal">Tonal</Button>);
+    const btn = screen.getByRole("button", { name: /tonal/i });
+    expect(btn).toHaveClass("bg-primary-container");
+    expect(btn).toHaveClass("text-on-primary-container");
   });
 
   it("applies secondary intent", () => {

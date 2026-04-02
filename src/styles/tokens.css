@@ -312,6 +312,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* Soft dark: .dark class (Tailwind compat) OR explicit. */
@@ -374,6 +387,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ── Soft Vibrant (violet primary as surface) ──────────────── */
@@ -435,6 +461,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -498,6 +537,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="night-city"][data-mode="dark"] {
@@ -557,6 +609,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="night-city"][data-mode="vibrant"] {
@@ -617,6 +682,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -680,6 +758,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="maelstrom"][data-mode="dark"] {
@@ -740,6 +831,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="maelstrom"][data-mode="vibrant"] {
@@ -800,6 +904,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -863,6 +980,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="corpo-ice"][data-mode="dark"] {
@@ -923,6 +1053,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="corpo-ice"][data-mode="vibrant"] {
@@ -983,6 +1126,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1047,6 +1203,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="netrunner"][data-mode="dark"] {
@@ -1107,6 +1276,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.25);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="netrunner"][data-mode="vibrant"] {
@@ -1167,6 +1349,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1229,6 +1424,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="flowa"][data-mode="dark"] {
@@ -1287,6 +1495,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="flowa"][data-mode="vibrant"] {
@@ -1347,6 +1568,19 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ── Vivid palette override (dev tool) ────────────────────────────────────────

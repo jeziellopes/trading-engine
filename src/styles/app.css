@@ -29,6 +29,15 @@
   --color-border:             var(--border);
   --color-input:              var(--input);
   --color-ring:               var(--ring);
+  --color-on-primary:                   var(--on-primary);
+  --color-primary-container:            var(--primary-container);
+  --color-on-primary-container:         var(--on-primary-container);
+  --color-on-secondary:                 var(--on-secondary);
+  --color-secondary-container:          var(--secondary-container);
+  --color-on-secondary-container:       var(--on-secondary-container);
+  --color-on-tertiary:                  var(--on-tertiary);
+  --color-tertiary-container:           var(--tertiary-container);
+  --color-on-tertiary-container:        var(--on-tertiary-container);
 
   /* ── Trading domain tokens ──────────────────────────────── */
   --color-trading-bid:                  var(--trading-bid);
