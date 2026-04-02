@@ -18,16 +18,26 @@ const MOCK_CANDLES: CandlestickData<Time>[] = [
   { time: "2024-01-09" as Time, open: 67860, high: 67940, low: 67800, close: 67844 },
 ];
 
-/** Resolve a CSS custom property to a browser-normalized rgb() string.
- * lightweight-charts cannot parse oklch — the probe element forces the browser
- * to convert the computed value to sRGB before we read it back. */
+/** Resolve a CSS custom property to a hex string that lightweight-charts can parse.
+ * Modern Chrome preserves oklch in getComputedStyle, so we must force sRGB
+ * conversion via Canvas getImageData (always returns sRGB bytes). */
 function resolveColor(container: HTMLElement, name: string): string {
+  // Step 1: get computed value — may be oklch on Chrome 116+
   const probe = document.createElement("div");
   probe.style.cssText = `position:absolute;visibility:hidden;color:var(${name})`;
   container.appendChild(probe);
-  const color = getComputedStyle(probe).color;
+  const computed = getComputedStyle(probe).color;
   container.removeChild(probe);
-  return color;
+
+  // Step 2: force sRGB via canvas — fillStyle accepts oklch, getImageData returns RGBA bytes
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 1;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return computed;
+  ctx.fillStyle = computed;
+  ctx.fillRect(0, 0, 1, 1);
+  const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+  return `rgb(${r}, ${g}, ${b})`;
 }
 
 export function CandleChart() {
