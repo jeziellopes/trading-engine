@@ -1,3 +1,10 @@
+# [1.0.0-next.10](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.9...v1.0.0-next.10) (2026-04-02)
+
+
+### Features
+
+* **design-system:** differentiate corpo-ice secondary from primary hue ([a12a6b6](https://github.com/jeziellopes/trading-engine/commit/a12a6b6d643a4fa0e2c8f7d4e1f7adbd0ba33cc8)), closes [#52](https://github.com/jeziellopes/trading-engine/issues/52) [#52](https://github.com/jeziellopes/trading-engine/issues/52)
+
 # [1.0.0-next.9](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.8...v1.0.0-next.9) (2026-04-02)
 
 
