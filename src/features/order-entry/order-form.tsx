@@ -61,7 +61,7 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
   return (
     <form onSubmit={handleSubmit(internalSubmit)} noValidate className="space-y-2.5">
       {/* Side Selection */}
-      <div className="flex gap-0.5 bg-muted p-0.5 rounded-md">
+      <div className="flex gap-1.5 bg-muted p-1 rounded-md">
         <Button
           type="button"
           intent={side === "buy" ? "buy" : "segment"}
@@ -83,7 +83,7 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
       </div>
 
       {/* Order Type Selection */}
-      <div className="flex gap-0.5 bg-muted p-0.5 rounded-md">
+      <div className="flex gap-1.5 bg-muted p-1 rounded-md">
         <Button
           type="button"
           intent={type === "limit" ? "primary" : "segment"}
@@ -157,7 +157,7 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
       </div>
 
       {/* Quick-fill shortcuts — disabled until portfolio store is connected */}
-      <div className="flex gap-0.5 bg-muted p-0.5 rounded-md">
+      <div className="flex gap-1.5 bg-muted p-1 rounded-md">
         {(["25%", "50%", "75%", "100%"] as const).map((pct) => (
           <Button
             key={pct}

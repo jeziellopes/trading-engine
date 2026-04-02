@@ -33,7 +33,7 @@ describe("Button", () => {
   it("applies segment intent", () => {
     render(<Button intent="segment">Tab</Button>);
     const btn = screen.getByRole("button", { name: /tab/i });
-    expect(btn).toHaveClass("bg-transparent");
+    expect(btn).toHaveClass("bg-background");
     expect(btn).toHaveClass("text-muted-foreground");
   });
 

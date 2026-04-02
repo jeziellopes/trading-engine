@@ -13,7 +13,7 @@ const buttonVariants = cva(
         sell: "bg-trading-ask text-on-trading-ask font-medium hover:opacity-90",
         tonal: "bg-primary-container text-on-primary-container hover:bg-primary-container/80",
         ghost: "bg-transparent text-foreground hover:bg-muted",
-        segment: "bg-transparent text-muted-foreground hover:text-foreground hover:bg-background/60",
+        segment: "bg-background text-muted-foreground hover:text-foreground transition-colors",
       },
       size: {
         xs: "px-1.5 py-0.5 text-xs rounded-sm",
