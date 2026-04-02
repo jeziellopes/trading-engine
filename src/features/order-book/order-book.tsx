@@ -56,7 +56,7 @@ function OrderBookSpread() {
     <SpreadBar
       spread={{ amount: state.spreadAmount, percent: state.spreadPercent }}
       lastPrice={state.lastPrice}
-      tickDirection={state.lastPriceTick}
+      {...(state.lastPriceTick !== undefined ? { tickDirection: state.lastPriceTick } : {})}
     />
   );
 }
