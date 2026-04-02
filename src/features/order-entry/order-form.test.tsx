@@ -141,5 +141,4 @@ describe("OrderForm", () => {
     await userEvent.click(screen.getByRole("tab", { name: /market/i }));
     expect(screen.getByRole("button", { name: /buy market/i })).toBeInTheDocument();
   });
-
 });

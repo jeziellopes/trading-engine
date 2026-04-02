@@ -89,11 +89,7 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
       </div>
 
       {/* Order Type Tab Switcher — uses Tab primitive */}
-      <TabList
-        value={type}
-        onValueChange={handleTypeChange}
-        aria-label="Order type"
-      >
+      <TabList value={type} onValueChange={handleTypeChange} aria-label="Order type">
         <Tab value="limit">Limit</Tab>
         <Tab value="market">Market</Tab>
       </TabList>

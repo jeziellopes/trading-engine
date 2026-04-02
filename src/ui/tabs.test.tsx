@@ -13,9 +13,15 @@ function Fixture({ defaultValue = "a" }: { defaultValue?: string }) {
         <Tab value="b">Tab B</Tab>
         <Tab value="c">Tab C</Tab>
       </TabList>
-      <TabPanel value="a" activeValue={value}>Panel A</TabPanel>
-      <TabPanel value="b" activeValue={value}>Panel B</TabPanel>
-      <TabPanel value="c" activeValue={value}>Panel C</TabPanel>
+      <TabPanel value="a" activeValue={value}>
+        Panel A
+      </TabPanel>
+      <TabPanel value="b" activeValue={value}>
+        Panel B
+      </TabPanel>
+      <TabPanel value="c" activeValue={value}>
+        Panel C
+      </TabPanel>
     </>
   );
 }
