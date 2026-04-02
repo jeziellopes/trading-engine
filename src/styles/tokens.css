@@ -258,7 +258,7 @@
 [data-theme="soft"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l, 0.004) var(--t-hue-l));
   --foreground:             oklch(0.12 0.008 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l, 0.004) var(--t-hue-l));
   --card-foreground:        oklch(0.12 0.008 var(--t-hue-l));
@@ -274,7 +274,7 @@
   --accent-foreground:      oklch(0.12 0.008 var(--t-hue-l));
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.87 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l, 0.004) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l, 0.004) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 
@@ -489,7 +489,7 @@
 [data-theme="night-city"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l) var(--t-hue-l));
   --foreground:             oklch(0.12 0.008 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
   --card-foreground:        oklch(0.12 0.008 var(--t-hue-l));
@@ -505,7 +505,7 @@
   --accent-foreground:      oklch(0.12 0.010 340);
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 
@@ -716,7 +716,7 @@
 [data-theme="maelstrom"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l) var(--t-hue-l));
   --foreground:             oklch(0.12 0.010 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
   --card-foreground:        oklch(0.12 0.010 var(--t-hue-l));
@@ -732,7 +732,7 @@
   --accent-foreground:      oklch(0.12 0.010 102);
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 
@@ -944,7 +944,7 @@
 [data-theme="corpo-ice"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l) var(--t-hue-l));
   --foreground:             oklch(0.12 0.010 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
   --card-foreground:        oklch(0.12 0.010 var(--t-hue-l));
@@ -960,7 +960,7 @@
   --accent-foreground:      oklch(0.12 0.010 340);
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 
@@ -1173,7 +1173,7 @@
 [data-theme="netrunner"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l) var(--t-hue-l));
   --foreground:             oklch(0.10 0.002 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
   --card-foreground:        oklch(0.10 0.002 var(--t-hue-l));
@@ -1189,7 +1189,7 @@
   --accent-foreground:      oklch(0.10 0.002 var(--t-hue-l));
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.88 var(--t-chroma-l) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 

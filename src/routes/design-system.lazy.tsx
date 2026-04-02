@@ -682,7 +682,9 @@ function DesignSystemShowcase() {
         {/* ── Order Form ──────────────────────────────────── */}
         <Section title="Order Entry">
           <div className="max-w-xs">
-            <OrderForm symbol="BTCUSDT" onSubmit={() => {}} />
+            <Card>
+              <OrderForm symbol="BTCUSDT" onSubmit={() => {}} />
+            </Card>
           </div>
         </Section>
 
