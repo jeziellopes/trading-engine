@@ -13,10 +13,8 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-  const { totalBalance, dailyProfitPct } = useTradingStore((s) => ({
-    totalBalance: s.portfolioSummary.totalBalance,
-    dailyProfitPct: s.portfolioSummary.dailyProfitPct,
-  }));
+  const totalBalance = useTradingStore((s) => s.portfolioSummary.totalBalance);
+  const dailyProfitPct = useTradingStore((s) => s.portfolioSummary.dailyProfitPct);
 
   return (
     <ErrorBoundary

@@ -60,10 +60,8 @@ function loadLayouts(): ResponsiveLayouts<string> {
 export function TradingLayout({ symbol }: TradingLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const [layouts, setLayouts] = useState<ResponsiveLayouts<string>>(loadLayouts);
-  const { bots, setBotStatus } = useTradingStore((s) => ({
-    bots: s.bots,
-    setBotStatus: s.setBotStatus,
-  }));
+  const bots = useTradingStore((s) => s.bots);
+  const setBotStatus = useTradingStore((s) => s.setBotStatus);
   const [activeTimeframe, setActiveTimeframe] = useState("15m");
 
   const handleOrderSubmit = async (data: OrderFormData) => {
