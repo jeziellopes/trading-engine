@@ -1,4 +1,4 @@
-import { createContext, use, useRef } from "react";
+import { createContext, use } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
@@ -7,7 +7,6 @@ import { Button } from "./button";
 interface TabsContextValue {
   value: string;
   onValueChange: (value: string) => void;
-  tabs: React.RefObject<string[]>;
 }
 
 const TabsContext = createContext<TabsContextValue | null>(null);
@@ -26,11 +25,8 @@ interface TabListProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function TabList({ value, onValueChange, className, children, ...props }: TabListProps) {
-  const tabs = useRef<string[]>([]);
-  tabs.current = []; // reset on each render — Tab children repopulate via registration
-
   return (
-    <TabsContext value={{ value, onValueChange, tabs }}>
+    <TabsContext value={{ value, onValueChange }}>
       <div
         role="tablist"
         className={cn("flex gap-1.5 bg-muted p-1 rounded-md", className)}
@@ -49,26 +45,23 @@ interface TabProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Tab({ value, children, className, ...props }: TabProps) {
-  const { value: activeValue, onValueChange, tabs } = useTabsContext();
-
-  // Register this tab value in order (runs during render — tabs.current reset each render)
-  if (!tabs.current.includes(value)) tabs.current.push(value);
-
+  const { value: activeValue, onValueChange } = useTabsContext();
   const isActive = value === activeValue;
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    const list = tabs.current;
-    const idx = list.indexOf(value);
-    if (e.key === "ArrowRight") {
-      e.preventDefault();
-      const next = list[(idx + 1) % list.length];
-      onValueChange(next);
-      document.querySelector<HTMLButtonElement>(`[data-tab="${next}"]`)?.focus();
-    } else if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      const prev = list[(idx - 1 + list.length) % list.length];
-      onValueChange(prev);
-      document.querySelector<HTMLButtonElement>(`[data-tab="${prev}"]`)?.focus();
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault();
+    // Query sibling tabs from the DOM at event time — no render-time ref mutation
+    const tablist = e.currentTarget.closest('[role="tablist"]');
+    const allTabs = Array.from(tablist?.querySelectorAll<HTMLButtonElement>('[role="tab"]') ?? []);
+    const idx = allTabs.findIndex((t) => t.dataset.tab === value);
+    const next =
+      e.key === "ArrowRight"
+        ? allTabs[(idx + 1) % allTabs.length]
+        : allTabs[(idx - 1 + allTabs.length) % allTabs.length];
+    if (next?.dataset.tab) {
+      onValueChange(next.dataset.tab);
+      next.focus();
     }
     props.onKeyDown?.(e);
   };

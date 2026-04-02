@@ -17,7 +17,7 @@ import { Button } from "@/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/ui/card";
 import { DepthBar } from "@/ui/depth-bar";
 import { Input } from "@/ui/input";
-import { Tab, TabList, TabPanel } from "@/ui/tabs";
+import { Tab, TabList } from "@/ui/tabs";
 
 export const Route = createLazyFileRoute("/design-system")({
   component: DesignSystemShowcase,
