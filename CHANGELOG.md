@@ -42,6 +42,7 @@
 - `corpo-ice` theme: differentiate `--secondary` from primary — light mode now uses hue 220 (blue-steel) instead of 192 (identical to primary ice-blue). Consistent with dark/vibrant modes.
 ### Added
 - `pnpm audit:colors` — Playwright-based runtime WCAG contrast audit across all routes × 6 themes × 3 modes. Complements static `pnpm contrast` by catching rendered component violations (hardcoded colors, wrong tokens, invisible text).
+- `OrderForm`: replaced Limit/Market segment control with a proper tab interface (`role="tablist"`/`role="tab"`). Market tab hides the price field. Arrow key navigation between tabs. Fixed min-height prevents layout shift on tab switch.
 
 ### Features
 

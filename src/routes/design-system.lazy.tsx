@@ -17,6 +17,7 @@ import { Button } from "@/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/ui/card";
 import { DepthBar } from "@/ui/depth-bar";
 import { Input } from "@/ui/input";
+import { Tab, TabList } from "@/ui/tabs";
 
 export const Route = createLazyFileRoute("/design-system")({
   component: DesignSystemShowcase,
@@ -460,14 +461,10 @@ function DesignSystemShowcase() {
                 <Button intent="tonal" size="sm">
                   Tonal
                 </Button>
-                <div className="flex gap-0.5 bg-muted p-0.5 rounded-md">
-                  <Button intent="primary" size="sm">
-                    Limit
-                  </Button>
-                  <Button intent="segment" size="sm">
-                    Market
-                  </Button>
-                </div>
+                <TabList value="limit" onValueChange={() => {}} aria-label="Tab primitive demo">
+                  <Tab value="limit">Limit</Tab>
+                  <Tab value="market">Market</Tab>
+                </TabList>
                 <Button intent="buy" size="sm">
                   Buy
                 </Button>

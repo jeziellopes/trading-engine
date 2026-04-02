@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
+import { Tab, TabList, TabPanel } from "@/ui/tabs";
 
 const orderSchema = z
   .object({
@@ -58,6 +59,11 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
     reset({ symbol, side: data.side, type: data.type, quantity: "", price: "" });
   };
 
+  const handleTypeChange = (next: string) => {
+    setValue("type", next as "limit" | "market");
+    if (next === "market") setValue("price", "");
+  };
+
   return (
     <form onSubmit={handleSubmit(internalSubmit)} noValidate className="space-y-2.5">
       {/* Side Selection */}
@@ -82,58 +88,41 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
         </Button>
       </div>
 
-      {/* Order Type Selection */}
-      <div className="flex gap-1.5 bg-muted p-1 rounded-md">
-        <Button
-          type="button"
-          intent={type === "limit" ? "primary" : "segment"}
-          size="sm"
-          onClick={() => setValue("type", "limit")}
-          className="flex-1 rounded-sm"
-        >
-          Limit
-        </Button>
-        <Button
-          type="button"
-          intent={type === "market" ? "primary" : "segment"}
-          size="sm"
-          onClick={() => {
-            setValue("type", "market");
-            setValue("price", ""); // clear stale limit price when switching to market
-          }}
-          className="flex-1 rounded-sm"
-        >
-          Market
-        </Button>
+      {/* Order Type Tab Switcher — uses Tab primitive */}
+      <TabList value={type} onValueChange={handleTypeChange} aria-label="Order type">
+        <Tab value="limit">Limit</Tab>
+        <Tab value="market">Market</Tab>
+      </TabList>
+
+      {/* Tab Panels — min-h prevents layout shift */}
+      <div className="min-h-[96px] space-y-2.5">
+        <TabPanel value="limit" activeValue={type}>
+          <div>
+            <label htmlFor="order-price" className="text-xs text-muted-foreground block mb-1">
+              Price
+            </label>
+            <Input
+              id="order-price"
+              type="number"
+              placeholder="0.00"
+              {...register("price")}
+              disabled={busy}
+              step="0.01"
+              size="sm"
+              aria-invalid={errors.price ? "true" : undefined}
+              aria-describedby={errors.price ? "order-price-error" : undefined}
+            />
+            {errors.price && (
+              <p id="order-price-error" role="alert" className="text-xs mt-1 text-destructive">
+                {errors.price.message}
+              </p>
+            )}
+          </div>
+        </TabPanel>
+        {/* Market panel — no price field, only quantity below */}
       </div>
 
-      {/* Price Input — always visible; disabled for market orders */}
-      <div>
-        <label htmlFor="order-price" className="text-xs text-muted-foreground block mb-1">
-          Price
-          {type === "market" && (
-            <span className="ml-1.5 text-[10px] text-muted-foreground opacity-60">market</span>
-          )}
-        </label>
-        <Input
-          id="order-price"
-          type="number"
-          placeholder={type === "market" ? "Market price" : "0.00"}
-          {...register("price")}
-          disabled={busy || type === "market"}
-          step="0.01"
-          size="sm"
-          aria-invalid={errors.price ? "true" : undefined}
-          aria-describedby={errors.price ? "order-price-error" : undefined}
-        />
-        {errors.price && (
-          <p id="order-price-error" role="alert" className="text-xs mt-1 text-destructive">
-            {errors.price.message}
-          </p>
-        )}
-      </div>
-
-      {/* Quantity Input */}
+      {/* Quantity Input — shared across both tabs */}
       <div>
         <label htmlFor="order-quantity" className="text-xs text-muted-foreground block mb-1">
           Quantity
