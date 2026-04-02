@@ -1,8 +1,8 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { ConnectionBanner } from "@/features/order-book/connection-banner";
-import { OrderForm } from "@/features/order-entry/order-form";
 import { SpreadBar } from "@/features/order-book/spread-bar";
+import { OrderForm } from "@/features/order-entry/order-form";
 import {
   CONTRAST_PAIRS,
   contrastRatio,
@@ -340,11 +340,11 @@ function DesignSystemShowcase() {
           </div>
         </Section>
 
-
         {/* ── Colour Roles ─────────────────────────────────── */}
         <Section title="Colors — Colour Roles">
           <p className="text-xs text-muted-foreground mb-3">
-            Each swatch shows the fill with its paired <code className="font-mono">on-*</code> text on top — the correct contrast pair.
+            Each swatch shows the fill with its paired <code className="font-mono">on-*</code> text
+            on top — the correct contrast pair.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[
@@ -370,13 +370,26 @@ function DesignSystemShowcase() {
         {/* ── Container Roles ───────────────────────────────── */}
         <Section title="Colors — Containers">
           <p className="text-xs text-muted-foreground mb-3">
-            Alpha-tinted container fills for badges, pills, and highlight backgrounds — paired with their <code className="font-mono">on-*-container</code> text.
+            Alpha-tinted container fills for badges, pills, and highlight backgrounds — paired with
+            their <code className="font-mono">on-*-container</code> text.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[
-              { label: "primary-container", bg: "var(--primary-container)", fg: "var(--on-primary-container)" },
-              { label: "secondary-container", bg: "var(--secondary-container)", fg: "var(--on-secondary-container)" },
-              { label: "tertiary-container", bg: "var(--tertiary-container)", fg: "var(--on-tertiary-container)" },
+              {
+                label: "primary-container",
+                bg: "var(--primary-container)",
+                fg: "var(--on-primary-container)",
+              },
+              {
+                label: "secondary-container",
+                bg: "var(--secondary-container)",
+                fg: "var(--on-secondary-container)",
+              },
+              {
+                label: "tertiary-container",
+                bg: "var(--tertiary-container)",
+                fg: "var(--on-tertiary-container)",
+              },
             ].map(({ label, bg, fg }) => (
               <div key={label} className="space-y-1.5">
                 <div
@@ -679,9 +692,7 @@ function DesignSystemShowcase() {
                 className="grid grid-cols-3 gap-x-2 px-2 py-px text-xs font-mono tabular-nums"
               >
                 <span className="text-muted-foreground">{trade.time}</span>
-                <span
-                  className={trade.side === "buy" ? "text-trading-bid" : "text-trading-ask"}
-                >
+                <span className={trade.side === "buy" ? "text-trading-bid" : "text-trading-ask"}>
                   {trade.price.toFixed(2)}
                 </span>
                 <span className="text-right text-muted-foreground">{trade.qty.toFixed(2)}</span>
@@ -705,8 +716,7 @@ function DesignSystemShowcase() {
         <div className="border-t border-border pt-6 text-[10px] font-mono text-muted-foreground">
           <p>CypherUI Trading · tokens.css</p>
           <p className="mt-1">
-            Regenerate tokens:{" "}
-            <code className="bg-muted px-1.5 py-0.5 rounded">pnpm tokens</code>
+            Regenerate tokens: <code className="bg-muted px-1.5 py-0.5 rounded">pnpm tokens</code>
           </p>
         </div>
       </div>
