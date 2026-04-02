@@ -40,6 +40,8 @@
 
 ### Changed
 - `corpo-ice` theme: differentiate `--secondary` from primary — light mode now uses hue 220 (blue-steel) instead of 192 (identical to primary ice-blue). Consistent with dark/vibrant modes.
+### Added
+- `pnpm audit:colors` — Playwright-based runtime WCAG contrast audit across all routes × 6 themes × 3 modes. Complements static `pnpm contrast` by catching rendered component violations (hardcoded colors, wrong tokens, invisible text).
 
 ### Features
 
