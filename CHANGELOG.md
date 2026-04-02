@@ -1,3 +1,22 @@
+# [1.0.0-next.9](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.8...v1.0.0-next.9) (2026-04-02)
+
+
+### Bug Fixes
+
+* **design-system:** fix light mode surface depth and Order Entry container ([5bbffaf](https://github.com/jeziellopes/trading-engine/commit/5bbffaf1d8d98912e607e3d64e42a61243c700f4))
+* **design-system:** fix segment control visibility with bg-background inactive state ([591af06](https://github.com/jeziellopes/trading-engine/commit/591af06b8d1c65a4660d96bf140bd0c6b18d0561)), closes [#60](https://github.com/jeziellopes/trading-engine/issues/60)
+* **design-system:** use primitives as source of truth in /design-system ([d55a886](https://github.com/jeziellopes/trading-engine/commit/d55a886f3a122b1236361cbb0d2ba2801151557f))
+* **order-entry:** align Limit/Market button height with Buy/Sell ([f4dcaa4](https://github.com/jeziellopes/trading-engine/commit/f4dcaa40b8d2e90340d12481d835f549df5bb292))
+* **order-entry:** fix button spacing and corner radius inside segment tracks ([7597b2f](https://github.com/jeziellopes/trading-engine/commit/7597b2fc8f9261029c36adb971d477af120f13e3))
+* **order-entry:** fix flat inactive segment buttons with segment intent ([295f68a](https://github.com/jeziellopes/trading-engine/commit/295f68a97c5d4f05045b30aa75b68e70fb85c98a))
+
+
+### Features
+
+* **design-system:** add Colour Roles and Containers sections to /design-system ([709f4c5](https://github.com/jeziellopes/trading-engine/commit/709f4c567cc95da40852397cad044ecf899207ff))
+* **design-system:** add on-trading-bid/ask tokens and adopt on-* in button variants ([8744041](https://github.com/jeziellopes/trading-engine/commit/87440411c47971b008003c1c59c5b6d4b4f37ba0))
+* **design-system:** introduce on-* colour roles and container tokens ([#57](https://github.com/jeziellopes/trading-engine/issues/57)) ([97e1239](https://github.com/jeziellopes/trading-engine/commit/97e12396a4edb7f7d9b024fd2f244674b8e27d85))
+
 # [1.0.0-next.8](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.7...v1.0.0-next.8) (2026-04-02)
 
 
