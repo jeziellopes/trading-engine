@@ -89,7 +89,7 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
           intent={type === "limit" ? "primary" : "segment"}
           size="sm"
           onClick={() => setValue("type", "limit")}
-          className="flex-1 rounded-sm text-xs"
+          className="flex-1 rounded-sm"
         >
           Limit
         </Button>
@@ -101,7 +101,7 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
             setValue("type", "market");
             setValue("price", ""); // clear stale limit price when switching to market
           }}
-          className="flex-1 rounded-sm text-xs"
+          className="flex-1 rounded-sm"
         >
           Market
         </Button>
