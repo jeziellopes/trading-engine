@@ -20,7 +20,7 @@ export const designTokens = {
     "--secondary-foreground": "oklch(0.12 0.008 265)",
     "--muted": "oklch(0.93 0.004 265)",
     "--muted-foreground": "oklch(0.45 0.002 265)",
-    "--accent": "oklch(0.93 0.004 265)",
+    "--accent": "oklch(0.97 0.004 265)",
     "--accent-foreground": "oklch(0.12 0.008 265)",
     "--destructive": "oklch(0.56 0.24 27 )",
     "--destructive-foreground": "oklch(0.97 0    0  )",
