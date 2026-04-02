@@ -1,17 +1,53 @@
-import type { ReactNode } from "react";
+import { Children, isValidElement, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface PanelProps {
   title: string;
   children: ReactNode;
-  /** Disable inner scroll — use for chart panels that must fill height */
-  noScroll?: boolean;
-  /** Extra content rendered inline in the header (e.g. timeframe tabs) */
-  headerExtra?: ReactNode;
   className?: string;
 }
 
-export function Panel({ title, children, noScroll = false, headerExtra, className }: PanelProps) {
+interface PanelHeaderProps {
+  extra?: ReactNode;
+}
+
+interface PanelContentProps {
+  children: ReactNode;
+  noScroll?: boolean;
+  className?: string;
+}
+
+function PanelHeader(_props: PanelHeaderProps) {
+  // Slot marker — Panel extracts `extra` from this component's props
+  return null;
+}
+
+function PanelContent({ children, noScroll = false, className }: PanelContentProps) {
+  return (
+    <div
+      className={cn(
+        "flex-1 min-h-0",
+        noScroll ? "flex flex-col overflow-hidden" : "overflow-y-auto",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function Panel({ title, children, className }: PanelProps) {
+  let extra: ReactNode = null;
+  const bodyChildren: ReactNode[] = [];
+
+  Children.forEach(children, (child) => {
+    if (isValidElement(child) && child.type === PanelHeader) {
+      extra = (child.props as PanelHeaderProps).extra ?? null;
+    } else {
+      bodyChildren.push(child);
+    }
+  });
+
   return (
     <div
       className={cn(
@@ -23,16 +59,12 @@ export function Panel({ title, children, noScroll = false, headerExtra, classNam
         <h2 className="text-xs font-cypher font-semibold tracking-wide uppercase text-muted-foreground select-none">
           {title}
         </h2>
-        {headerExtra}
+        {extra}
       </div>
-      <div
-        className={cn(
-          "flex-1 min-h-0",
-          noScroll ? "flex flex-col overflow-hidden" : "overflow-y-auto",
-        )}
-      >
-        {children}
-      </div>
+      {bodyChildren}
     </div>
   );
 }
+
+Panel.Header = PanelHeader;
+Panel.Content = PanelContent;

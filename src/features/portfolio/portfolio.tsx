@@ -1,4 +1,3 @@
-import { Card, CardHeader } from "@/ui/card";
 import { BalanceDisplay } from "./balance-display";
 import type { Position } from "./position-card";
 import { PositionCard } from "./position-card";
@@ -16,30 +15,23 @@ interface PortfolioProps {
 
 export function Portfolio({ state }: PortfolioProps) {
   return (
-    <div className="flex flex-col w-full h-full space-y-4">
-      <div>
-        <h2 className="text-xl font-cypher font-bold mb-4">Portfolio</h2>
-        <BalanceDisplay
-          totalBalance={state.totalBalance}
-          availableBalance={state.availableBalance}
-          unrealizedPnL={state.unrealizedPnL}
-        />
-      </div>
-
+    <div className="p-3 space-y-4">
+      <h3 className="text-xs font-cypher font-semibold tracking-wide uppercase text-muted-foreground select-none">
+        Portfolio
+      </h3>
+      <BalanceDisplay
+        balance={{
+          total: state.totalBalance,
+          available: state.availableBalance,
+          unrealizedPnL: state.unrealizedPnL,
+        }}
+      />
       <div className="flex-1 overflow-y-auto space-y-3">
         <h3 className="text-sm font-medium text-muted-foreground">Positions</h3>
-        {state.positions.length > 0 ? (
-          <div className="space-y-3">
-            {state.positions.map((position) => (
-              <PositionCard key={position.symbol} position={position} />
-            ))}
-          </div>
+        {state.positions.length === 0 ? (
+          <p className="text-xs text-muted-foreground">No positions open.</p>
         ) : (
-          <Card>
-            <CardHeader>
-              <p className="text-sm text-muted-foreground">No positions</p>
-            </CardHeader>
-          </Card>
+          state.positions.map((pos) => <PositionCard key={pos.symbol} position={pos} />)
         )}
       </div>
     </div>

@@ -25,9 +25,11 @@ function RouteComponent() {
         <div className="grid grid-cols-[240px_1fr] gap-6">
           <div className="rounded-lg border border-border p-5 bg-card">
             <BalanceDisplay
-              totalBalance={MOCK_PORTFOLIO_STATE.totalBalance}
-              availableBalance={MOCK_PORTFOLIO_STATE.availableBalance}
-              unrealizedPnL={MOCK_PORTFOLIO_STATE.unrealizedPnL}
+              balance={{
+                total: MOCK_PORTFOLIO_STATE.totalBalance,
+                available: MOCK_PORTFOLIO_STATE.availableBalance,
+                unrealizedPnL: MOCK_PORTFOLIO_STATE.unrealizedPnL,
+              }}
             />
           </div>
           <div className="space-y-3">

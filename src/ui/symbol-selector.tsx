@@ -1,7 +1,9 @@
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { SYMBOL_CATEGORIES, SYMBOLS, type SymbolInfo } from "@/lib/symbols";
+import { SYMBOL_CATEGORIES, SYMBOLS } from "@/lib/symbols";
 import { cn } from "@/lib/utils";
+import { SymbolRow } from "./symbol-row";
+import { useSymbolSearch } from "./use-symbol-search";
 
 export function SymbolSelector() {
   const [open, setOpen] = useState(false);
@@ -10,10 +12,11 @@ export function SymbolSelector() {
   const searchRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  // Derive current symbol from pathname
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const symbolMatch = pathname.match(/^\/symbol\/(.+)$/);
   const currentSymbol = symbolMatch?.[1];
+
+  const filtered = useSymbolSearch(search);
 
   // Close on outside click
   useEffect(() => {
@@ -47,14 +50,6 @@ export function SymbolSelector() {
     setSearch("");
   }
 
-  const filtered = search
-    ? SYMBOLS.filter(
-        (s) =>
-          s.symbol.toLowerCase().includes(search.toLowerCase()) ||
-          s.base.toLowerCase().includes(search.toLowerCase()),
-      )
-    : null;
-
   return (
     <div ref={containerRef} className="relative">
       <button
@@ -71,7 +66,6 @@ export function SymbolSelector() {
 
       {open && (
         <div className="absolute top-full left-0 mt-1 z-50 w-56 rounded border border-border shadow-xl font-mono text-xs bg-card">
-          {/* Search input */}
           <div className="px-2 py-1.5 border-b border-border">
             <input
               ref={searchRef}
@@ -80,13 +74,11 @@ export function SymbolSelector() {
               aria-label="Search trading pair"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-transparent text-foreground placeholder:text-muted-foreground text-xs font-mono focus-visible:outline-none"
+              className="w-full bg-transparent text-foreground placeholder:text-muted-foreground outline-none text-xs"
             />
           </div>
-
-          {/* Symbol list */}
           <div className="max-h-64 overflow-y-auto py-1">
-            {filtered ? (
+            {filtered !== null ? (
               filtered.length > 0 ? (
                 filtered.map((s) => (
                   <SymbolRow
@@ -122,28 +114,5 @@ export function SymbolSelector() {
         </div>
       )}
     </div>
-  );
-}
-
-interface SymbolRowProps {
-  info: SymbolInfo;
-  active: boolean;
-  onSelect: (symbol: string) => void;
-}
-
-function SymbolRow({ info, active, onSelect }: SymbolRowProps) {
-  return (
-    <button
-      type="button"
-      onClick={() => onSelect(info.symbol)}
-      className={cn(
-        "w-full text-left px-3 py-1.5 flex items-center gap-1 hover:bg-muted/60 transition-colors",
-        active && "text-primary bg-trading-bid-muted",
-      )}
-    >
-      <span className="font-semibold tabular-nums">{info.base}</span>
-      <span className="text-muted-foreground">/{info.quote}</span>
-      {active && <span className="ml-auto text-[10px] text-primary">●</span>}
-    </button>
   );
 }
