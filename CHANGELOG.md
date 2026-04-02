@@ -9,21 +9,11 @@
 
 ## [Unreleased]
 
-### Bug Fixes
-
-* **design-system:** differentiate `--secondary` vs `--accent` surfaces across all themes (#51)
-* **design-system:** wire second brand colour to `--secondary`/`--accent` for night-city, maelstrom, corpo-ice (#52)
-
-
-
-### Bug Fixes
-
-* **theme:** fix invalid CSS in --t-accent-fg and add Logo tests ([b2332e5](https://github.com/jeziellopes/trading-engine/commit/b2332e55242814b56a0bd0b1bef98d1791984192))
-
-
 ### Features
 
-* **ui:** add Logo component and integrate into header ([65e81d1](https://github.com/jeziellopes/trading-engine/commit/65e81d17bcddfbc9aedca9165f850bbcf06d28d0))
+* **design-system:** introduce `--on-primary`, `--primary-container` and on-* colour roles for all 6 themes × 3 modes (#57)
+* **button:** add `intent=tonal` variant using container tokens; switch `intent=primary` to `text-on-primary`
+
 
 # [1.0.0-next.6](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.5...v1.0.0-next.6) (2026-04-01)
 

@@ -61,47 +61,47 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
   return (
     <form onSubmit={handleSubmit(internalSubmit)} noValidate className="space-y-2.5">
       {/* Side Selection */}
-      <div className="flex gap-1.5">
+      <div className="flex gap-1.5 bg-muted p-1 rounded-md">
         <Button
           type="button"
-          intent={side === "buy" ? "buy" : "ghost"}
+          intent={side === "buy" ? "buy" : "segment"}
           size="sm"
           onClick={() => setValue("side", "buy")}
-          className="flex-1"
+          className="flex-1 rounded-sm"
         >
           Buy
         </Button>
         <Button
           type="button"
-          intent={side === "sell" ? "sell" : "ghost"}
+          intent={side === "sell" ? "sell" : "segment"}
           size="sm"
           onClick={() => setValue("side", "sell")}
-          className="flex-1"
+          className="flex-1 rounded-sm"
         >
           Sell
         </Button>
       </div>
 
       {/* Order Type Selection */}
-      <div className="flex gap-1">
+      <div className="flex gap-1.5 bg-muted p-1 rounded-md">
         <Button
           type="button"
-          intent={type === "limit" ? "primary" : "ghost"}
-          size="xs"
+          intent={type === "limit" ? "primary" : "segment"}
+          size="sm"
           onClick={() => setValue("type", "limit")}
-          className="flex-1"
+          className="flex-1 rounded-sm"
         >
           Limit
         </Button>
         <Button
           type="button"
-          intent={type === "market" ? "primary" : "ghost"}
-          size="xs"
+          intent={type === "market" ? "primary" : "segment"}
+          size="sm"
           onClick={() => {
             setValue("type", "market");
             setValue("price", ""); // clear stale limit price when switching to market
           }}
-          className="flex-1"
+          className="flex-1 rounded-sm"
         >
           Market
         </Button>
@@ -157,14 +157,14 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
       </div>
 
       {/* Quick-fill shortcuts — disabled until portfolio store is connected */}
-      <div className="flex gap-1">
+      <div className="flex gap-1.5 bg-muted p-1 rounded-md">
         {(["25%", "50%", "75%", "100%"] as const).map((pct) => (
           <Button
             key={pct}
             type="button"
-            intent="ghost"
-            size="xs"
-            className="flex-1"
+            intent="segment"
+            size="sm"
+            className="flex-1 rounded-sm text-xs"
             disabled
             title="Requires portfolio store (coming soon)"
           >

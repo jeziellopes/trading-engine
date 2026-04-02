@@ -258,7 +258,7 @@
 [data-theme="soft"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l, 0.004) var(--t-hue-l));
   --foreground:             oklch(0.12 0.008 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l, 0.004) var(--t-hue-l));
   --card-foreground:        oklch(0.12 0.008 var(--t-hue-l));
@@ -274,7 +274,7 @@
   --accent-foreground:      oklch(0.12 0.008 var(--t-hue-l));
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.87 var(--t-chroma-l, 0.004) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l, 0.004) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l, 0.004) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 
@@ -312,6 +312,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* Soft dark: .dark class (Tailwind compat) OR explicit. */
@@ -374,6 +389,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ── Soft Vibrant (violet primary as surface) ──────────────── */
@@ -435,6 +465,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -444,7 +489,7 @@
 [data-theme="night-city"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l) var(--t-hue-l));
   --foreground:             oklch(0.12 0.008 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
   --card-foreground:        oklch(0.12 0.008 var(--t-hue-l));
@@ -460,7 +505,7 @@
   --accent-foreground:      oklch(0.12 0.010 340);
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 
@@ -498,6 +543,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="night-city"][data-mode="dark"] {
@@ -557,6 +617,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="night-city"][data-mode="vibrant"] {
@@ -617,6 +692,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -626,7 +716,7 @@
 [data-theme="maelstrom"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l) var(--t-hue-l));
   --foreground:             oklch(0.12 0.010 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
   --card-foreground:        oklch(0.12 0.010 var(--t-hue-l));
@@ -642,7 +732,7 @@
   --accent-foreground:      oklch(0.12 0.010 102);
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 
@@ -680,6 +770,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="maelstrom"][data-mode="dark"] {
@@ -740,6 +845,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="maelstrom"][data-mode="vibrant"] {
@@ -800,6 +920,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -809,7 +944,7 @@
 [data-theme="corpo-ice"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l) var(--t-hue-l));
   --foreground:             oklch(0.12 0.010 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
   --card-foreground:        oklch(0.12 0.010 var(--t-hue-l));
@@ -825,7 +960,7 @@
   --accent-foreground:      oklch(0.12 0.010 340);
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.87 var(--t-chroma-l) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 
@@ -863,6 +998,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="corpo-ice"][data-mode="dark"] {
@@ -923,6 +1073,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="corpo-ice"][data-mode="vibrant"] {
@@ -983,6 +1148,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -993,7 +1173,7 @@
 [data-theme="netrunner"][data-mode="light"] {
   color-scheme: light;
 
-  --background:             oklch(0.98 var(--t-chroma-l) var(--t-hue-l));
+  --background:             oklch(0.95 var(--t-chroma-l) var(--t-hue-l));
   --foreground:             oklch(0.10 0.002 var(--t-hue-l));
   --card:                   oklch(0.99 var(--t-chroma-l) var(--t-hue-l));
   --card-foreground:        oklch(0.10 0.002 var(--t-hue-l));
@@ -1009,7 +1189,7 @@
   --accent-foreground:      oklch(0.10 0.002 var(--t-hue-l));
   --destructive:            var(--t-destructive-l);
   --destructive-foreground: var(--t-destructive-fg);
-  --border:                 oklch(0.88 var(--t-chroma-l) var(--t-hue-l));
+  --border:                 oklch(0.83 var(--t-chroma-l) var(--t-hue-l));
   --input:                  oklch(0.96 var(--t-chroma-l) var(--t-hue-l));
   --ring:                   var(--t-primary-l);
 
@@ -1047,6 +1227,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="netrunner"][data-mode="dark"] {
@@ -1107,6 +1302,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.25);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="netrunner"][data-mode="vibrant"] {
@@ -1167,6 +1377,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1229,6 +1454,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting-l) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected-l) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected-l) l c h / 0.30);
+  --on-trading-bid:    oklch(0.97 0 0);
+  --on-trading-ask:    oklch(0.97 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills (alpha tint — theme-aware by design) */
+  --primary-container:       oklch(from var(--t-primary-l) l c h / 0.12);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.12);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.12);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary-l);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="flowa"][data-mode="dark"] {
@@ -1287,6 +1527,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.30);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.10);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.30);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.16);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.16);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.16);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 [data-theme="flowa"][data-mode="vibrant"] {
@@ -1347,6 +1602,21 @@
   --trading-reconnecting-border: oklch(from var(--t-reconnecting) l c h / 0.35);
   --trading-disconnected-bg:     oklch(from var(--t-disconnected) l c h / 0.15);
   --trading-disconnected-border: oklch(from var(--t-disconnected) l c h / 0.35);
+  --on-trading-bid:    oklch(0.08 0 0);
+  --on-trading-ask:    oklch(0.08 0 0);
+  /* on-* colour roles */
+  --on-primary:              var(--primary-foreground);
+  --on-secondary:            var(--secondary-foreground);
+  --on-tertiary:             var(--accent-foreground);
+  /* container fills */
+  --primary-container:       oklch(from var(--t-primary) l c h / 0.18);
+  --secondary-container:     oklch(from var(--secondary) l c h / 0.18);
+  --tertiary-container:      oklch(from var(--accent) l c h / 0.18);
+  /* container foregrounds */
+  --on-primary-container:    var(--t-primary);
+  --on-secondary-container:  var(--secondary-foreground);
+  --on-tertiary-container:   var(--accent-foreground);
+
 }
 
 /* ── Vivid palette override (dev tool) ────────────────────────────────────────

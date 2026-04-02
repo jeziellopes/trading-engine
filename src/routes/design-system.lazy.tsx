@@ -2,6 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { ConnectionBanner } from "@/features/order-book/connection-banner";
 import { SpreadBar } from "@/features/order-book/spread-bar";
+import { OrderForm } from "@/features/order-entry/order-form";
 import {
   CONTRAST_PAIRS,
   contrastRatio,
@@ -339,16 +340,80 @@ function DesignSystemShowcase() {
           </div>
         </Section>
 
+        {/* ── Colour Roles ─────────────────────────────────── */}
+        <Section title="Colors — Colour Roles">
+          <p className="text-xs text-muted-foreground mb-3">
+            Each swatch shows the fill with its paired <code className="font-mono">on-*</code> text
+            on top — the correct contrast pair.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              { label: "primary", bg: "var(--primary)", fg: "var(--on-primary)" },
+              { label: "secondary", bg: "var(--secondary)", fg: "var(--on-secondary)" },
+              { label: "tertiary / accent", bg: "var(--accent)", fg: "var(--on-tertiary)" },
+              { label: "trading-bid", bg: "var(--trading-bid)", fg: "var(--on-trading-bid)" },
+              { label: "trading-ask", bg: "var(--trading-ask)", fg: "var(--on-trading-ask)" },
+            ].map(({ label, bg, fg }) => (
+              <div key={label} className="space-y-1.5">
+                <div
+                  className="h-14 rounded-md border border-border flex items-center justify-center text-xs font-mono font-medium"
+                  style={{ backgroundColor: bg, color: fg }}
+                >
+                  on-{label.split(" / ")[0]}
+                </div>
+                <p className="text-[10px] font-mono text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* ── Container Roles ───────────────────────────────── */}
+        <Section title="Colors — Containers">
+          <p className="text-xs text-muted-foreground mb-3">
+            Alpha-tinted container fills for badges, pills, and highlight backgrounds — paired with
+            their <code className="font-mono">on-*-container</code> text.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              {
+                label: "primary-container",
+                bg: "var(--primary-container)",
+                fg: "var(--on-primary-container)",
+              },
+              {
+                label: "secondary-container",
+                bg: "var(--secondary-container)",
+                fg: "var(--on-secondary-container)",
+              },
+              {
+                label: "tertiary-container",
+                bg: "var(--tertiary-container)",
+                fg: "var(--on-tertiary-container)",
+              },
+            ].map(({ label, bg, fg }) => (
+              <div key={label} className="space-y-1.5">
+                <div
+                  className="h-14 rounded-md border border-border flex items-center justify-center text-xs font-mono font-medium"
+                  style={{ backgroundColor: bg, color: fg }}
+                >
+                  on-{label.replace("-container", "")}-container
+                </div>
+                <p className="text-[10px] font-mono text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+
         {/* ── Typography ──────────────────────────────────── */}
         <Section title="Typography">
           <div className="space-y-4">
-            <div className="p-4 rounded-md border border-border bg-ds-gray-100 space-y-1">
+            <div className="p-4 rounded-md border border-border bg-card space-y-1">
               <p className="text-[10px] font-mono text-muted-foreground">
                 Orbitron — font-cypher — display
               </p>
               <p className="text-2xl font-cypher tracking-tight">BTCUSDT 67,843.50</p>
             </div>
-            <div className="p-4 rounded-md border border-border bg-ds-gray-100 space-y-1">
+            <div className="p-4 rounded-md border border-border bg-card space-y-1">
               <p className="text-[10px] font-mono text-muted-foreground">
                 Share Tech Mono — font-mono — body / prices
               </p>
@@ -366,7 +431,7 @@ function DesignSystemShowcase() {
                   "text-2xl",
                 ] as const
               ).map((cls) => (
-                <div key={cls} className="p-3 rounded-md border border-border bg-ds-gray-100">
+                <div key={cls} className="p-3 rounded-md border border-border bg-card">
                   <p className={`font-mono tabular-nums ${cls}`}>67843.50</p>
                   <p className="text-[10px] font-mono text-muted-foreground mt-1">{cls}</p>
                 </div>
@@ -392,6 +457,17 @@ function DesignSystemShowcase() {
                 <Button intent="ghost" size="sm">
                   Ghost
                 </Button>
+                <Button intent="tonal" size="sm">
+                  Tonal
+                </Button>
+                <div className="flex gap-0.5 bg-muted p-0.5 rounded-md">
+                  <Button intent="primary" size="sm">
+                    Limit
+                  </Button>
+                  <Button intent="segment" size="sm">
+                    Market
+                  </Button>
+                </div>
                 <Button intent="buy" size="sm">
                   Buy
                 </Button>
@@ -528,7 +604,7 @@ function DesignSystemShowcase() {
 
         {/* ── Order Book ──────────────────────────────────── */}
         <Section title="Order Book">
-          <div className="max-w-xs bg-ds-gray-100 rounded-md border border-border overflow-hidden">
+          <div className="max-w-xs bg-card rounded-md border border-border overflow-hidden">
             {/* Asks (reversed — lowest ask at bottom, closest to spread) */}
             <div className="flex flex-col-reverse">
               {MOCK_DS_ASKS.map((level) => (
@@ -604,7 +680,7 @@ function DesignSystemShowcase() {
 
         {/* ── Trade Feed ──────────────────────────────────── */}
         <Section title="Trade Feed">
-          <div className="max-w-xs bg-ds-gray-100 rounded-md border border-border">
+          <div className="max-w-xs bg-card rounded-md border border-border">
             <div className="grid grid-cols-3 gap-x-2 px-2 py-1 text-[10px] font-mono text-muted-foreground border-b border-border">
               <span>Time</span>
               <span>Price</span>
@@ -616,11 +692,7 @@ function DesignSystemShowcase() {
                 className="grid grid-cols-3 gap-x-2 px-2 py-px text-xs font-mono tabular-nums"
               >
                 <span className="text-muted-foreground">{trade.time}</span>
-                <span
-                  style={{
-                    color: trade.side === "buy" ? "var(--trading-bid)" : "var(--trading-ask)",
-                  }}
-                >
+                <span className={trade.side === "buy" ? "text-trading-bid" : "text-trading-ask"}>
                   {trade.price.toFixed(2)}
                 </span>
                 <span className="text-right text-muted-foreground">{trade.qty.toFixed(2)}</span>
@@ -631,69 +703,10 @@ function DesignSystemShowcase() {
 
         {/* ── Order Form ──────────────────────────────────── */}
         <Section title="Order Entry">
-          <div className="max-w-xs bg-ds-gray-100 rounded-md border border-border p-4 space-y-3">
-            <div className="flex gap-1">
-              <button
-                type="button"
-                className="flex-1 py-1.5 text-sm font-medium rounded-sm bg-[color:var(--trading-bid)] text-foreground"
-              >
-                Buy
-              </button>
-              <button
-                type="button"
-                className="flex-1 py-1.5 text-sm font-medium rounded-sm bg-muted text-muted-foreground"
-              >
-                Sell
-              </button>
-            </div>
-            <div className="flex gap-1 text-xs">
-              {["Limit", "Market", "Stop"].map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  className={`flex-1 py-1 rounded-sm font-mono ${type === "Limit" ? "bg-ds-gray-800 text-foreground" : "text-muted-foreground"}`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-            <div className="space-y-2">
-              <div className="space-y-1">
-                <label
-                  htmlFor="ds-price-input"
-                  className="text-[10px] font-mono text-muted-foreground"
-                >
-                  Price (USDT)
-                </label>
-                <Input
-                  id="ds-price-input"
-                  placeholder="67,843.50"
-                  type="number"
-                  className="h-8 text-sm"
-                />
-              </div>
-              <div className="space-y-1">
-                <label
-                  htmlFor="ds-amount-input"
-                  className="text-[10px] font-mono text-muted-foreground"
-                >
-                  Amount (BTC)
-                </label>
-                <Input
-                  id="ds-amount-input"
-                  placeholder="0.001"
-                  type="number"
-                  className="h-8 text-sm"
-                />
-              </div>
-            </div>
-            <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
-              <span>Total</span>
-              <span className="tabular-nums">0.00 USDT</span>
-            </div>
-            <Button intent="buy" size="md" className="w-full">
-              Place Buy Order
-            </Button>
+          <div className="max-w-xs">
+            <Card>
+              <OrderForm symbol="BTCUSDT" onSubmit={() => {}} />
+            </Card>
           </div>
         </Section>
 
@@ -703,8 +716,7 @@ function DesignSystemShowcase() {
         <div className="border-t border-border pt-6 text-[10px] font-mono text-muted-foreground">
           <p>CypherUI Trading · tokens.css</p>
           <p className="mt-1">
-            Regenerate tokens:{" "}
-            <code className="bg-ds-gray-800 px-1.5 py-0.5 rounded">pnpm tokens</code>
+            Regenerate tokens: <code className="bg-muted px-1.5 py-0.5 rounded">pnpm tokens</code>
           </p>
         </div>
       </div>
