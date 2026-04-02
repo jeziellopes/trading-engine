@@ -339,6 +339,57 @@ function DesignSystemShowcase() {
           </div>
         </Section>
 
+
+        {/* ── Colour Roles ─────────────────────────────────── */}
+        <Section title="Colors — Colour Roles">
+          <p className="text-xs text-muted-foreground mb-3">
+            Each swatch shows the fill with its paired <code className="font-mono">on-*</code> text on top — the correct contrast pair.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              { label: "primary", bg: "var(--primary)", fg: "var(--on-primary)" },
+              { label: "secondary", bg: "var(--secondary)", fg: "var(--on-secondary)" },
+              { label: "tertiary / accent", bg: "var(--accent)", fg: "var(--on-tertiary)" },
+              { label: "trading-bid", bg: "var(--trading-bid)", fg: "var(--on-trading-bid)" },
+              { label: "trading-ask", bg: "var(--trading-ask)", fg: "var(--on-trading-ask)" },
+            ].map(({ label, bg, fg }) => (
+              <div key={label} className="space-y-1.5">
+                <div
+                  className="h-14 rounded-md border border-border flex items-center justify-center text-xs font-mono font-medium"
+                  style={{ backgroundColor: bg, color: fg }}
+                >
+                  on-{label.split(" / ")[0]}
+                </div>
+                <p className="text-[10px] font-mono text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* ── Container Roles ───────────────────────────────── */}
+        <Section title="Colors — Containers">
+          <p className="text-xs text-muted-foreground mb-3">
+            Alpha-tinted container fills for badges, pills, and highlight backgrounds — paired with their <code className="font-mono">on-*-container</code> text.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              { label: "primary-container", bg: "var(--primary-container)", fg: "var(--on-primary-container)" },
+              { label: "secondary-container", bg: "var(--secondary-container)", fg: "var(--on-secondary-container)" },
+              { label: "tertiary-container", bg: "var(--tertiary-container)", fg: "var(--on-tertiary-container)" },
+            ].map(({ label, bg, fg }) => (
+              <div key={label} className="space-y-1.5">
+                <div
+                  className="h-14 rounded-md border border-border flex items-center justify-center text-xs font-mono font-medium"
+                  style={{ backgroundColor: bg, color: fg }}
+                >
+                  on-{label.replace("-container", "")}-container
+                </div>
+                <p className="text-[10px] font-mono text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+
         {/* ── Typography ──────────────────────────────────── */}
         <Section title="Typography">
           <div className="space-y-4">
