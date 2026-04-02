@@ -5,8 +5,8 @@ import { MOCK_NAV } from "@/lib/mock-data";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { LiveIndicator } from "@/ui/live-indicator";
-import { SymbolSelector } from "@/ui/symbol-selector";
 import { Logo } from "@/ui/logo";
+import { SymbolSelector } from "@/ui/symbol-selector";
 
 export const Route = createRootRoute({
   component: RootComponent,
