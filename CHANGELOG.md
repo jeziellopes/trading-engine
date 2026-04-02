@@ -1,3 +1,16 @@
+# [1.0.0-next.11](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.10...v1.0.0-next.11) (2026-04-02)
+
+
+### Bug Fixes
+
+* **ui:** remove render-time ref mutation in TabList, fix lint ([321283e](https://github.com/jeziellopes/trading-engine/commit/321283e26c337330075e41991cc47dbfec3d55d1))
+
+
+### Features
+
+* **order-entry:** extract Tab primitive, wire into OrderForm ([ea245dd](https://github.com/jeziellopes/trading-engine/commit/ea245dd06457b2469dc36a5d25fe213a03f52fa9))
+* **order-entry:** tab-based Limit/Market form switcher ([bd23610](https://github.com/jeziellopes/trading-engine/commit/bd23610fa11609f29bedb6a9b4d7912382e84103)), closes [#60](https://github.com/jeziellopes/trading-engine/issues/60)
+
 # [1.0.0-next.10](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.9...v1.0.0-next.10) (2026-04-02)
 
 
