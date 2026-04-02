@@ -1,3 +1,10 @@
+# [1.0.0-next.8](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.7...v1.0.0-next.8) (2026-04-02)
+
+
+### Bug Fixes
+
+* **design-system:** differentiate --secondary vs --accent across all themes ([616c8e8](https://github.com/jeziellopes/trading-engine/commit/616c8e8a32a0da8f1e4c393f4c7cda8394db3d9d)), closes [#51](https://github.com/jeziellopes/trading-engine/issues/51) [#51](https://github.com/jeziellopes/trading-engine/issues/51) [#52](https://github.com/jeziellopes/trading-engine/issues/52)
+
 # [1.0.0-next.7](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.6...v1.0.0-next.7) (2026-04-02)
 
 ## [Unreleased]
