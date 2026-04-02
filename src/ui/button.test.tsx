@@ -30,6 +30,13 @@ describe("Button", () => {
     expect(btn).toHaveClass("text-on-secondary");
   });
 
+  it("applies segment intent", () => {
+    render(<Button intent="segment">Tab</Button>);
+    const btn = screen.getByRole("button", { name: /tab/i });
+    expect(btn).toHaveClass("bg-transparent");
+    expect(btn).toHaveClass("text-muted-foreground");
+  });
+
   it("applies danger intent", () => {
     render(<Button intent="danger">Delete</Button>);
     const btn = screen.getByRole("button", { name: /delete/i });

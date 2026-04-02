@@ -444,6 +444,17 @@ function DesignSystemShowcase() {
                 <Button intent="ghost" size="sm">
                   Ghost
                 </Button>
+                <Button intent="tonal" size="sm">
+                  Tonal
+                </Button>
+                <div className="flex gap-0.5 bg-muted p-0.5 rounded-md">
+                  <Button intent="primary" size="sm">
+                    Limit
+                  </Button>
+                  <Button intent="segment" size="sm">
+                    Market
+                  </Button>
+                </div>
                 <Button intent="buy" size="sm">
                   Buy
                 </Button>
