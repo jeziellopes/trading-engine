@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
+import { Tab, TabList, TabPanel } from "@/ui/tabs";
 
 const orderSchema = z
   .object({
@@ -58,18 +59,9 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
     reset({ symbol, side: data.side, type: data.type, quantity: "", price: "" });
   };
 
-  const handleTypeKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, current: "limit" | "market") => {
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-      e.preventDefault();
-      const next = current === "limit" ? "market" : "limit";
-      setValue("type", next);
-      if (next === "market") setValue("price", "");
-      // Focus the sibling button
-      const sibling = e.currentTarget.parentElement?.querySelector<HTMLButtonElement>(
-        `[data-tab="${next}"]`,
-      );
-      sibling?.focus();
-    }
+  const handleTypeChange = (next: string) => {
+    setValue("type", next as "limit" | "market");
+    if (next === "market") setValue("price", "");
   };
 
   return (
@@ -96,53 +88,19 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
         </Button>
       </div>
 
-      {/* Order Type Tab Switcher */}
-      <div
-        role="tablist"
+      {/* Order Type Tab Switcher — uses Tab primitive */}
+      <TabList
+        value={type}
+        onValueChange={handleTypeChange}
         aria-label="Order type"
-        className="flex gap-1.5 bg-muted p-1 rounded-md"
       >
-        <Button
-          type="button"
-          role="tab"
-          data-tab="limit"
-          aria-selected={type === "limit"}
-          tabIndex={type === "limit" ? 0 : -1}
-          intent={type === "limit" ? "primary" : "segment"}
-          size="sm"
-          onClick={() => setValue("type", "limit")}
-          onKeyDown={(e) => handleTypeKeyDown(e, "limit")}
-          className="flex-1 rounded-sm"
-        >
-          Limit
-        </Button>
-        <Button
-          type="button"
-          role="tab"
-          data-tab="market"
-          aria-selected={type === "market"}
-          tabIndex={type === "market" ? 0 : -1}
-          intent={type === "market" ? "primary" : "segment"}
-          size="sm"
-          onClick={() => {
-            setValue("type", "market");
-            setValue("price", "");
-          }}
-          onKeyDown={(e) => handleTypeKeyDown(e, "market")}
-          className="flex-1 rounded-sm"
-        >
-          Market
-        </Button>
-      </div>
+        <Tab value="limit">Limit</Tab>
+        <Tab value="market">Market</Tab>
+      </TabList>
 
-      {/* Tab Panel — fixed min-height prevents layout shift when price field appears/disappears */}
-      <div
-        role="tabpanel"
-        aria-label={type === "limit" ? "Limit order fields" : "Market order fields"}
-        className="space-y-2.5 min-h-[96px]"
-      >
-        {/* Price Input — Limit only */}
-        {type === "limit" && (
+      {/* Tab Panels — min-h prevents layout shift */}
+      <div className="min-h-[96px] space-y-2.5">
+        <TabPanel value="limit" activeValue={type}>
           <div>
             <label htmlFor="order-price" className="text-xs text-muted-foreground block mb-1">
               Price
@@ -164,30 +122,31 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
               </p>
             )}
           </div>
-        )}
+        </TabPanel>
+        {/* Market panel — no price field, only quantity below */}
+      </div>
 
-        {/* Quantity Input */}
-        <div>
-          <label htmlFor="order-quantity" className="text-xs text-muted-foreground block mb-1">
-            Quantity
-          </label>
-          <Input
-            id="order-quantity"
-            type="number"
-            placeholder="0.000"
-            {...register("quantity")}
-            disabled={busy}
-            step="0.001"
-            size="sm"
-            aria-invalid={errors.quantity ? "true" : undefined}
-            aria-describedby={errors.quantity ? "order-quantity-error" : undefined}
-          />
-          {errors.quantity && (
-            <p id="order-quantity-error" role="alert" className="text-xs mt-1 text-destructive">
-              {errors.quantity.message}
-            </p>
-          )}
-        </div>
+      {/* Quantity Input — shared across both tabs */}
+      <div>
+        <label htmlFor="order-quantity" className="text-xs text-muted-foreground block mb-1">
+          Quantity
+        </label>
+        <Input
+          id="order-quantity"
+          type="number"
+          placeholder="0.000"
+          {...register("quantity")}
+          disabled={busy}
+          step="0.001"
+          size="sm"
+          aria-invalid={errors.quantity ? "true" : undefined}
+          aria-describedby={errors.quantity ? "order-quantity-error" : undefined}
+        />
+        {errors.quantity && (
+          <p id="order-quantity-error" role="alert" className="text-xs mt-1 text-destructive">
+            {errors.quantity.message}
+          </p>
+        )}
       </div>
 
       {/* Quick-fill shortcuts — disabled until portfolio store is connected */}
