@@ -1,3 +1,12 @@
+# [1.0.0-next.12](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.11...v1.0.0-next.12) (2026-04-02)
+
+
+### Bug Fixes
+
+* **chart:** canvas-based oklch→sRGB conversion for lightweight-charts ([918c044](https://github.com/jeziellopes/trading-engine/commit/918c04478d949316e1527bad1234619b56f1385a))
+* **order-book:** exactOptionalPropertyTypes compat for tickDirection prop ([663202c](https://github.com/jeziellopes/trading-engine/commit/663202c95a9a670b2b1c6e94c3102f41711c266c))
+* **store:** individual selectors to prevent infinite re-render loop ([4785d4c](https://github.com/jeziellopes/trading-engine/commit/4785d4ccff8dea1c60563f65e76a935cc39f94f4))
+
 # [1.0.0-next.11](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.10...v1.0.0-next.11) (2026-04-02)
 
 
