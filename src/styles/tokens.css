@@ -219,7 +219,7 @@
   /* ── Accent/Tertiary: purple (info, links, tertiary actions) ── */
   --t-accent:         var(--t-flowa-purple-lt);     /* on dark bg */
   --t-accent-l:       var(--t-flowa-purple);        /* on light bg */
-  --t-accent-fg:      (oklch(0.97 0    0  ));         /* white fg on purple */
+  --t-accent-fg:      oklch(0.97 0    0  );           /* white fg on purple */
 
   /* ── Trading: sage=bid/profit, warm-red=ask/loss ── */
   --t-bid:            var(--t-flowa-sage);
