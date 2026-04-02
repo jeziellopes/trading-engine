@@ -189,7 +189,7 @@
   --t-flowa-cream:      oklch(0.93 0.007 95 );  /* #E9E8E2 warm cream          */
   --t-flowa-cream-lt:   oklch(0.97 0.005 95 );  /* lighter cream surface       */
   /* ── Secondary: sage/lime (#c2e189) ── */
-  --t-flowa-sage:       oklch(0.79 0.08  132);  /* #AFC788 sage-light — secondary on dark  */
+  --t-flowa-sage:       oklch(0.87 0.12 124.61);  /* #c2e189 sage-light — secondary on dark  */
   --t-flowa-sage-d:     oklch(0.46 0.09  132);  /* darker sage — secondary on light        */
   --t-flowa-sage-muted: oklch(0.79 0.08  132 / 0.15); /* sage bg tint            */
 
@@ -206,10 +206,10 @@
   --t-flowa-forest-bright: oklch(0.64 0.10  155);  /* bright forest — primary on dark bg  */
 
   /* ── Primary: forest green (buttons + headings) ── */
-  --t-primary:      var(--t-flowa-forest-bright);  /* on dark bg — bright readable forest */
+  --t-primary:      var(--t-flowa-sage);  /* on dark bg — bright readable forest */
   --t-primary-l:    var(--t-flowa-forest);          /* on light bg — #25352D itself        */
-  --t-primary-fg:   var(--t-flowa-cream);           /* cream text on dark-mode primary btn */
-  --t-primary-fg-l: oklch(0.97 0    0  );           /* white text on light-mode primary btn*/
+  --t-primary-fg:   var(--t-flowa-sage-d);           /* cream text on dark-mode primary btn */
+  --t-primary-fg-l: var(--t-flowa-sage);           /* white text on light-mode primary btn*/
 
   /* ── Secondary: sage/lime (labels, tags, secondary buttons) ── */
   --t-secondary:      var(--t-flowa-sage);          /* on dark bg */
@@ -219,7 +219,7 @@
   /* ── Accent/Tertiary: purple (info, links, tertiary actions) ── */
   --t-accent:         var(--t-flowa-purple-lt);     /* on dark bg */
   --t-accent-l:       var(--t-flowa-purple);        /* on light bg */
-  --t-accent-fg:      oklch(0.97 0    0  );         /* white fg on purple */
+  --t-accent-fg:      (oklch(0.97 0    0  ));         /* white fg on purple */
 
   /* ── Trading: sage=bid/profit, warm-red=ask/loss ── */
   --t-bid:            var(--t-flowa-sage);
