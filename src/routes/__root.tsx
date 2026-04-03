@@ -6,12 +6,17 @@ import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { LiveIndicator } from "@/ui/live-indicator";
 import { Logo } from "@/ui/logo";
+import { useRouterState } from "@tanstack/react-router";
+import { TickerHeader } from "@/features/trading/ticker-header";
+import { MOCK_BASE_BTC, MOCK_CHANGE_PCT } from "@/lib/mock-data";
 
 export const Route = createRootRoute({
   component: RootComponent,
 });
 
 function RootComponent() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isSymbolRoute = pathname.startsWith('/symbol/');
   const totalBalance = useTradingStore((s) => s.portfolioSummary.totalBalance);
   const dailyProfitPct = useTradingStore((s) => s.portfolioSummary.dailyProfitPct);
 
@@ -36,9 +41,10 @@ function RootComponent() {
               to={"/" as any}
               className="font-cypher text-sm font-bold tracking-widest select-none text-primary"
             >
-              <Logo className="w-6 h-6 mr-2" />
-              Trading Engine
+              <Logo className="w-6 h-6" />
+              {!isSymbolRoute && <span className="ml-2">Trading Engine</span>}
             </Link>
+            {isSymbolRoute && <TickerHeader price={MOCK_BASE_BTC} changePct={MOCK_CHANGE_PCT} />}
             <div className="flex-1" />
             <Link
               to="/portfolio"
