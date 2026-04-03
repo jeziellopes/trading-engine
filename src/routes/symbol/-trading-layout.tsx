@@ -82,7 +82,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
 
   return (
     <ErrorBoundary>
-      <div className="w-full px-3 pb-3 flex flex-col gap-0">
+      <div className="w-full pb-3 flex flex-col gap-0">
         <Suspense
           fallback={
             <div className="w-full h-[600px] grid grid-cols-12 gap-2 p-3">
