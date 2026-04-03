@@ -1,3 +1,10 @@
+# [1.0.0-next.16](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.15...v1.0.0-next.16) (2026-04-03)
+
+
+### Features
+
+* **ticker-header:** embed SymbolSelector in place of plain symbol text (closes [#70](https://github.com/jeziellopes/trading-engine/issues/70)) ([8dcb925](https://github.com/jeziellopes/trading-engine/commit/8dcb925d1f06f629a36a96d355f9cdea1e1b00a8))
+
 # [1.0.0-next.15](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.14...v1.0.0-next.15) (2026-04-03)
 
 
