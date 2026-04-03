@@ -7,6 +7,7 @@ import { Button } from "./button";
 interface TabsContextValue {
   value: string;
   onValueChange: (value: string) => void;
+  variant: "pill" | "underline";
 }
 
 const TabsContext = createContext<TabsContextValue | null>(null);
@@ -22,14 +23,27 @@ function useTabsContext(): TabsContextValue {
 interface TabListProps extends React.HTMLAttributes<HTMLDivElement> {
   value: string;
   onValueChange: (value: string) => void;
+  /** Visual variant. Defaults to "pill" (filled capsule). Use "underline" for Binance-style indicator tabs. */
+  variant?: "pill" | "underline";
 }
 
-export function TabList({ value, onValueChange, className, children, ...props }: TabListProps) {
+export function TabList({
+  value,
+  onValueChange,
+  variant = "pill",
+  className,
+  children,
+  ...props
+}: TabListProps) {
   return (
-    <TabsContext value={{ value, onValueChange }}>
+    <TabsContext value={{ value, onValueChange, variant }}>
       <div
         role="tablist"
-        className={cn("flex gap-1.5 bg-muted p-1 rounded-md", className)}
+        className={cn(
+          variant === "pill" && "flex gap-1.5 bg-muted p-1 rounded-md",
+          variant === "underline" && "flex border-b border-border",
+          className,
+        )}
         {...props}
       >
         {children}
@@ -45,13 +59,12 @@ interface TabProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Tab({ value, children, className, ...props }: TabProps) {
-  const { value: activeValue, onValueChange } = useTabsContext();
+  const { value: activeValue, onValueChange, variant } = useTabsContext();
   const isActive = value === activeValue;
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     e.preventDefault();
-    // Query sibling tabs from the DOM at event time — no render-time ref mutation
     const tablist = e.currentTarget.closest('[role="tablist"]');
     const allTabs = Array.from(tablist?.querySelectorAll<HTMLButtonElement>('[role="tab"]') ?? []);
     const idx = allTabs.findIndex((t) => t.dataset.tab === value);
@@ -65,6 +78,30 @@ export function Tab({ value, children, className, ...props }: TabProps) {
     }
     props.onKeyDown?.(e);
   };
+
+  if (variant === "underline") {
+    return (
+      <button
+        type="button"
+        role="tab"
+        data-tab={value}
+        aria-selected={isActive}
+        tabIndex={isActive ? 0 : -1}
+        onClick={() => onValueChange(value)}
+        onKeyDown={handleKeyDown}
+        className={cn(
+          "px-3 py-2 text-sm -mb-px border-b-2 transition-colors",
+          isActive
+            ? "border-primary text-foreground font-medium"
+            : "border-transparent text-muted-foreground hover:text-foreground",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
 
   return (
     <Button
