@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import { toast } from "sonner";
 import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import type { BotStatus } from "@/features/bots/types";
@@ -30,41 +30,41 @@ interface TradingLayoutProps {
 
 const LAYOUT_KEY = "trading-grid-layout-v5";
 const DEFAULT_LAYOUTS = {
-  // ≥1920px — ultrawide / 1080p: Binance-style — chart left, book narrow centre, order form wide right
+  // ≥1920px — ultrawide: chart | book | order form (Binance-style)
   xxl: [
-    { i: "chart",     x: 0, y: 0, w: 7, h: 10 },
-    { i: "book",      x: 7, y: 0, w: 2, h: 10 },
-    { i: "portfolio", x: 9, y: 0, w: 3, h: 4  },
-    { i: "order",     x: 9, y: 4, w: 3, h: 6  },
-    { i: "bots",      x: 0, y: 10, w: 7, h: 5 },
-    { i: "trades",    x: 7, y: 10, w: 5, h: 5 },
+    { i: "chart",     x: 0, y: 0,  w: 7, h: 10 },
+    { i: "book",      x: 7, y: 0,  w: 2, h: 10 },
+    { i: "order",     x: 9, y: 0,  w: 3, h: 6  },
+    { i: "portfolio", x: 9, y: 6,  w: 3, h: 4  },
+    { i: "bots",      x: 0, y: 10, w: 7, h: 5  },
+    { i: "trades",    x: 7, y: 10, w: 5, h: 5  },
   ],
-  // ≥1440px — full-screen: chart gets 7 cols, book 2, sidebar 3
+  // ≥1440px — full-screen: chart | book | order form
   xl: [
-    { i: "book", x: 0, y: 0, w: 2, h: 10 },
-    { i: "chart", x: 2, y: 0, w: 7, h: 10 },
-    { i: "portfolio", x: 9, y: 0, w: 3, h: 4 },
-    { i: "order", x: 9, y: 4, w: 3, h: 6 },
-    { i: "bots", x: 0, y: 10, w: 7, h: 5 },
-    { i: "trades", x: 7, y: 10, w: 5, h: 5 },
+    { i: "chart",     x: 0, y: 0,  w: 7, h: 10 },
+    { i: "book",      x: 7, y: 0,  w: 2, h: 10 },
+    { i: "order",     x: 9, y: 0,  w: 3, h: 6  },
+    { i: "portfolio", x: 9, y: 6,  w: 3, h: 4  },
+    { i: "bots",      x: 0, y: 10, w: 7, h: 5  },
+    { i: "trades",    x: 7, y: 10, w: 5, h: 5  },
   ],
-  // ≥1200px — 3/4-screen: chart 6, book 3, sidebar 3
+  // ≥1200px — 3/4-screen: chart | book | order form
   lg: [
-    { i: "book", x: 0, y: 0, w: 3, h: 8 },
-    { i: "chart", x: 3, y: 0, w: 6, h: 8 },
-    { i: "order", x: 9, y: 3, w: 3, h: 5 },
-    { i: "portfolio", x: 9, y: 0, w: 3, h: 3 },
-    { i: "bots", x: 0, y: 8, w: 7, h: 5 },
-    { i: "trades", x: 7, y: 8, w: 5, h: 5 },
+    { i: "chart",     x: 0, y: 0, w: 6, h: 8 },
+    { i: "book",      x: 6, y: 0, w: 3, h: 8 },
+    { i: "order",     x: 9, y: 0, w: 3, h: 5 },
+    { i: "portfolio", x: 9, y: 5, w: 3, h: 3 },
+    { i: "bots",      x: 0, y: 8, w: 7, h: 5 },
+    { i: "trades",    x: 7, y: 8, w: 5, h: 5 },
   ],
-  // ≥996px — half-screen / laptop
+  // ≥996px — laptop: chart | book / order form | portfolio stacked below
   md: [
-    { i: "book", x: 0, y: 0, w: 3, h: 8 },
-    { i: "chart", x: 3, y: 0, w: 7, h: 8 },
-    { i: "order", x: 5, y: 8, w: 5, h: 5 },
-    { i: "portfolio", x: 0, y: 8, w: 5, h: 3 },
-    { i: "bots", x: 0, y: 13, w: 6, h: 5 },
-    { i: "trades", x: 6, y: 13, w: 4, h: 5 },
+    { i: "chart",     x: 0, y: 0,  w: 6, h: 8 },
+    { i: "book",      x: 6, y: 0,  w: 4, h: 8 },
+    { i: "order",     x: 0, y: 8,  w: 6, h: 5 },
+    { i: "portfolio", x: 6, y: 8,  w: 4, h: 5 },
+    { i: "bots",      x: 0, y: 13, w: 6, h: 5 },
+    { i: "trades",    x: 6, y: 13, w: 4, h: 5 },
   ],
 };
 
@@ -83,6 +83,10 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
   const bots = useTradingStore((s) => s.bots);
   const setBotStatus = useTradingStore((s) => s.setBotStatus);
   const [activeTimeframe, setActiveTimeframe] = useState("15m");
+  // Only persist layouts when the user explicitly drags or resizes a panel.
+  // onLayoutChange also fires on mount — we must not overwrite the stored
+  // layout with the default on the first render.
+  const userModifiedRef = useRef(false);
 
   const handleOrderSubmit = async (data: OrderFormData) => {
     setOrderSubmitting(true);
@@ -108,8 +112,15 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
   };
 
   const handleLayoutChange = (_layout: Layout, allLayouts: Partial<Record<string, Layout>>) => {
-    setLayouts(allLayouts as ResponsiveLayouts<string>);
-    localStorage.setItem(LAYOUT_KEY, JSON.stringify(allLayouts));
+    const next = allLayouts as ResponsiveLayouts<string>;
+    setLayouts(next);
+    if (userModifiedRef.current) {
+      localStorage.setItem(LAYOUT_KEY, JSON.stringify(next));
+    }
+  };
+
+  const handleUserInteractionStart = () => {
+    userModifiedRef.current = true;
   };
 
   const botPnl = bots.reduce((sum, b) => sum + b.realizedPnl + b.unrealizedPnl, 0);
@@ -152,6 +163,8 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
             margin={[8, 8]}
             draggableHandle=".cursor-move"
             onLayoutChange={handleLayoutChange}
+            onDragStart={handleUserInteractionStart}
+            onResizeStart={handleUserInteractionStart}
           >
             <div key="book">
               <ErrorBoundary>
