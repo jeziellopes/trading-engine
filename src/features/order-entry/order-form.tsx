@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
-import { Tab, TabList, TabPanel } from "@/ui/tabs";
+import { Tab, TabList } from "@/ui/tabs";
 
 const orderSchema = z
   .object({
@@ -65,8 +65,19 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
   };
 
   return (
-    <form onSubmit={handleSubmit(internalSubmit)} noValidate className="space-y-2.5">
-      {/* Side Selection */}
+    <form onSubmit={handleSubmit(internalSubmit)} noValidate className="flex flex-col gap-2.5">
+      {/* Order type tabs — top of form*/}
+      <TabList
+        value={type}
+        onValueChange={handleTypeChange}
+        aria-label="Order type"
+        variant="underline"
+      >
+        <Tab value="limit">Limit</Tab>
+        <Tab value="market">Market</Tab>
+      </TabList>
+
+      {/* Side toggle */}
       <div className="flex gap-1.5 bg-muted p-1 rounded-md">
         <Button
           type="button"
@@ -88,41 +99,32 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
         </Button>
       </div>
 
-      {/* Order Type Tab Switcher — uses Tab primitive */}
-      <TabList value={type} onValueChange={handleTypeChange} aria-label="Order type">
-        <Tab value="limit">Limit</Tab>
-        <Tab value="market">Market</Tab>
-      </TabList>
+      {/* Price — removed entirely on Market (no layout shift via flex-start) */}
+      {type === "limit" && (
+        <div>
+          <label htmlFor="order-price" className="text-xs text-muted-foreground block mb-1">
+            Price
+          </label>
+          <Input
+            id="order-price"
+            type="number"
+            placeholder="0.00"
+            {...register("price")}
+            disabled={busy}
+            step="0.01"
+            size="sm"
+            aria-invalid={errors.price ? "true" : undefined}
+            aria-describedby={errors.price ? "order-price-error" : undefined}
+          />
+          {errors.price && (
+            <p id="order-price-error" role="alert" className="text-xs mt-1 text-destructive">
+              {errors.price.message}
+            </p>
+          )}
+        </div>
+      )}
 
-      {/* Tab Panels — min-h prevents layout shift */}
-      <div className="min-h-[96px] space-y-2.5">
-        <TabPanel value="limit" activeValue={type}>
-          <div>
-            <label htmlFor="order-price" className="text-xs text-muted-foreground block mb-1">
-              Price
-            </label>
-            <Input
-              id="order-price"
-              type="number"
-              placeholder="0.00"
-              {...register("price")}
-              disabled={busy}
-              step="0.01"
-              size="sm"
-              aria-invalid={errors.price ? "true" : undefined}
-              aria-describedby={errors.price ? "order-price-error" : undefined}
-            />
-            {errors.price && (
-              <p id="order-price-error" role="alert" className="text-xs mt-1 text-destructive">
-                {errors.price.message}
-              </p>
-            )}
-          </div>
-        </TabPanel>
-        {/* Market panel — no price field, only quantity below */}
-      </div>
-
-      {/* Quantity Input — shared across both tabs */}
+      {/* Quantity */}
       <div>
         <label htmlFor="order-quantity" className="text-xs text-muted-foreground block mb-1">
           Quantity
@@ -162,7 +164,7 @@ export function OrderForm({ symbol, onSubmit, isLoading = false }: OrderFormProp
         ))}
       </div>
 
-      {/* Submit Button */}
+      {/* Submit */}
       <Button
         type="submit"
         intent={side === "buy" ? "buy" : "sell"}
