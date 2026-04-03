@@ -126,7 +126,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                 <Panel.Header extra={timeframeTabs} />
                 <Panel.Content noScroll>
                   <div className="flex-1 p-2 min-h-0">
-                    <CandleChart />
+                    <CandleChart interval={activeTimeframe} />
                   </div>
                 </Panel.Content>
               </Panel>
