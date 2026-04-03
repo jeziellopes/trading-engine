@@ -10,7 +10,7 @@ const tabListVariants = cva("flex", {
     variant: {
       pill: "gap-1.5 bg-muted p-1 rounded-md",
       underline: "border-b border-border",
-      header: "border-b border-border",
+      header: "min-h-[2.25rem] border-b border-border",
     },
   },
   defaultVariants: { variant: "pill" },
@@ -24,7 +24,7 @@ const tabVariants = cva(
         pill: "",
         underline: "px-3 py-2 text-sm -mb-px border-b-2",
         header:
-          "px-3 py-2 text-xs font-cypher font-semibold tracking-wide uppercase -mb-px border-b-2",
+          "self-stretch flex items-center px-3 text-xs font-cypher font-semibold tracking-wide uppercase -mb-px border-b-2",
       },
       active: {
         true: "",
