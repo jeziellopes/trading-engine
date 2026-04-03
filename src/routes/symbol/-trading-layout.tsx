@@ -6,11 +6,8 @@ import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
 import { DataPanel } from "@/features/trading/data-panel";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
-import { TickerHeader } from "@/features/trading/ticker-header";
 
 import {
-  MOCK_BASE_BTC,
-  MOCK_CHANGE_PCT,
   MOCK_ORDER_BOOK_STATE,
   MOCK_PORTFOLIO_SUMMARY,
   MOCK_TRADING_TRADES,
@@ -86,7 +83,6 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
   return (
     <ErrorBoundary>
       <div className="w-full px-3 pb-3 flex flex-col gap-0">
-        <TickerHeader price={MOCK_BASE_BTC} changePct={MOCK_CHANGE_PCT} />
         <Suspense
           fallback={
             <div className="w-full h-[600px] grid grid-cols-12 gap-2 p-3">
