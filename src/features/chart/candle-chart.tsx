@@ -91,10 +91,16 @@ export function CandleChart({ interval = "15m" }: CandleChartProps) {
     series.setData(data);
     chart.timeScale().fitContent();
 
+    let fitted = false;
     const ro = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const { width, height } = entry.contentRect;
+        if (width === 0 || height === 0) continue;
         chart.resize(width, height);
+        if (!fitted) {
+          chart.timeScale().fitContent();
+          fitted = true;
+        }
       }
     });
     ro.observe(el);
