@@ -5,7 +5,12 @@ import { cn } from "@/lib/utils";
 import { SymbolRow } from "./symbol-row";
 import { useSymbolSearch } from "./use-symbol-search";
 
-export function SymbolSelector() {
+interface SymbolSelectorProps {
+  /** Override classes on the trigger button. Useful for embedding in headers. */
+  triggerClassName?: string;
+}
+
+export function SymbolSelector({ triggerClassName }: SymbolSelectorProps = {}) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -56,8 +61,15 @@ export function SymbolSelector() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={cn(
-          "flex items-center gap-1.5 text-xs font-mono px-2.5 py-1 rounded border border-border/60 hover:border-border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring",
-          currentSymbol ? "text-primary" : "text-muted-foreground",
+          triggerClassName
+            ? cn(
+                triggerClassName,
+                "flex items-center gap-1 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring",
+              )
+            : cn(
+                "flex items-center gap-1.5 text-xs font-mono px-2.5 py-1 rounded border border-border/60 hover:border-border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring",
+                currentSymbol ? "text-primary" : "text-muted-foreground",
+              ),
         )}
       >
         <span className="font-semibold">{currentSymbol ?? "SELECT PAIR"}</span>
