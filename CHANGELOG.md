@@ -1,3 +1,10 @@
+# [1.0.0-next.19](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.18...v1.0.0-next.19) (2026-04-03)
+
+
+### Bug Fixes
+
+* **chart:** fitContent on first non-zero resize for correct initial zoom ([f81484e](https://github.com/jeziellopes/trading-engine/commit/f81484e2841d91432bcfdbdadd909b162bcfa153)), closes [#79](https://github.com/jeziellopes/trading-engine/issues/79)
+
 # [1.0.0-next.18](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.17...v1.0.0-next.18) (2026-04-03)
 
 
