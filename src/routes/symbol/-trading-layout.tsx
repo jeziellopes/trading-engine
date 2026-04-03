@@ -1,12 +1,10 @@
 import { lazy, Suspense, useState } from "react";
 import { toast } from "sonner";
-import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
-import type { BotStatus } from "@/features/bots/types";
 import { CandleChart } from "@/features/chart/candle-chart";
 import { OrderBook } from "@/features/order-book/order-book";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
-import { RecentTradesTable } from "@/features/trades/recent-trades-table";
+import { DataPanel } from "@/features/trading/data-panel";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
 import { TickerHeader } from "@/features/trading/ticker-header";
 
@@ -155,24 +153,18 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
                 </Panel>
               </ErrorBoundary>
             </div>
-            <div key="bots">
+            <div key="data">
               <ErrorBoundary>
-                <Panel title="Bots">
-                  <Panel.Content>
-                    <BotManagerPanel
+                <Panel>
+                  <Panel.Content noScroll>
+                    <DataPanel
                       bots={bots}
-                      onStatusChange={(id: string, s: BotStatus) => setBotStatus(id, s)}
+                      trades={MOCK_TRADING_TRADES}
+                      onBotStatusChange={(id, s) => setBotStatus(id, s)}
                     />
                   </Panel.Content>
                 </Panel>
               </ErrorBoundary>
-            </div>
-            <div key="trades">
-              <Panel title="Recent Trades">
-                <Panel.Content>
-                  <RecentTradesTable trades={MOCK_TRADING_TRADES} />
-                </Panel.Content>
-              </Panel>
             </div>
           </TradingGrid>
         </Suspense>
