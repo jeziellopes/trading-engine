@@ -1,3 +1,18 @@
+# [1.0.0-next.13](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.12...v1.0.0-next.13) (2026-04-03)
+
+
+### Bug Fixes
+
+* **trading-grid:** correct xxl column proportions to match Binance layout ([4f61660](https://github.com/jeziellopes/trading-engine/commit/4f61660c6090e23ca0e64b76b7948557be1fe62d))
+* **trading-grid:** fix biome import order and formatting in layout files ([87b11a4](https://github.com/jeziellopes/trading-engine/commit/87b11a48dd662707ccd26a2ae5392a14a4bd1b6f))
+* **trading-layout:** chart|book|order column order + lazy layout persistence ([701e8c4](https://github.com/jeziellopes/trading-engine/commit/701e8c4a12737becab2a4884c9022e1688eb83d5))
+
+
+### Features
+
+* **trading-grid:** xl breakpoint (≥1440px) layout preset ([#65](https://github.com/jeziellopes/trading-engine/issues/65)) ([aba4077](https://github.com/jeziellopes/trading-engine/commit/aba407795b8f484b07c6a4d87dbfa23e3f3e1957))
+* **trading-grid:** xxl preset + Binance-style layout + side-by-side bots/trades ([e0088c6](https://github.com/jeziellopes/trading-engine/commit/e0088c6c72f94376923aa07aea81ae895b60664b))
+
 # [1.0.0-next.12](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.11...v1.0.0-next.12) (2026-04-02)
 
 
