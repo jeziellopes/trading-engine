@@ -5,31 +5,24 @@ import {
   createChart,
   type Time,
 } from "lightweight-charts";
+import { MOCK_CANDLES_BY_INTERVAL } from "@/lib/mock-data";
 
-const MOCK_CANDLES: CandlestickData<Time>[] = [
-  { time: "2024-01-01" as Time, open: 67120, high: 67480, low: 67050, close: 67390 },
-  { time: "2024-01-02" as Time, open: 67390, high: 67620, low: 67300, close: 67580 },
-  { time: "2024-01-03" as Time, open: 67580, high: 67710, low: 67520, close: 67490 },
-  { time: "2024-01-04" as Time, open: 67490, high: 67550, low: 67320, close: 67350 },
-  { time: "2024-01-05" as Time, open: 67350, high: 67400, low: 67180, close: 67220 },
-  { time: "2024-01-06" as Time, open: 67220, high: 67680, low: 67200, close: 67650 },
-  { time: "2024-01-07" as Time, open: 67650, high: 67820, low: 67610, close: 67780 },
-  { time: "2024-01-08" as Time, open: 67780, high: 67900, low: 67730, close: 67860 },
-  { time: "2024-01-09" as Time, open: 67860, high: 67940, low: 67800, close: 67844 },
-];
+interface CandleChartProps {
+  /** Interval key matching MOCK_CANDLES_BY_INTERVAL. Defaults to "15m". */
+  interval?: string;
+}
 
-/** Resolve a CSS custom property to a hex string that lightweight-charts can parse.
- * Modern Chrome preserves oklch in getComputedStyle, so we must force sRGB
- * conversion via Canvas getImageData (always returns sRGB bytes). */
+/**
+ * Resolve a CSS custom property to an sRGB hex string safe for lightweight-charts.
+ * Chrome 116+ preserves oklch in getComputedStyle, so we force sRGB via Canvas.
+ */
 function resolveColor(container: HTMLElement, name: string): string {
-  // Step 1: get computed value — may be oklch on Chrome 116+
   const probe = document.createElement("div");
   probe.style.cssText = `position:absolute;visibility:hidden;color:var(${name})`;
   container.appendChild(probe);
   const computed = getComputedStyle(probe).color;
   container.removeChild(probe);
 
-  // Step 2: force sRGB via canvas — fillStyle accepts oklch, getImageData returns RGBA bytes
   const canvas = document.createElement("canvas");
   canvas.width = canvas.height = 1;
   const ctx = canvas.getContext("2d");
@@ -40,12 +33,22 @@ function resolveColor(container: HTMLElement, name: string): string {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-export function CandleChart() {
+/** Convert `rgb(r, g, b)` → `rgba(r, g, b, alpha)` for grid lines. */
+function withAlpha(rgb: string, alpha: number): string {
+  const m = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  if (!m) return rgb;
+  return `rgba(${m[1]}, ${m[2]}, ${m[3]}, ${alpha})`;
+}
+
+export function CandleChart({ interval = "15m" }: CandleChartProps) {
   const chartRef = (el: HTMLDivElement | null) => {
     if (!el) return;
 
     const textColor = resolveColor(el, "--muted-foreground");
     const borderColor = resolveColor(el, "--border");
+    // Up/down colours: body and wick use the same token — Binance pattern
+    const bidColor = resolveColor(el, "--trading-bid");
+    const askColor = resolveColor(el, "--trading-ask");
 
     const chart = createChart(el, {
       layout: {
@@ -55,13 +58,12 @@ export function CandleChart() {
         fontSize: 10,
       },
       grid: {
-        vertLines: { color: borderColor },
-        horzLines: { color: borderColor },
+        // Grid lines use border colour at 20% opacity — visually recessive
+        vertLines: { color: withAlpha(borderColor, 0.2) },
+        horzLines: { color: withAlpha(borderColor, 0.2) },
       },
       crosshair: { mode: 0 },
-      rightPriceScale: {
-        borderColor,
-      },
+      rightPriceScale: { borderColor },
       timeScale: {
         borderColor,
         timeVisible: true,
@@ -70,14 +72,23 @@ export function CandleChart() {
     });
 
     const series = chart.addSeries(CandlestickSeries, {
-      upColor: resolveColor(el, "--trading-bid"),
-      downColor: resolveColor(el, "--trading-ask"),
-      wickUpColor: resolveColor(el, "--trading-tick-up"),
-      wickDownColor: resolveColor(el, "--trading-tick-down"),
+      upColor: bidColor,
+      downColor: askColor,
+      // Wicks match body colour — no two-tone inconsistency
+      wickUpColor: bidColor,
+      wickDownColor: askColor,
       borderVisible: false,
     });
 
-    series.setData(MOCK_CANDLES);
+    const raw = MOCK_CANDLES_BY_INTERVAL[interval] ?? MOCK_CANDLES_BY_INTERVAL["15m"];
+    const data: CandlestickData<Time>[] = raw.map((c) => ({
+      time: c.time as Time,
+      open: c.o,
+      high: c.h,
+      low: c.l,
+      close: c.c,
+    }));
+    series.setData(data);
     chart.timeScale().fitContent();
 
     const ro = new ResizeObserver((entries) => {
