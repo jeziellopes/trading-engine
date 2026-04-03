@@ -43,8 +43,8 @@ const MODES: { id: ModeId; label: string }[] = [
   { id: "vibrant", label: "Vibrant" },
 ];
 
-const THEME_STORAGE_KEY = "trading-theme";
-const MODE_STORAGE_KEY = "trading-mode";
+const THEME_STORAGE_KEY = "theme";
+const MODE_STORAGE_KEY = "mode";
 
 function applyTheme(theme: ThemeId, mode: ModeId) {
   document.documentElement.setAttribute("data-theme", theme);
@@ -212,7 +212,7 @@ function DesignSystemShowcase() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <title>Design System | Trading Engine</title>
+      <title>Design System | Flow</title>
       <div className="max-w-7xl mx-auto px-6 py-12 space-y-16">
         {/* Header */}
         <div className="space-y-4">

@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trading Engine</title>
+    <title>Flow</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,8 +15,17 @@
   <script>
     (function() {
       try {
-        var theme = localStorage.getItem("trading-theme") || "night-city";
-        var mode = localStorage.getItem("trading-mode") || "dark";
+        // One-time key migration
+        if (localStorage.getItem("trading-theme") && !localStorage.getItem("theme")) {
+          localStorage.setItem("theme", localStorage.getItem("trading-theme"));
+          localStorage.removeItem("trading-theme");
+        }
+        if (localStorage.getItem("trading-mode") && !localStorage.getItem("mode")) {
+          localStorage.setItem("mode", localStorage.getItem("trading-mode"));
+          localStorage.removeItem("trading-mode");
+        }
+        var theme = localStorage.getItem("theme") || "night-city";
+        var mode = localStorage.getItem("mode") || "dark";
         var el = document.documentElement;
         el.setAttribute("data-theme", theme);
         el.setAttribute("data-mode", mode);

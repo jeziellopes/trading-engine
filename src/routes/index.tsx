@@ -30,7 +30,7 @@ export default function LandingPage() {
   return (
     <ErrorBoundary>
       <div className="w-full max-w-4xl mx-auto px-6 py-20 flex flex-col gap-16">
-        <title>Home | Trading Engine</title>
+        <title>Home | Flow</title>
         {/* Hero */}
         <section className="flex flex-col gap-6">
           <div className="flex items-center gap-3">
@@ -50,7 +50,7 @@ export default function LandingPage() {
             className="font-cypher text-5xl font-bold leading-tight tracking-tight"
             style={{ color: "var(--primary)" }}
           >
-            Trading Engine
+            Flow
           </h1>
 
           <p className="text-lg max-w-xl" style={{ color: "var(--color-muted-foreground)" }}>

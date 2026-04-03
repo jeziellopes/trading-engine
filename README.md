@@ -1,8 +1,14 @@
-# Trading Engine
+# Flow
+
+[![Tests](https://github.com/jeziellopes/flow/actions/workflows/test.yml/badge.svg?branch=develop)](https://github.com/jeziellopes/flow/actions/workflows/test.yml)
+[![Code Quality](https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml/badge.svg?branch=develop)](https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml)
+[![DCO](https://github.com/jeziellopes/flow/actions/workflows/dco.yml/badge.svg?branch=develop)](https://github.com/jeziellopes/flow/actions/workflows/dco.yml)
 
 I'm building a real-time trading terminal simulator as a portfolio project to demonstrate React 19.2, Vite 8, Zustand, and WebSocket data handling with live Binance market data — rendered at 60fps with zero manual memoization.
 
 > **Status: Active development.** Core UI and design system are complete. WebSocket data layer in progress.
+
+**Live demo:** Vercel preview available on every PR — see the Vercel bot comment for the latest URL.
 
 ## What I'm Building
 
@@ -14,7 +20,7 @@ A cyberpunk-themed crypto trading dashboard that mirrors the architecture of a r
 - **Draggable dashboard** — panels resize and reorder via `react-grid-layout`, layout persisted to localStorage
 - **Design system** — five cyberpunk themes × three modes with WCAG contrast enforcement
 
-The UI is static/paper-trading only — no real money, no API keys, no backend. The `MarketDataSource` and `OrderGateway` interfaces are designed for a real backend swap.
+> The UI is static/paper-trading only — no real money, no API keys, no backend. The `MarketDataSource` and `OrderGateway` interfaces are designed for a real backend swap.
 
 ## Stack
 
@@ -36,8 +42,8 @@ The UI is static/paper-trading only — no real money, no API keys, no backend. 
 
 ```bash
 # Requires Node.js 22+ and pnpm
-git clone <repo-url>
-cd trading-engine
+git clone https://github.com/jeziellopes/flow
+cd flow
 pnpm install
 pnpm dev        # http://localhost:5173
 ```
@@ -85,22 +91,6 @@ Layer 3 — :root                          ← fonts + durations only
 
 Browse the live gallery at `/design-system` — includes a theme/mode switcher, WCAG contrast audit table (195 pairs, all passing), and component showcase.
 
-## Roadmap
-
-| Priority | Feature | Status |
-|----------|---------|--------|
-| P0 | Design system + token architecture | ✅ Done |
-| P0 | Order book UI components | ✅ Done |
-| P0 | Dashboard layout (react-grid-layout) | ✅ Done |
-| P0 | WebSocket data layer (Binance) | 🔄 In progress |
-| P0 | Symbol routing with typed params | 🔄 In progress |
-| P1 | Simulated order entry (fills at live price) | 📋 Spec ready |
-| P1 | Portfolio tracker with live PnL | 📋 Spec ready |
-| P2 | Depth chart (Lightweight Charts) | ⏳ Stretch |
-| P2 | Matching engine visualizer | ⏳ Stretch |
-
-See [`ROADMAP.md`](ROADMAP.md) for architectural trade-offs and implementation rationale.
-
 ## Key Patterns
 
 - **React Compiler** — no `useMemo`/`useCallback`/`React.memo` anywhere
@@ -109,6 +99,19 @@ See [`ROADMAP.md`](ROADMAP.md) for architectural trade-offs and implementation r
 - **Frame batching** — high-frequency WS updates batched per `requestAnimationFrame`
 - **Granular selectors** — components subscribe to Zustand slices, not whole store
 - **Zod boundaries** — all Binance messages validated before entering the store
+
+## Roadmap
+
+Active work:
+
+| Priority | Feature | Status |
+|----------|---------|--------|
+| P0 | WebSocket data layer (Binance) | 🔄 In progress |
+| P0 | Symbol routing with typed params | 🔄 In progress |
+| P1 | Simulated order entry (fills at live price) | 📋 Spec ready |
+| P1 | Portfolio tracker with live PnL | 📋 Spec ready |
+
+See [`ROADMAP.md`](ROADMAP.md) for the full priority list, architectural trade-offs, and implementation rationale.
 
 ## Docs
 

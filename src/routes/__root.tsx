@@ -41,7 +41,7 @@ function RootComponent() {
               className="font-cypher text-sm font-bold tracking-widest select-none text-primary"
             >
               <Logo className="w-6 h-6" />
-              {!isSymbolRoute && <span className="ml-2">Trading Engine</span>}
+              {!isSymbolRoute && <span className="ml-2">Flow</span>}
             </Link>
             {isSymbolRoute && <TickerHeader price={MOCK_BASE_BTC} changePct={MOCK_CHANGE_PCT} />}
             <div className="flex-1" />

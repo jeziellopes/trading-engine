@@ -10,7 +10,7 @@ import type {
 // Constants
 // ---------------------------------------------------------------------------
 
-const LAYOUT_KEY = "trading-grid-layout-v8";
+const LAYOUT_KEY = "grid-layout-v9";
 
 export const BREAKPOINTS = { xxl: 1920, xl: 1440, lg: 1200, md: 996, sm: 768 } as const;
 export const COLS = { xxl: 12, xl: 12, lg: 12, md: 10, sm: 6 } as const;

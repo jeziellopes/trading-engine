@@ -1,4 +1,4 @@
-# Trading Engine — Roadmap
+# Flow — Roadmap
 
 I'm building this as a portfolio project to demonstrate React 19 + Vite 8 + Zustand + WebSocket real-time data handling with Binance market data.
 

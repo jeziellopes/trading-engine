@@ -11,7 +11,7 @@ function RouteComponent() {
   const { symbol } = Route.useParams();
   return (
     <ErrorBoundary>
-      <title>{symbol} | Trading Engine</title>
+      <title>{symbol} | Flow</title>
       <TradingLayout symbol={symbol} />
     </ErrorBoundary>
   );

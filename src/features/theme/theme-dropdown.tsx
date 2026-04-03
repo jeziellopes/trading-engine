@@ -6,8 +6,20 @@ import { cn } from "@/lib/utils";
 type ThemeId = "soft" | "night-city" | "maelstrom" | "corpo-ice" | "netrunner" | "flowa";
 type ModeId = "dark" | "light" | "vibrant";
 
-const THEME_STORAGE_KEY = "trading-theme";
-const MODE_STORAGE_KEY = "trading-mode";
+const THEME_STORAGE_KEY = "theme";
+const MODE_STORAGE_KEY = "mode";
+
+// One-time migration: copy old keys to new keys then remove old
+(function migrateStorageKeys() {
+  if (localStorage.getItem("trading-theme") && !localStorage.getItem("theme")) {
+    localStorage.setItem("theme", localStorage.getItem("trading-theme")!);
+    localStorage.removeItem("trading-theme");
+  }
+  if (localStorage.getItem("trading-mode") && !localStorage.getItem("mode")) {
+    localStorage.setItem("mode", localStorage.getItem("trading-mode")!);
+    localStorage.removeItem("trading-mode");
+  }
+})();
 
 const THEMES: { id: ThemeId; label: string; accent: string }[] = [
   { id: "soft", label: "Soft", accent: "oklch(0.62 0.22 280)" },
