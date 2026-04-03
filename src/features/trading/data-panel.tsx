@@ -37,10 +37,9 @@ export function DataPanel({ bots, trades, onBotStatusChange, className }: DataPa
           onValueChange={(v) => setActiveTab(v as TabValue)}
           aria-label="Data panel"
           variant="header"
-          className="px-1"
         >
           {TABS.map((t) => (
-            <Tab key={t.value} value={t.value} className="py-2">
+            <Tab key={t.value} value={t.value}>
               {t.label}
             </Tab>
           ))}
