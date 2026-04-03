@@ -3,12 +3,14 @@ import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import type { BotInstance, BotStatus } from "@/features/bots/types";
 import { RecentTradesTable } from "@/features/trades/recent-trades-table";
 import type { TradingLayoutTrade } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
 import { Tab, TabList } from "@/ui/tabs";
 
 interface DataPanelProps {
   bots: BotInstance[];
   trades: TradingLayoutTrade[];
   onBotStatusChange: (id: string, status: BotStatus) => void;
+  className?: string;
 }
 
 const TABS = [
@@ -18,24 +20,34 @@ const TABS = [
 
 type TabValue = (typeof TABS)[number]["value"];
 
-export function DataPanel({ bots, trades, onBotStatusChange }: DataPanelProps) {
+/** Self-contained panel — owns its own chrome (border, header, drag handle) so tabs sit flush in the header bar, matching Chart/Book/Order panels. */
+export function DataPanel({ bots, trades, onBotStatusChange, className }: DataPanelProps) {
   const [activeTab, setActiveTab] = useState<TabValue>("trades");
 
   return (
-    <div className="h-full flex flex-col">
-      <TabList
-        value={activeTab}
-        onValueChange={(v) => setActiveTab(v as TabValue)}
-        aria-label="Data panel"
-        variant="underline"
-        className="px-3 shrink-0"
-      >
-        {TABS.map((t) => (
-          <Tab key={t.value} value={t.value}>
-            {t.label}
-          </Tab>
-        ))}
-      </TabList>
+    <div
+      className={cn(
+        "bg-card rounded-md border border-border flex flex-col h-full overflow-hidden",
+        className,
+      )}
+    >
+      {/* Header — cursor-move handle + tabs flush in the bar */}
+      <div className="border-b border-border shrink-0 cursor-move">
+        <TabList
+          value={activeTab}
+          onValueChange={(v) => setActiveTab(v as TabValue)}
+          aria-label="Data panel"
+          variant="underline"
+          noBorder
+          className="px-1"
+        >
+          {TABS.map((t) => (
+            <Tab key={t.value} value={t.value} className="text-xs py-2">
+              {t.label}
+            </Tab>
+          ))}
+        </TabList>
+      </div>
 
       <div className="flex-1 min-h-0 overflow-y-auto">
         {activeTab === "trades" && <RecentTradesTable trades={trades} />}

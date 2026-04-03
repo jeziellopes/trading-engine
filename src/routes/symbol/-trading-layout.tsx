@@ -155,15 +155,11 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
             </div>
             <div key="data">
               <ErrorBoundary>
-                <Panel>
-                  <Panel.Content noScroll>
-                    <DataPanel
-                      bots={bots}
-                      trades={MOCK_TRADING_TRADES}
-                      onBotStatusChange={(id, s) => setBotStatus(id, s)}
-                    />
-                  </Panel.Content>
-                </Panel>
+                <DataPanel
+                  bots={bots}
+                  trades={MOCK_TRADING_TRADES}
+                  onBotStatusChange={(id, s) => setBotStatus(id, s)}
+                />
               </ErrorBoundary>
             </div>
           </TradingGrid>

@@ -25,12 +25,15 @@ interface TabListProps extends React.HTMLAttributes<HTMLDivElement> {
   onValueChange: (value: string) => void;
   /** Visual variant. Defaults to "pill" (filled capsule). Use "underline" for Binance-style indicator tabs. */
   variant?: "pill" | "underline";
+  /** When true, suppresses the bottom border on the underline variant (use when hosted inside a container that already has a border-b). */
+  noBorder?: boolean;
 }
 
 export function TabList({
   value,
   onValueChange,
   variant = "pill",
+  noBorder = false,
   className,
   children,
   ...props
@@ -41,7 +44,7 @@ export function TabList({
         role="tablist"
         className={cn(
           variant === "pill" && "flex gap-1.5 bg-muted p-1 rounded-md",
-          variant === "underline" && "flex border-b border-border",
+          variant === "underline" && cn("flex", !noBorder && "border-b border-border"),
           className,
         )}
         {...props}

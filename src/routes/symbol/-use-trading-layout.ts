@@ -10,7 +10,7 @@ import type {
 // Constants
 // ---------------------------------------------------------------------------
 
-const LAYOUT_KEY = "trading-grid-layout-v7";
+const LAYOUT_KEY = "trading-grid-layout-v8";
 
 export const BREAKPOINTS = { xxl: 1920, xl: 1440, lg: 1200, md: 996, sm: 768 } as const;
 export const COLS = { xxl: 12, xl: 12, lg: 12, md: 10, sm: 6 } as const;
@@ -25,29 +25,29 @@ export const DEFAULT_LAYOUTS: ResponsiveLayouts<string> = {
   xxl: [
     { i: "chart", x: 0, y: 0, w: 8, h: 10, minW: 4, minH: 5 },
     { i: "book", x: 8, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
-    { i: "order", x: 10, y: 0, w: 2, h: 6, minW: 2, minH: 4 },
-    { i: "portfolio", x: 10, y: 6, w: 2, h: 4, minW: 2, minH: 3 },
+    { i: "order", x: 10, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
+    { i: "portfolio", x: 10, y: 10, w: 2, h: 5, minW: 2, minH: 3 },
     { i: "data", x: 0, y: 10, w: 10, h: 5, minW: 6, minH: 3 },
   ],
   xl: [
     { i: "chart", x: 0, y: 0, w: 8, h: 10, minW: 4, minH: 5 },
     { i: "book", x: 8, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
-    { i: "order", x: 10, y: 0, w: 2, h: 6, minW: 2, minH: 4 },
-    { i: "portfolio", x: 10, y: 6, w: 2, h: 4, minW: 2, minH: 3 },
+    { i: "order", x: 10, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
+    { i: "portfolio", x: 10, y: 10, w: 2, h: 4, minW: 2, minH: 3 },
     { i: "data", x: 0, y: 10, w: 10, h: 4, minW: 6, minH: 3 },
   ],
   lg: [
     { i: "chart", x: 0, y: 0, w: 6, h: 10, minW: 4, minH: 5 },
     { i: "book", x: 6, y: 0, w: 3, h: 10, minW: 2, minH: 6 },
-    { i: "order", x: 9, y: 0, w: 3, h: 6, minW: 2, minH: 4 },
-    { i: "portfolio", x: 9, y: 6, w: 3, h: 4, minW: 2, minH: 3 },
+    { i: "order", x: 9, y: 0, w: 3, h: 10, minW: 2, minH: 6 },
+    { i: "portfolio", x: 9, y: 10, w: 3, h: 4, minW: 2, minH: 3 },
     { i: "data", x: 0, y: 10, w: 9, h: 4, minW: 6, minH: 3 },
   ],
   md: [
     { i: "chart", x: 0, y: 0, w: 5, h: 9, minW: 4, minH: 5 },
     { i: "book", x: 5, y: 0, w: 2, h: 9, minW: 2, minH: 4 },
-    { i: "order", x: 7, y: 0, w: 3, h: 6, minW: 2, minH: 4 },
-    { i: "portfolio", x: 7, y: 6, w: 3, h: 3, minW: 2, minH: 3 },
+    { i: "order", x: 7, y: 0, w: 3, h: 9, minW: 2, minH: 6 },
+    { i: "portfolio", x: 7, y: 9, w: 3, h: 4, minW: 2, minH: 3 },
     { i: "data", x: 0, y: 9, w: 7, h: 4, minW: 6, minH: 3 },
   ],
 };
