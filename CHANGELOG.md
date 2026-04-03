@@ -1,3 +1,10 @@
+# [1.0.0-next.18](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.17...v1.0.0-next.18) (2026-04-03)
+
+
+### Bug Fixes
+
+* **design-system:** enforce cursor-pointer on all interactive UI primitives (closes [#80](https://github.com/jeziellopes/trading-engine/issues/80)) ([ea35eea](https://github.com/jeziellopes/trading-engine/commit/ea35eea03766a6de305cee9fd1e9966e125ba9d0))
+
 # [1.0.0-next.17](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.16...v1.0.0-next.17) (2026-04-03)
 
 
