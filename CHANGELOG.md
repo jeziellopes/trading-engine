@@ -1,3 +1,15 @@
+# [1.0.0-next.20](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.19...v1.0.0-next.20) (2026-04-03)
+
+
+### Bug Fixes
+
+* **header:** merge useRouterState import and fix quote style for Biome ([d4779ac](https://github.com/jeziellopes/trading-engine/commit/d4779ace12f854e7ffbf07b69700437adfe9aac2))
+
+
+### Features
+
+* **header:** route-aware header — logo-only + TickerHeader on symbol route ([c2638e3](https://github.com/jeziellopes/trading-engine/commit/c2638e385aa623aecf354ed19ed12c56cd3e6461)), closes [#84](https://github.com/jeziellopes/trading-engine/issues/84)
+
 # [1.0.0-next.19](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.18...v1.0.0-next.19) (2026-04-03)
 
 
