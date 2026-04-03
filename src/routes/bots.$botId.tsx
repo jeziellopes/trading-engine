@@ -46,7 +46,7 @@ function BotDetailPage() {
   return (
     <ErrorBoundary>
       <div className="h-full overflow-y-auto bg-background">
-        <title>{`${bot.name} | Trading Engine`}</title>
+        <title>{`${bot.name} | Flow`}</title>
         <div className="p-6 space-y-6">
           <div className="flex items-center gap-3 flex-wrap">
             <Link
