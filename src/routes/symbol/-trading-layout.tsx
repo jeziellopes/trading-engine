@@ -18,10 +18,10 @@ import {
   MOCK_TRADING_TRADES,
 } from "@/lib/mock-data";
 import { useTradingStore } from "@/stores/trading-store";
-import { BREAKPOINTS, COLS, useTradingLayout } from "./-use-trading-layout";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { Panel } from "@/ui/panel";
+import { BREAKPOINTS, COLS, useTradingLayout } from "./-use-trading-layout";
 
 const TradingGrid = lazy(() => import("@/features/trading/trading-grid"));
 
@@ -29,10 +29,17 @@ interface TradingLayoutProps {
   symbol: string;
 }
 
-
 export function TradingLayout({ symbol }: TradingLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
-  const { layouts, rowHeight, onBreakpointChange, onLayoutChange, onResizeStop, onDragStart, onResizeStart } = useTradingLayout();
+  const {
+    layouts,
+    rowHeight,
+    onBreakpointChange,
+    onLayoutChange,
+    onResizeStop,
+    onDragStart,
+    onResizeStart,
+  } = useTradingLayout();
   const bots = useTradingStore((s) => s.bots);
   const setBotStatus = useTradingStore((s) => s.setBotStatus);
   const [activeTimeframe, setActiveTimeframe] = useState("15m");
@@ -59,7 +66,6 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
       setOrderSubmitting(false);
     }
   };
-
 
   const botPnl = bots.reduce((sum, b) => sum + b.realizedPnl + b.unrealizedPnl, 0);
   const timeframeTabs = (

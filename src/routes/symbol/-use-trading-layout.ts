@@ -1,5 +1,10 @@
 import { useRef, useState, useSyncExternalStore } from "react";
-import type { Layout, LayoutItem, RGLEventCallback, ResponsiveLayouts } from "@/features/trading/trading-grid";
+import type {
+  Layout,
+  LayoutItem,
+  ResponsiveLayouts,
+  RGLEventCallback,
+} from "@/features/trading/trading-grid";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -18,36 +23,36 @@ const MARGIN_Y = 8;
 
 export const DEFAULT_LAYOUTS: ResponsiveLayouts<string> = {
   xxl: [
-    { i: "chart",     x:  0, y:  0, w: 8, h: 10, minW: 4, minH: 5 },
-    { i: "book",      x:  8, y:  0, w: 2, h: 10, minW: 2, minH: 6 },
-    { i: "order",     x: 10, y:  0, w: 2, h:  6, minW: 2, minH: 4 },
-    { i: "portfolio", x: 10, y:  6, w: 2, h:  4, minW: 2, minH: 3 },
-    { i: "bots",      x:  0, y: 10, w: 8, h:  5, minW: 4, minH: 3 },
-    { i: "trades",    x:  8, y: 10, w: 4, h:  5, minW: 3, minH: 3 },
+    { i: "chart", x: 0, y: 0, w: 8, h: 10, minW: 4, minH: 5 },
+    { i: "book", x: 8, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
+    { i: "order", x: 10, y: 0, w: 2, h: 6, minW: 2, minH: 4 },
+    { i: "portfolio", x: 10, y: 6, w: 2, h: 4, minW: 2, minH: 3 },
+    { i: "bots", x: 0, y: 10, w: 8, h: 5, minW: 4, minH: 3 },
+    { i: "trades", x: 8, y: 10, w: 4, h: 5, minW: 3, minH: 3 },
   ],
   xl: [
-    { i: "chart",     x:  0, y:  0, w: 8, h: 10, minW: 4, minH: 5 },
-    { i: "book",      x:  8, y:  0, w: 2, h: 10, minW: 2, minH: 6 },
-    { i: "order",     x: 10, y:  0, w: 2, h:  6, minW: 2, minH: 4 },
-    { i: "portfolio", x: 10, y:  6, w: 2, h:  4, minW: 2, minH: 3 },
-    { i: "bots",      x:  0, y: 10, w: 8, h:  5, minW: 4, minH: 3 },
-    { i: "trades",    x:  8, y: 10, w: 4, h:  5, minW: 3, minH: 3 },
+    { i: "chart", x: 0, y: 0, w: 8, h: 10, minW: 4, minH: 5 },
+    { i: "book", x: 8, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
+    { i: "order", x: 10, y: 0, w: 2, h: 6, minW: 2, minH: 4 },
+    { i: "portfolio", x: 10, y: 6, w: 2, h: 4, minW: 2, minH: 3 },
+    { i: "bots", x: 0, y: 10, w: 8, h: 5, minW: 4, minH: 3 },
+    { i: "trades", x: 8, y: 10, w: 4, h: 5, minW: 3, minH: 3 },
   ],
   lg: [
-    { i: "chart",     x:  0, y: 0, w: 7, h: 8, minW: 4, minH: 5 },
-    { i: "book",      x:  7, y: 0, w: 3, h: 8, minW: 2, minH: 6 },
-    { i: "order",     x: 10, y: 0, w: 2, h: 5, minW: 2, minH: 4 },
+    { i: "chart", x: 0, y: 0, w: 7, h: 8, minW: 4, minH: 5 },
+    { i: "book", x: 7, y: 0, w: 3, h: 8, minW: 2, minH: 6 },
+    { i: "order", x: 10, y: 0, w: 2, h: 5, minW: 2, minH: 4 },
     { i: "portfolio", x: 10, y: 5, w: 2, h: 3, minW: 2, minH: 3 },
-    { i: "bots",      x:  0, y: 8, w: 7, h: 5, minW: 4, minH: 3 },
-    { i: "trades",    x:  7, y: 8, w: 5, h: 5, minW: 3, minH: 3 },
+    { i: "bots", x: 0, y: 8, w: 7, h: 5, minW: 4, minH: 3 },
+    { i: "trades", x: 7, y: 8, w: 5, h: 5, minW: 3, minH: 3 },
   ],
   md: [
-    { i: "chart",     x: 0, y:  0, w: 6, h: 8, minW: 4, minH: 5 },
-    { i: "book",      x: 6, y:  0, w: 4, h: 8, minW: 2, minH: 6 },
-    { i: "order",     x: 0, y:  8, w: 6, h: 5, minW: 2, minH: 4 },
-    { i: "portfolio", x: 6, y:  8, w: 4, h: 5, minW: 2, minH: 3 },
-    { i: "bots",      x: 0, y: 13, w: 6, h: 5, minW: 4, minH: 3 },
-    { i: "trades",    x: 6, y: 13, w: 4, h: 5, minW: 3, minH: 3 },
+    { i: "chart", x: 0, y: 0, w: 6, h: 8, minW: 4, minH: 5 },
+    { i: "book", x: 6, y: 0, w: 4, h: 8, minW: 2, minH: 6 },
+    { i: "order", x: 0, y: 8, w: 6, h: 5, minW: 2, minH: 4 },
+    { i: "portfolio", x: 6, y: 8, w: 4, h: 5, minW: 2, minH: 3 },
+    { i: "bots", x: 0, y: 13, w: 6, h: 5, minW: 4, minH: 3 },
+    { i: "trades", x: 6, y: 13, w: 4, h: 5, minW: 3, minH: 3 },
   ],
 };
 
@@ -76,23 +81,30 @@ function calcRowHeight(windowHeight: number) {
  */
 function redistributeLayout(layout: LayoutItem[], totalCols: number): LayoutItem[] {
   const get = (id: string) => layout.find((it) => it.i === id);
-  const book  = get("book");
+  const book = get("book");
   const order = get("order");
   if (!book || !order) return layout;
 
   const chartW = Math.max(totalCols - book.w - order.w, 2);
-  const bookX  = chartW;
-  const sideX  = chartW + book.w;
+  const bookX = chartW;
+  const sideX = chartW + book.w;
 
   return layout.map((item) => {
     switch (item.i) {
-      case "chart":     return { ...item, x: 0,      w: chartW                          };
-      case "book":      return { ...item, x: bookX                                       };
-      case "order":     return { ...item, x: sideX                                       };
-      case "portfolio": return { ...item, x: sideX,  w: order.w                         };
-      case "bots":      return { ...item, x: 0,      w: chartW                          };
-      case "trades":    return { ...item, x: chartW, w: Math.max(totalCols - chartW, 1) };
-      default:          return item;
+      case "chart":
+        return { ...item, x: 0, w: chartW };
+      case "book":
+        return { ...item, x: bookX };
+      case "order":
+        return { ...item, x: sideX };
+      case "portfolio":
+        return { ...item, x: sideX, w: order.w };
+      case "bots":
+        return { ...item, x: 0, w: chartW };
+      case "trades":
+        return { ...item, x: chartW, w: Math.max(totalCols - chartW, 1) };
+      default:
+        return item;
     }
   });
 }
@@ -133,8 +145,8 @@ export function useTradingLayout(): UseTradingLayoutReturn {
   // Only persist when the user has explicitly interacted (drag/resize).
   // onLayoutChange also fires on mount — skip that write so default layout
   // updates take effect for users who never customised the grid.
-  const userModifiedRef    = useRef(false);
-  const currentBreakpoint  = useRef<string>("xxl");
+  const userModifiedRef = useRef(false);
+  const currentBreakpoint = useRef<string>("xxl");
 
   const onBreakpointChange = (bp: string) => {
     currentBreakpoint.current = bp;
@@ -150,7 +162,7 @@ export function useTradingLayout(): UseTradingLayoutReturn {
 
   const onResizeStop: RGLEventCallback = (layout) => {
     userModifiedRef.current = true;
-    const bp    = currentBreakpoint.current;
+    const bp = currentBreakpoint.current;
     const total = (COLS as Record<string, number>)[bp] ?? 12;
     const adapted = redistributeLayout([...layout], total);
     setLayouts((prev) => {
@@ -160,8 +172,20 @@ export function useTradingLayout(): UseTradingLayoutReturn {
     });
   };
 
-  const onDragStart  = () => { userModifiedRef.current = true; };
-  const onResizeStart = () => { userModifiedRef.current = true; };
+  const onDragStart = () => {
+    userModifiedRef.current = true;
+  };
+  const onResizeStart = () => {
+    userModifiedRef.current = true;
+  };
 
-  return { layouts, rowHeight, onBreakpointChange, onLayoutChange, onResizeStop, onDragStart, onResizeStart };
+  return {
+    layouts,
+    rowHeight,
+    onBreakpointChange,
+    onLayoutChange,
+    onResizeStop,
+    onDragStart,
+    onResizeStart,
+  };
 }
