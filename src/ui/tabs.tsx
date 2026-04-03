@@ -17,7 +17,7 @@ const tabListVariants = cva("flex", {
 });
 
 const tabVariants = cva(
-  "transition-colors select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)]",
+  "cursor-pointer transition-colors select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)]",
   {
     variants: {
       variant: {
