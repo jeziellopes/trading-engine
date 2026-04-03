@@ -1,13 +1,70 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import { createContext, use } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
+// ── CVA ───────────────────────────────────────────────────────────────────────
+
+const tabListVariants = cva("flex", {
+  variants: {
+    variant: {
+      pill: "gap-1.5 bg-muted p-1 rounded-md",
+      underline: "border-b border-border",
+      header: "min-h-9",
+    },
+  },
+  defaultVariants: { variant: "pill" },
+});
+
+const tabVariants = cva(
+  "transition-colors select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--primary)]",
+  {
+    variants: {
+      variant: {
+        pill: "",
+        underline: "px-3 py-2 text-sm -mb-px border-b-1",
+        header:
+          "self-stretch flex items-center px-3 text-xs leading-4 font-cypher font-semibold tracking-wide uppercase -mb-px border-b-1",
+      },
+      active: {
+        true: "",
+        false: "",
+      },
+    },
+    compoundVariants: [
+      {
+        variant: "underline",
+        active: true,
+        className: "border-primary text-foreground font-medium",
+      },
+      {
+        variant: "underline",
+        active: false,
+        className: "border-transparent text-muted-foreground hover:text-foreground",
+      },
+      {
+        variant: "header",
+        active: true,
+        className: "border-primary text-foreground",
+      },
+      {
+        variant: "header",
+        active: false,
+        className: "border-transparent text-muted-foreground hover:text-foreground",
+      },
+    ],
+    defaultVariants: { variant: "pill", active: false },
+  },
+);
+
 // ── Context ───────────────────────────────────────────────────────────────────
+
+type TabVariant = NonNullable<VariantProps<typeof tabListVariants>["variant"]>;
 
 interface TabsContextValue {
   value: string;
   onValueChange: (value: string) => void;
-  variant: "pill" | "underline";
+  variant: TabVariant;
 }
 
 const TabsContext = createContext<TabsContextValue | null>(null);
@@ -23,8 +80,7 @@ function useTabsContext(): TabsContextValue {
 interface TabListProps extends React.HTMLAttributes<HTMLDivElement> {
   value: string;
   onValueChange: (value: string) => void;
-  /** Visual variant. Defaults to "pill" (filled capsule). Use "underline" for Binance-style indicator tabs. */
-  variant?: "pill" | "underline";
+  variant?: TabVariant;
 }
 
 export function TabList({
@@ -37,15 +93,7 @@ export function TabList({
 }: TabListProps) {
   return (
     <TabsContext value={{ value, onValueChange, variant }}>
-      <div
-        role="tablist"
-        className={cn(
-          variant === "pill" && "flex gap-1.5 bg-muted p-1 rounded-md",
-          variant === "underline" && "flex border-b border-border",
-          className,
-        )}
-        {...props}
-      >
+      <div role="tablist" className={cn(tabListVariants({ variant }), className)} {...props}>
         {children}
       </div>
     </TabsContext>
@@ -79,7 +127,7 @@ export function Tab({ value, children, className, ...props }: TabProps) {
     props.onKeyDown?.(e);
   };
 
-  if (variant === "underline") {
+  if (variant === "underline" || variant === "header") {
     return (
       <button
         type="button"
@@ -89,13 +137,7 @@ export function Tab({ value, children, className, ...props }: TabProps) {
         tabIndex={isActive ? 0 : -1}
         onClick={() => onValueChange(value)}
         onKeyDown={handleKeyDown}
-        className={cn(
-          "px-3 py-2 text-sm -mb-px border-b-2 transition-colors",
-          isActive
-            ? "border-primary text-foreground font-medium"
-            : "border-transparent text-muted-foreground hover:text-foreground",
-          className,
-        )}
+        className={cn(tabVariants({ variant, active: isActive }), className)}
         {...props}
       >
         {children}
