@@ -9,7 +9,7 @@ import { OrderForm } from "@/features/order-entry/order-form";
 import { RecentTradesTable } from "@/features/trades/recent-trades-table";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
 import { TickerHeader } from "@/features/trading/ticker-header";
-import type { Layout, ResponsiveLayouts } from "@/features/trading/trading-grid";
+
 import {
   MOCK_BASE_BTC,
   MOCK_CHANGE_PCT,
@@ -21,6 +21,7 @@ import { useTradingStore } from "@/stores/trading-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { Panel } from "@/ui/panel";
+import { BREAKPOINTS, COLS, useTradingLayout } from "./-use-trading-layout";
 
 const TradingGrid = lazy(() => import("@/features/trading/trading-grid"));
 
@@ -28,38 +29,17 @@ interface TradingLayoutProps {
   symbol: string;
 }
 
-const LAYOUT_KEY = "trading-grid-layout-v4";
-const DEFAULT_LAYOUTS = {
-  lg: [
-    { i: "book", x: 0, y: 0, w: 3, h: 8 },
-    { i: "chart", x: 3, y: 0, w: 6, h: 8 },
-    { i: "order", x: 9, y: 3, w: 3, h: 5 },
-    { i: "portfolio", x: 9, y: 0, w: 3, h: 3 },
-    { i: "bots", x: 0, y: 8, w: 12, h: 5 },
-    { i: "trades", x: 0, y: 13, w: 12, h: 4 },
-  ],
-  md: [
-    { i: "book", x: 0, y: 0, w: 3, h: 8 },
-    { i: "chart", x: 3, y: 0, w: 7, h: 8 },
-    { i: "order", x: 5, y: 8, w: 5, h: 5 },
-    { i: "portfolio", x: 0, y: 8, w: 5, h: 3 },
-    { i: "bots", x: 0, y: 13, w: 10, h: 5 },
-    { i: "trades", x: 0, y: 18, w: 10, h: 4 },
-  ],
-};
-
-function loadLayouts(): ResponsiveLayouts<string> {
-  try {
-    const saved = localStorage.getItem(LAYOUT_KEY);
-    return saved ? (JSON.parse(saved) as ResponsiveLayouts<string>) : DEFAULT_LAYOUTS;
-  } catch {
-    return DEFAULT_LAYOUTS;
-  }
-}
-
 export function TradingLayout({ symbol }: TradingLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
-  const [layouts, setLayouts] = useState<ResponsiveLayouts<string>>(loadLayouts);
+  const {
+    layouts,
+    rowHeight,
+    onBreakpointChange,
+    onLayoutChange,
+    onResizeStop,
+    onDragStart,
+    onResizeStart,
+  } = useTradingLayout();
   const bots = useTradingStore((s) => s.bots);
   const setBotStatus = useTradingStore((s) => s.setBotStatus);
   const [activeTimeframe, setActiveTimeframe] = useState("15m");
@@ -85,11 +65,6 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
     } finally {
       setOrderSubmitting(false);
     }
-  };
-
-  const handleLayoutChange = (_layout: Layout, allLayouts: Partial<Record<string, Layout>>) => {
-    setLayouts(allLayouts as ResponsiveLayouts<string>);
-    localStorage.setItem(LAYOUT_KEY, JSON.stringify(allLayouts));
   };
 
   const botPnl = bots.reduce((sum, b) => sum + b.realizedPnl + b.unrealizedPnl, 0);
@@ -126,12 +101,16 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
           <TradingGrid
             className="layout"
             layouts={layouts}
-            breakpoints={{ lg: 1200, md: 996, sm: 768 }}
-            cols={{ lg: 12, md: 10, sm: 6 }}
-            rowHeight={60}
+            breakpoints={BREAKPOINTS}
+            cols={COLS}
+            rowHeight={rowHeight}
             margin={[8, 8]}
             draggableHandle=".cursor-move"
-            onLayoutChange={handleLayoutChange}
+            onLayoutChange={onLayoutChange}
+            onBreakpointChange={onBreakpointChange}
+            onResizeStop={onResizeStop}
+            onDragStart={onDragStart}
+            onResizeStart={onResizeStart}
           >
             <div key="book">
               <ErrorBoundary>

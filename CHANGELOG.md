@@ -187,3 +187,8 @@
 
 ### Tests
 - Updated Panel, SpreadBar, BalanceDisplay tests to match new prop shapes
+
+## [Unreleased]
+
+### Features
+- **trading-grid**: xl breakpoint (≥1440px) with wider chart layout — book 2 cols, chart 7 cols, sidebar 3 cols; LAYOUT_KEY bumped to v5 for cache-busting
