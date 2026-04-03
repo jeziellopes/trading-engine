@@ -80,7 +80,7 @@ export function CandleChart({ interval = "15m" }: CandleChartProps) {
       borderVisible: false,
     });
 
-    const raw = MOCK_CANDLES_BY_INTERVAL[interval] ?? MOCK_CANDLES_BY_INTERVAL["15m"];
+    const raw = MOCK_CANDLES_BY_INTERVAL[interval] ?? MOCK_CANDLES_BY_INTERVAL["15m"] ?? [];
     const data: CandlestickData<Time>[] = raw.map((c) => ({
       time: c.time as Time,
       open: c.o,
