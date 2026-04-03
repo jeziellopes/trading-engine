@@ -6,7 +6,6 @@ import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { LiveIndicator } from "@/ui/live-indicator";
 import { Logo } from "@/ui/logo";
-import { SymbolSelector } from "@/ui/symbol-selector";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -40,8 +39,6 @@ function RootComponent() {
               <Logo className="w-6 h-6 mr-2" />
               Trading Engine
             </Link>
-            <div className="w-px h-5 bg-border mx-1" />
-            <SymbolSelector />
             <div className="flex-1" />
             <Link
               to="/portfolio"

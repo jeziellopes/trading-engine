@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
+import { SymbolSelector } from "@/ui/symbol-selector";
 
 interface TickerHeaderProps {
-  symbol: string;
   price: number;
   changePct: number;
 }
@@ -13,11 +13,11 @@ const OHLV = [
   { label: "Vol", value: "24,831 BTC" },
 ];
 
-export function TickerHeader({ symbol, price, changePct }: TickerHeaderProps) {
+export function TickerHeader({ price, changePct }: TickerHeaderProps) {
   const isPositive = changePct >= 0;
   return (
     <div className="flex items-center gap-6 py-2 border-b border-border mb-2">
-      <span className="font-cypher text-base font-bold text-primary">{symbol}</span>
+      <SymbolSelector triggerClassName="font-cypher text-base font-bold text-primary hover:text-primary/80" />
       <span className="font-mono text-xl tabular-nums font-semibold text-trading-tick-up">
         {price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
       </span>

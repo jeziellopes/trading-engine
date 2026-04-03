@@ -88,7 +88,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
   return (
     <ErrorBoundary>
       <div className="w-full px-3 pb-3 flex flex-col gap-0">
-        <TickerHeader symbol={symbol} price={MOCK_BASE_BTC} changePct={MOCK_CHANGE_PCT} />
+        <TickerHeader price={MOCK_BASE_BTC} changePct={MOCK_CHANGE_PCT} />
         <Suspense
           fallback={
             <div className="w-full h-[600px] grid grid-cols-12 gap-2 p-3">
