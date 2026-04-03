@@ -30,14 +30,23 @@ interface TradingLayoutProps {
 
 const LAYOUT_KEY = "trading-grid-layout-v5";
 const DEFAULT_LAYOUTS = {
+  // ≥1920px — ultrawide / 1080p: Binance-style — chart left, book centre-right, order far right
+  xxl: [
+    { i: "chart",     x: 0, y: 0,  w: 7, h: 10 },
+    { i: "book",      x: 7, y: 0,  w: 3, h: 10 },
+    { i: "portfolio", x: 10, y: 0, w: 2, h: 4  },
+    { i: "order",     x: 10, y: 4, w: 2, h: 6  },
+    { i: "bots",      x: 0, y: 10, w: 7, h: 5 },
+    { i: "trades",    x: 7, y: 10, w: 5, h: 5 },
+  ],
   // ≥1440px — full-screen: chart gets 7 cols, book 2, sidebar 3
   xl: [
     { i: "book", x: 0, y: 0, w: 2, h: 10 },
     { i: "chart", x: 2, y: 0, w: 7, h: 10 },
     { i: "portfolio", x: 9, y: 0, w: 3, h: 4 },
     { i: "order", x: 9, y: 4, w: 3, h: 6 },
-    { i: "bots", x: 0, y: 10, w: 12, h: 5 },
-    { i: "trades", x: 0, y: 15, w: 12, h: 4 },
+    { i: "bots", x: 0, y: 10, w: 7, h: 5 },
+    { i: "trades", x: 7, y: 10, w: 5, h: 5 },
   ],
   // ≥1200px — 3/4-screen: chart 6, book 3, sidebar 3
   lg: [
@@ -45,8 +54,8 @@ const DEFAULT_LAYOUTS = {
     { i: "chart", x: 3, y: 0, w: 6, h: 8 },
     { i: "order", x: 9, y: 3, w: 3, h: 5 },
     { i: "portfolio", x: 9, y: 0, w: 3, h: 3 },
-    { i: "bots", x: 0, y: 8, w: 12, h: 5 },
-    { i: "trades", x: 0, y: 13, w: 12, h: 4 },
+    { i: "bots", x: 0, y: 8, w: 7, h: 5 },
+    { i: "trades", x: 7, y: 8, w: 5, h: 5 },
   ],
   // ≥996px — half-screen / laptop
   md: [
@@ -54,8 +63,8 @@ const DEFAULT_LAYOUTS = {
     { i: "chart", x: 3, y: 0, w: 7, h: 8 },
     { i: "order", x: 5, y: 8, w: 5, h: 5 },
     { i: "portfolio", x: 0, y: 8, w: 5, h: 3 },
-    { i: "bots", x: 0, y: 13, w: 10, h: 5 },
-    { i: "trades", x: 0, y: 18, w: 10, h: 4 },
+    { i: "bots", x: 0, y: 13, w: 6, h: 5 },
+    { i: "trades", x: 6, y: 13, w: 4, h: 5 },
   ],
 };
 
@@ -137,8 +146,8 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
           <TradingGrid
             className="layout"
             layouts={layouts}
-            breakpoints={{ xl: 1440, lg: 1200, md: 996, sm: 768 }}
-            cols={{ xl: 12, lg: 12, md: 10, sm: 6 }}
+            breakpoints={{ xxl: 1920, xl: 1440, lg: 1200, md: 996, sm: 768 }}
+            cols={{ xxl: 12, xl: 12, lg: 12, md: 10, sm: 6 }}
             rowHeight={60}
             margin={[8, 8]}
             draggableHandle=".cursor-move"
