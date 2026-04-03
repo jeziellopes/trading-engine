@@ -20,7 +20,7 @@ const TABS = [
 
 type TabValue = (typeof TABS)[number]["value"];
 
-/** Self-contained panel — owns its own chrome (border, header, drag handle) so tabs sit flush in the header bar, matching Chart/Book/Order panels. */
+/** Self-contained panel — owns its own chrome matching Panel header height/typography. */
 export function DataPanel({ bots, trades, onBotStatusChange, className }: DataPanelProps) {
   const [activeTab, setActiveTab] = useState<TabValue>("trades");
 
@@ -31,18 +31,16 @@ export function DataPanel({ bots, trades, onBotStatusChange, className }: DataPa
         className,
       )}
     >
-      {/* Header — cursor-move handle + tabs flush in the bar */}
       <div className="border-b border-border shrink-0 cursor-move">
         <TabList
           value={activeTab}
           onValueChange={(v) => setActiveTab(v as TabValue)}
           aria-label="Data panel"
-          variant="underline"
-          noBorder
+          variant="header"
           className="px-1"
         >
           {TABS.map((t) => (
-            <Tab key={t.value} value={t.value} className="text-xs py-2">
+            <Tab key={t.value} value={t.value} className="py-2">
               {t.label}
             </Tab>
           ))}
