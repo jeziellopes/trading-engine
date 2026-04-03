@@ -7,7 +7,7 @@ import {
   MOCK_PORTFOLIO_SUMMARY,
 } from "@/lib/mock-data";
 
-interface TradingState {
+interface TerminalState {
   orderBook: typeof MOCK_ORDER_BOOK_STATE;
   portfolio: typeof MOCK_PORTFOLIO_STATE;
   portfolioSummary: typeof MOCK_PORTFOLIO_SUMMARY;
@@ -15,7 +15,7 @@ interface TradingState {
   setBotStatus: (id: string, status: BotInstance["status"]) => void;
 }
 
-export const useTradingStore = create<TradingState>((set) => ({
+export const useTerminalStore = create<TerminalState>((set) => ({
   orderBook: MOCK_ORDER_BOOK_STATE,
   portfolio: MOCK_PORTFOLIO_STATE,
   portfolioSummary: MOCK_PORTFOLIO_SUMMARY,

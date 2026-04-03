@@ -17,8 +17,8 @@ export type RGLEventCallback = (
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-type TradingGridProps = ComponentProps<typeof ResponsiveGridLayout>;
+type TerminalGridProps = ComponentProps<typeof ResponsiveGridLayout>;
 
-export default function TradingGrid(props: TradingGridProps) {
+export default function TerminalGrid(props: TerminalGridProps) {
   return <ResponsiveGridLayout {...props} />;
 }

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ErrorBoundary } from "@/ui/error-boundary";
 
-import { TradingLayout } from "./-trading-layout";
+import { TerminalLayout } from "./-trading-layout";
 
 export const Route = createFileRoute("/symbol/$symbol" as never)({
   component: RouteComponent,
@@ -12,7 +12,7 @@ function RouteComponent() {
   return (
     <ErrorBoundary>
       <title>{symbol} | Flow</title>
-      <TradingLayout symbol={symbol} />
+      <TerminalLayout symbol={symbol} />
     </ErrorBoundary>
   );
 }

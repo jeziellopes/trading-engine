@@ -108,7 +108,7 @@ export const MOCK_PORTFOLIO_STATE = {
 };
 
 // ── Trades ───────────────────────────────────────────────────
-export interface TradingLayoutTrade {
+export interface TerminalTrade {
   time: string;
   price: number;
   qty: number;
@@ -118,7 +118,7 @@ export interface TradingLayoutTrade {
   botId?: string;
 }
 
-export const MOCK_TRADING_TRADES: TradingLayoutTrade[] = [
+export const MOCK_TERMINAL_TRADES: TerminalTrade[] = [
   {
     time: "14:32:07",
     price: 67843.5,

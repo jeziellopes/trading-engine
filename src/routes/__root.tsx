@@ -3,7 +3,7 @@ import { Toaster, toast } from "sonner";
 import { ThemeDropdown } from "@/features/theme/theme-dropdown";
 import { TickerHeader } from "@/features/trading/ticker-header";
 import { MOCK_BASE_BTC, MOCK_CHANGE_PCT } from "@/lib/mock-data";
-import { useTradingStore } from "@/stores/trading-store";
+import { useTerminalStore } from "@/stores/terminal-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { LiveIndicator } from "@/ui/live-indicator";
@@ -16,8 +16,8 @@ export const Route = createRootRoute({
 function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isSymbolRoute = pathname.startsWith("/symbol/");
-  const totalBalance = useTradingStore((s) => s.portfolioSummary.totalBalance);
-  const dailyProfitPct = useTradingStore((s) => s.portfolioSummary.dailyProfitPct);
+  const totalBalance = useTerminalStore((s) => s.portfolioSummary.totalBalance);
+  const dailyProfitPct = useTerminalStore((s) => s.portfolioSummary.dailyProfitPct);
 
   return (
     <ErrorBoundary

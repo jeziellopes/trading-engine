@@ -10,21 +10,21 @@ import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-wid
 import {
   MOCK_ORDER_BOOK_STATE,
   MOCK_PORTFOLIO_SUMMARY,
-  MOCK_TRADING_TRADES,
+  MOCK_TERMINAL_TRADES,
 } from "@/lib/mock-data";
-import { useTradingStore } from "@/stores/trading-store";
+import { useTerminalStore } from "@/stores/terminal-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { Panel } from "@/ui/panel";
-import { BREAKPOINTS, COLS, useTradingLayout } from "./-use-trading-layout";
+import { BREAKPOINTS, COLS, useTerminalLayout } from "./-use-trading-layout";
 
-const TradingGrid = lazy(() => import("@/features/trading/trading-grid"));
+const TerminalGrid = lazy(() => import("@/features/trading/trading-grid"));
 
-interface TradingLayoutProps {
+interface TerminalLayoutProps {
   symbol: string;
 }
 
-export function TradingLayout({ symbol }: TradingLayoutProps) {
+export function TerminalLayout({ symbol }: TerminalLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const {
     layouts,
@@ -34,9 +34,9 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
     onResizeStop,
     onDragStart,
     onResizeStart,
-  } = useTradingLayout();
-  const bots = useTradingStore((s) => s.bots);
-  const setBotStatus = useTradingStore((s) => s.setBotStatus);
+  } = useTerminalLayout();
+  const bots = useTerminalStore((s) => s.bots);
+  const setBotStatus = useTerminalStore((s) => s.setBotStatus);
   const [activeTimeframe, setActiveTimeframe] = useState("15m");
 
   const handleOrderSubmit = async (data: OrderFormData) => {
@@ -92,7 +92,7 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
             </div>
           }
         >
-          <TradingGrid
+          <TerminalGrid
             className="layout"
             layouts={layouts}
             breakpoints={BREAKPOINTS}
@@ -153,12 +153,12 @@ export function TradingLayout({ symbol }: TradingLayoutProps) {
               <ErrorBoundary>
                 <DataPanel
                   bots={bots}
-                  trades={MOCK_TRADING_TRADES}
+                  trades={MOCK_TERMINAL_TRADES}
                   onBotStatusChange={(id, s) => setBotStatus(id, s)}
                 />
               </ErrorBoundary>
             </div>
-          </TradingGrid>
+          </TerminalGrid>
         </Suspense>
       </div>
     </ErrorBoundary>
