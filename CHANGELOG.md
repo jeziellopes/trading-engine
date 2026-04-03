@@ -1,3 +1,10 @@
+# [1.0.0-next.14](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.13...v1.0.0-next.14) (2026-04-03)
+
+
+### Bug Fixes
+
+* **order-form:** 2-layer justify layout + underline tabs (closes [#67](https://github.com/jeziellopes/trading-engine/issues/67), closes [#68](https://github.com/jeziellopes/trading-engine/issues/68)) ([8e9e68c](https://github.com/jeziellopes/trading-engine/commit/8e9e68c2af071e646e32a6f107ab4e69a299d1bd))
+
 # [1.0.0-next.13](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.12...v1.0.0-next.13) (2026-04-03)
 
 
