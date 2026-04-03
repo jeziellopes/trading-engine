@@ -1,3 +1,19 @@
+# [1.0.0-next.17](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.16...v1.0.0-next.17) (2026-04-03)
+
+
+### Bug Fixes
+
+* **data-panel:** align tab header spacing with panel chrome ([07a3620](https://github.com/jeziellopes/trading-engine/commit/07a362029d001b6e5270c668af847aaab12af2e2))
+* **tabs:** adjust header variant height and border style ([d533833](https://github.com/jeziellopes/trading-engine/commit/d533833808d593f77f18d33c33aa9161520bbaec))
+* **tabs:** header variant enforces 36px height with centered text ([04391c4](https://github.com/jeziellopes/trading-engine/commit/04391c4fb5cfacc54563cc259c50352921d390eb))
+* **tabs:** pin header variant line-height to 16px via leading-4 ([bf726f5](https://github.com/jeziellopes/trading-engine/commit/bf726f57d911ab4da06fddafb38da29c8b7c9e25))
+* **trading-grid:** order spans full chart height; DataPanel header matches panel chrome ([01876b7](https://github.com/jeziellopes/trading-engine/commit/01876b7c15be48ad91ce54be6ab1dc9891af3529))
+
+
+### Features
+
+* **trading-grid:** merge bots + trades into DataPanel with tabs (closes [#76](https://github.com/jeziellopes/trading-engine/issues/76)) ([8f97d78](https://github.com/jeziellopes/trading-engine/commit/8f97d78c971dfcf83eef67601ea292f0d1c389f1))
+
 # [1.0.0-next.16](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.15...v1.0.0-next.16) (2026-04-03)
 
 
