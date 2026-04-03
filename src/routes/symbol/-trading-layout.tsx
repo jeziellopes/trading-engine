@@ -30,12 +30,12 @@ interface TradingLayoutProps {
 
 const LAYOUT_KEY = "trading-grid-layout-v5";
 const DEFAULT_LAYOUTS = {
-  // ≥1920px — ultrawide / 1080p: Binance-style — chart left, book centre-right, order far right
+  // ≥1920px — ultrawide / 1080p: Binance-style — chart left, book narrow centre, order form wide right
   xxl: [
-    { i: "chart",     x: 0, y: 0,  w: 7, h: 10 },
-    { i: "book",      x: 7, y: 0,  w: 3, h: 10 },
-    { i: "portfolio", x: 10, y: 0, w: 2, h: 4  },
-    { i: "order",     x: 10, y: 4, w: 2, h: 6  },
+    { i: "chart",     x: 0, y: 0, w: 7, h: 10 },
+    { i: "book",      x: 7, y: 0, w: 2, h: 10 },
+    { i: "portfolio", x: 9, y: 0, w: 3, h: 4  },
+    { i: "order",     x: 9, y: 4, w: 3, h: 6  },
     { i: "bots",      x: 0, y: 10, w: 7, h: 5 },
     { i: "trades",    x: 7, y: 10, w: 5, h: 5 },
   ],
