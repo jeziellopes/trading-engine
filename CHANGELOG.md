@@ -1,3 +1,11 @@
+# [1.0.0-next.15](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.14...v1.0.0-next.15) (2026-04-03)
+
+
+### Bug Fixes
+
+* **chart:** handle possibly undefined candle interval fallback ([19c36ac](https://github.com/jeziellopes/trading-engine/commit/19c36ac0634c3a4b40554d76ada6abb74845ffb0))
+* **chart:** wick colors, grid alpha, interval prop + expanded mock data (closes [#71](https://github.com/jeziellopes/trading-engine/issues/71), closes [#72](https://github.com/jeziellopes/trading-engine/issues/72), closes [#73](https://github.com/jeziellopes/trading-engine/issues/73)) ([bb55c11](https://github.com/jeziellopes/trading-engine/commit/bb55c1160aa8a00cc1b36db4859e84cf21337d59))
+
 # [1.0.0-next.14](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.13...v1.0.0-next.14) (2026-04-03)
 
 
