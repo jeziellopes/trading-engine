@@ -13,12 +13,28 @@ describe("Button", () => {
     render(<Button>Submit</Button>);
     const btn = screen.getByRole("button", { name: /submit/i });
     expect(btn).toHaveClass("bg-primary");
+    expect(btn).toHaveClass("text-on-primary");
+  });
+
+  it("applies tonal intent", () => {
+    render(<Button intent="tonal">Tonal</Button>);
+    const btn = screen.getByRole("button", { name: /tonal/i });
+    expect(btn).toHaveClass("bg-primary-container");
+    expect(btn).toHaveClass("text-on-primary-container");
   });
 
   it("applies secondary intent", () => {
     render(<Button intent="secondary">Cancel</Button>);
     const btn = screen.getByRole("button", { name: /cancel/i });
     expect(btn).toHaveClass("bg-secondary");
+    expect(btn).toHaveClass("text-on-secondary");
+  });
+
+  it("applies segment intent", () => {
+    render(<Button intent="segment">Tab</Button>);
+    const btn = screen.getByRole("button", { name: /tab/i });
+    expect(btn).toHaveClass("bg-background");
+    expect(btn).toHaveClass("text-muted-foreground");
   });
 
   it("applies danger intent", () => {
@@ -81,11 +97,13 @@ describe("Button", () => {
     render(<Button intent="buy">Buy</Button>);
     const btn = screen.getByRole("button");
     expect(btn).toHaveClass("font-medium");
+    expect(btn).toHaveClass("text-on-trading-bid");
   });
 
   it("applies font-medium on sell variant", () => {
     render(<Button intent="sell">Sell</Button>);
     const btn = screen.getByRole("button");
     expect(btn).toHaveClass("font-medium");
+    expect(btn).toHaveClass("text-on-trading-ask");
   });
 });

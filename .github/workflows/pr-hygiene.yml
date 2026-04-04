@@ -6,6 +6,30 @@ on:
     types: [opened, edited, synchronize, reopened, labeled, unlabeled, milestoned, demilestoned]
 
 jobs:
+  pr-hygiene-base-branch:
+    name: Base branch
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Enforce develop as base for feature PRs
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const base = context.payload.pull_request.base.ref;
+            const head = context.payload.pull_request.head.ref;
+
+            // develop → main is the only PR allowed to target main
+            if (base === 'main' && head !== 'develop') {
+              core.setFailed(
+                `PRs must target \`develop\`, not \`main\`.\n` +
+                `Only the release promotion PR (develop → main) may target main.\n` +
+                `Re-open this PR with base: develop.`
+              );
+            } else {
+              core.notice(`✅ Base branch valid: ${head} → ${base}`);
+            }
+
   pr-hygiene-title:
     name: PR title format
     runs-on: ubuntu-latest
@@ -13,7 +37,7 @@ jobs:
       pull-requests: read
     steps:
       - name: Check PR title format
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const title = context.payload.pull_request.title;
@@ -39,7 +63,7 @@ jobs:
       pull-requests: read
     steps:
       - name: Check required labels
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const labels = context.payload.pull_request.labels.map(l => l.name);
@@ -63,7 +87,7 @@ jobs:
       pull-requests: read
     steps:
       - name: Check milestone assignment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const milestone = context.payload.pull_request.milestone;
@@ -81,7 +105,7 @@ jobs:
       contents: read
     steps:
       - name: Check docs freshness on feat PRs
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const title = context.payload.pull_request.title;
@@ -122,3 +146,38 @@ jobs:
               core.notice(`✅ Docs up-to-date (ROADMAP.md and README.md updated).`);
             }
 
+
+  pr-hygiene-no-coauthor:
+    name: No Co-authored-by trailers
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - name: Check commits for Co-authored-by trailers
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { data: commits } = await github.rest.pulls.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100,
+            });
+
+            const violations = commits.filter(c =>
+              /^co-authored-by:/im.test(c.commit.message)
+            );
+
+            if (violations.length > 0) {
+              const list = violations
+                .map(c => `  • ${c.sha.slice(0, 7)}: ${c.commit.message.split('\n')[0]}`)
+                .join('\n');
+              core.setFailed(
+                `${violations.length} commit(s) contain a Co-authored-by trailer:\n${list}\n\n` +
+                `Remove Co-authored-by lines and amend/rebase before merging.\n` +
+                `The post-commit hook should prevent this — check your local hook setup.`
+              );
+            } else {
+              core.notice(`✅ No Co-authored-by trailers found in ${commits.length} commit(s).`);
+            }

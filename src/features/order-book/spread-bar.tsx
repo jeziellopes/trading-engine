@@ -1,22 +1,16 @@
 import { cn } from "@/lib/utils";
 
 interface SpreadBarProps {
+  spread: { amount: number; percent: number };
   lastPrice: number;
-  spreadAmount: number;
-  spreadPercent: number;
-  tickDirection?: "up" | "down" | "neutral" | undefined;
+  tickDirection?: "up" | "down" | "neutral";
 }
 
-export function SpreadBar({
-  lastPrice,
-  spreadAmount,
-  spreadPercent,
-  tickDirection = "neutral",
-}: SpreadBarProps) {
+export function SpreadBar({ spread, lastPrice, tickDirection = "neutral" }: SpreadBarProps) {
   const tickIcon = tickDirection === "up" ? "↑" : tickDirection === "down" ? "↓" : "–";
   const tickColor = {
-    up: "text-[color:var(--trading-tick-up)]",
-    down: "text-[color:var(--trading-tick-down)]",
+    up: "text-trading-tick-up",
+    down: "text-trading-tick-down",
     neutral: "text-foreground",
   }[tickDirection];
 
@@ -27,7 +21,7 @@ export function SpreadBar({
       )}
     >
       <span>
-        Spread: {spreadAmount.toFixed(2)} ({spreadPercent.toFixed(4)}%)
+        Spread: {spread.amount.toFixed(2)} ({spread.percent.toFixed(4)}%)
       </span>
       <span className={cn("text-foreground font-medium", tickColor)}>
         <span>{tickIcon}</span> {lastPrice.toFixed(2)}

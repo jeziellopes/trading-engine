@@ -102,7 +102,7 @@ describe("BotConfigForm", () => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
 
-    const submittedData = onSubmit.mock.calls[0]![0];
+    const submittedData = onSubmit.mock.calls[0]?.[0];
     expect(submittedData.strategy).toBe("grid");
     expect(submittedData.symbol).toBe("BTCUSDT");
     expect(submittedData.gridLowerPrice).toBe("30000");

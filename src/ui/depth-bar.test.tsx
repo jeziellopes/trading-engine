@@ -12,13 +12,13 @@ describe("DepthBar", () => {
   it("applies bid styling", () => {
     const { container } = render(<DepthBar percent={45} side="bid" />);
     const bar = container.querySelector("div");
-    expect(bar).toHaveClass("right-0", "bg-[color:var(--trading-bid)]");
+    expect(bar).toHaveClass("right-0", "bg-trading-bid");
   });
 
   it("applies ask styling", () => {
     const { container } = render(<DepthBar percent={55} side="ask" />);
     const bar = container.querySelector("div");
-    expect(bar).toHaveClass("left-0", "bg-[color:var(--trading-ask)]");
+    expect(bar).toHaveClass("left-0", "bg-trading-ask");
   });
 
   it("sets width as inline style from percent", () => {

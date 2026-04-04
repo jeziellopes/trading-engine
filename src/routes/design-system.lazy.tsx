@@ -2,6 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { ConnectionBanner } from "@/features/order-book/connection-banner";
 import { SpreadBar } from "@/features/order-book/spread-bar";
+import { OrderForm } from "@/features/order-entry/order-form";
 import {
   CONTRAST_PAIRS,
   contrastRatio,
@@ -10,11 +11,13 @@ import {
   parseOklch,
   wcagLevel,
 } from "@/lib/contrast";
+import { MOCK_DS_ASKS, MOCK_DS_BIDS, MOCK_DS_TRADES } from "@/lib/mock-data";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/ui/card";
 import { DepthBar } from "@/ui/depth-bar";
 import { Input } from "@/ui/input";
+import { Tab, TabList } from "@/ui/tabs";
 
 export const Route = createLazyFileRoute("/design-system")({
   component: DesignSystemShowcase,
@@ -22,7 +25,7 @@ export const Route = createLazyFileRoute("/design-system")({
 
 // ── Theme switcher ───────────────────────────────────────────────────────────────────────────────────
 
-type ThemeId = "soft" | "night-city" | "maelstrom" | "corpo-ice" | "netrunner";
+type ThemeId = "soft" | "night-city" | "maelstrom" | "corpo-ice" | "netrunner" | "flowa";
 type ModeId = "dark" | "light" | "vibrant";
 
 const THEMES: { id: ThemeId; label: string; accent: string }[] = [
@@ -31,6 +34,7 @@ const THEMES: { id: ThemeId; label: string; accent: string }[] = [
   { id: "maelstrom", label: "Maelstrom", accent: "oklch(0.56 0.28 316)" },
   { id: "corpo-ice", label: "Corpo Ice", accent: "oklch(0.88 0.18 215)" },
   { id: "netrunner", label: "Netrunner", accent: "oklch(0.62 0.22 280)" },
+  { id: "flowa", label: "Flowa", accent: "oklch(0.87 0.12 124.61)" },
 ];
 
 const MODES: { id: ModeId; label: string }[] = [
@@ -39,8 +43,8 @@ const MODES: { id: ModeId; label: string }[] = [
   { id: "vibrant", label: "Vibrant" },
 ];
 
-const THEME_STORAGE_KEY = "trading-theme";
-const MODE_STORAGE_KEY = "trading-mode";
+const THEME_STORAGE_KEY = "theme";
+const MODE_STORAGE_KEY = "mode";
 
 function applyTheme(theme: ThemeId, mode: ModeId) {
   document.documentElement.setAttribute("data-theme", theme);
@@ -79,7 +83,7 @@ function useTheme() {
       applyTheme(t, m);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setThemeState(t as ThemeId);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+
       setModeState(m);
     } catch {
       // storage unavailable — use defaults
@@ -123,28 +127,6 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
     </div>
   );
 }
-
-const MOCK_BIDS = [
-  { price: 67842.5, quantity: 1.24, total: 84124.7, percent: 72 },
-  { price: 67840.0, quantity: 0.85, total: 57664.0, percent: 55 },
-  { price: 67838.5, quantity: 2.1, total: 142460.9, percent: 88 },
-  { price: 67835.0, quantity: 0.42, total: 28490.7, percent: 28 },
-];
-
-const MOCK_ASKS = [
-  { price: 67845.0, quantity: 0.92, total: 62417.4, percent: 48 },
-  { price: 67847.5, quantity: 1.55, total: 105163.6, percent: 65 },
-  { price: 67850.0, quantity: 3.21, total: 217798.5, percent: 100 },
-  { price: 67852.5, quantity: 0.78, total: 52925.0, percent: 38 },
-];
-
-const MOCK_TRADES = [
-  { time: "14:32:51", price: 67843.5, qty: 0.52, side: "buy" as const },
-  { time: "14:32:49", price: 67841.0, qty: 1.2, side: "sell" as const },
-  { time: "14:32:48", price: 67843.5, qty: 2.1, side: "buy" as const },
-  { time: "14:32:46", price: 67840.0, qty: 0.35, side: "sell" as const },
-  { time: "14:32:44", price: 67844.0, qty: 0.88, side: "buy" as const },
-];
 
 // ── Contrast audit (live DOM read) ───────────────────────────────────────────────
 
@@ -230,7 +212,7 @@ function DesignSystemShowcase() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <title>Design System | Trading Engine</title>
+      <title>Design System | Flow</title>
       <div className="max-w-7xl mx-auto px-6 py-12 space-y-16">
         {/* Header */}
         <div className="space-y-4">
@@ -359,16 +341,80 @@ function DesignSystemShowcase() {
           </div>
         </Section>
 
+        {/* ── Colour Roles ─────────────────────────────────── */}
+        <Section title="Colors — Colour Roles">
+          <p className="text-xs text-muted-foreground mb-3">
+            Each swatch shows the fill with its paired <code className="font-mono">on-*</code> text
+            on top — the correct contrast pair.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              { label: "primary", bg: "var(--primary)", fg: "var(--on-primary)" },
+              { label: "secondary", bg: "var(--secondary)", fg: "var(--on-secondary)" },
+              { label: "tertiary / accent", bg: "var(--accent)", fg: "var(--on-tertiary)" },
+              { label: "trading-bid", bg: "var(--trading-bid)", fg: "var(--on-trading-bid)" },
+              { label: "trading-ask", bg: "var(--trading-ask)", fg: "var(--on-trading-ask)" },
+            ].map(({ label, bg, fg }) => (
+              <div key={label} className="space-y-1.5">
+                <div
+                  className="h-14 rounded-md border border-border flex items-center justify-center text-xs font-mono font-medium"
+                  style={{ backgroundColor: bg, color: fg }}
+                >
+                  on-{label.split(" / ")[0]}
+                </div>
+                <p className="text-[10px] font-mono text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* ── Container Roles ───────────────────────────────── */}
+        <Section title="Colors — Containers">
+          <p className="text-xs text-muted-foreground mb-3">
+            Alpha-tinted container fills for badges, pills, and highlight backgrounds — paired with
+            their <code className="font-mono">on-*-container</code> text.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              {
+                label: "primary-container",
+                bg: "var(--primary-container)",
+                fg: "var(--on-primary-container)",
+              },
+              {
+                label: "secondary-container",
+                bg: "var(--secondary-container)",
+                fg: "var(--on-secondary-container)",
+              },
+              {
+                label: "tertiary-container",
+                bg: "var(--tertiary-container)",
+                fg: "var(--on-tertiary-container)",
+              },
+            ].map(({ label, bg, fg }) => (
+              <div key={label} className="space-y-1.5">
+                <div
+                  className="h-14 rounded-md border border-border flex items-center justify-center text-xs font-mono font-medium"
+                  style={{ backgroundColor: bg, color: fg }}
+                >
+                  on-{label.replace("-container", "")}-container
+                </div>
+                <p className="text-[10px] font-mono text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+
         {/* ── Typography ──────────────────────────────────── */}
         <Section title="Typography">
           <div className="space-y-4">
-            <div className="p-4 rounded-md border border-border bg-ds-gray-100 space-y-1">
+            <div className="p-4 rounded-md border border-border bg-card space-y-1">
               <p className="text-[10px] font-mono text-muted-foreground">
                 Orbitron — font-cypher — display
               </p>
               <p className="text-2xl font-cypher tracking-tight">BTCUSDT 67,843.50</p>
             </div>
-            <div className="p-4 rounded-md border border-border bg-ds-gray-100 space-y-1">
+            <div className="p-4 rounded-md border border-border bg-card space-y-1">
               <p className="text-[10px] font-mono text-muted-foreground">
                 Share Tech Mono — font-mono — body / prices
               </p>
@@ -386,7 +432,7 @@ function DesignSystemShowcase() {
                   "text-2xl",
                 ] as const
               ).map((cls) => (
-                <div key={cls} className="p-3 rounded-md border border-border bg-ds-gray-100">
+                <div key={cls} className="p-3 rounded-md border border-border bg-card">
                   <p className={`font-mono tabular-nums ${cls}`}>67843.50</p>
                   <p className="text-[10px] font-mono text-muted-foreground mt-1">{cls}</p>
                 </div>
@@ -412,6 +458,13 @@ function DesignSystemShowcase() {
                 <Button intent="ghost" size="sm">
                   Ghost
                 </Button>
+                <Button intent="tonal" size="sm">
+                  Tonal
+                </Button>
+                <TabList value="limit" onValueChange={() => {}} aria-label="Tab primitive demo">
+                  <Tab value="limit">Limit</Tab>
+                  <Tab value="market">Market</Tab>
+                </TabList>
                 <Button intent="buy" size="sm">
                   Buy
                 </Button>
@@ -548,10 +601,10 @@ function DesignSystemShowcase() {
 
         {/* ── Order Book ──────────────────────────────────── */}
         <Section title="Order Book">
-          <div className="max-w-xs bg-ds-gray-100 rounded-md border border-border overflow-hidden">
+          <div className="max-w-xs bg-card rounded-md border border-border overflow-hidden">
             {/* Asks (reversed — lowest ask at bottom, closest to spread) */}
             <div className="flex flex-col-reverse">
-              {MOCK_ASKS.map((level) => (
+              {MOCK_DS_ASKS.map((level) => (
                 <div
                   key={level.price}
                   className="relative grid grid-cols-3 gap-2 tabular-nums font-mono text-sm px-2 py-px"
@@ -571,15 +624,14 @@ function DesignSystemShowcase() {
             </div>
 
             <SpreadBar
+              spread={{ amount: 2.5, percent: 0.0037 }}
               lastPrice={67843.5}
-              spreadAmount={2.5}
-              spreadPercent={0.0037}
               tickDirection="up"
             />
 
             {/* Bids */}
             <div>
-              {MOCK_BIDS.map((level) => (
+              {MOCK_DS_BIDS.map((level) => (
                 <div
                   key={level.price}
                   className="relative grid grid-cols-3 gap-2 tabular-nums font-mono text-sm px-2 py-px"
@@ -624,23 +676,19 @@ function DesignSystemShowcase() {
 
         {/* ── Trade Feed ──────────────────────────────────── */}
         <Section title="Trade Feed">
-          <div className="max-w-xs bg-ds-gray-100 rounded-md border border-border">
+          <div className="max-w-xs bg-card rounded-md border border-border">
             <div className="grid grid-cols-3 gap-x-2 px-2 py-1 text-[10px] font-mono text-muted-foreground border-b border-border">
               <span>Time</span>
               <span>Price</span>
               <span className="text-right">Qty</span>
             </div>
-            {MOCK_TRADES.map((trade) => (
+            {MOCK_DS_TRADES.map((trade) => (
               <div
                 key={`${trade.time}-${trade.price}`}
                 className="grid grid-cols-3 gap-x-2 px-2 py-px text-xs font-mono tabular-nums"
               >
                 <span className="text-muted-foreground">{trade.time}</span>
-                <span
-                  style={{
-                    color: trade.side === "buy" ? "var(--trading-bid)" : "var(--trading-ask)",
-                  }}
-                >
+                <span className={trade.side === "buy" ? "text-trading-bid" : "text-trading-ask"}>
                   {trade.price.toFixed(2)}
                 </span>
                 <span className="text-right text-muted-foreground">{trade.qty.toFixed(2)}</span>
@@ -651,49 +699,10 @@ function DesignSystemShowcase() {
 
         {/* ── Order Form ──────────────────────────────────── */}
         <Section title="Order Entry">
-          <div className="max-w-xs bg-ds-gray-100 rounded-md border border-border p-4 space-y-3">
-            <div className="flex gap-1">
-              <button
-                type="button"
-                className="flex-1 py-1.5 text-sm font-medium rounded-sm bg-[color:var(--trading-bid)] text-foreground"
-              >
-                Buy
-              </button>
-              <button
-                type="button"
-                className="flex-1 py-1.5 text-sm font-medium rounded-sm bg-muted text-muted-foreground"
-              >
-                Sell
-              </button>
-            </div>
-            <div className="flex gap-1 text-xs">
-              {["Limit", "Market", "Stop"].map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  className={`flex-1 py-1 rounded-sm font-mono ${type === "Limit" ? "bg-ds-gray-800 text-foreground" : "text-muted-foreground"}`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-            <div className="space-y-2">
-              <div className="space-y-1">
-                <label htmlFor="ds-price-input" className="text-[10px] font-mono text-muted-foreground">Price (USDT)</label>
-                <Input id="ds-price-input" placeholder="67,843.50" type="number" className="h-8 text-sm" />
-              </div>
-              <div className="space-y-1">
-                <label htmlFor="ds-amount-input" className="text-[10px] font-mono text-muted-foreground">Amount (BTC)</label>
-                <Input id="ds-amount-input" placeholder="0.001" type="number" className="h-8 text-sm" />
-              </div>
-            </div>
-            <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
-              <span>Total</span>
-              <span className="tabular-nums">0.00 USDT</span>
-            </div>
-            <Button intent="buy" size="md" className="w-full">
-              Place Buy Order
-            </Button>
+          <div className="max-w-xs">
+            <Card>
+              <OrderForm symbol="BTCUSDT" onSubmit={() => {}} />
+            </Card>
           </div>
         </Section>
 
@@ -703,8 +712,7 @@ function DesignSystemShowcase() {
         <div className="border-t border-border pt-6 text-[10px] font-mono text-muted-foreground">
           <p>CypherUI Trading · tokens.css</p>
           <p className="mt-1">
-            Regenerate tokens:{" "}
-            <code className="bg-ds-gray-800 px-1.5 py-0.5 rounded">pnpm tokens</code>
+            Regenerate tokens: <code className="bg-muted px-1.5 py-0.5 rounded">pnpm tokens</code>
           </p>
         </div>
       </div>

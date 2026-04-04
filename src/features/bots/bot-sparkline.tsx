@@ -27,14 +27,10 @@ export function BotSparkline({ data, width = 80, height = 20 }: BotSparklineProp
       width={w}
       style={{ height: h }}
       preserveAspectRatio="none"
+      aria-label="P&L sparkline"
     >
-      <polyline
-        points={pts}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
+      <title>P&L sparkline</title>
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
     </svg>
   );
 }

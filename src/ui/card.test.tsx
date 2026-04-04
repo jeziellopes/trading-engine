@@ -6,15 +6,7 @@ describe("Card", () => {
   it("renders as a div with card styling", () => {
     render(<Card>Content</Card>);
     const card = screen.getByText("Content");
-    expect(card).toHaveClass(
-      "flex",
-      "flex-col",
-      "gap-3",
-      "p-4",
-      "rounded-md",
-      "border",
-      "bg-card",
-    );
+    expect(card).toHaveClass("flex", "flex-col", "gap-3", "p-4", "rounded-md", "border", "bg-card");
   });
 
   it("renders CardHeader", () => {

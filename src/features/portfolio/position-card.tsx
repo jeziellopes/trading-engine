@@ -16,9 +16,7 @@ interface PositionCardProps {
 
 export function PositionCard({ position }: PositionCardProps) {
   const isProfitable = position.unrealizedPnL >= 0;
-  const pnlColor = isProfitable
-    ? "text-[color:var(--trading-profit)]"
-    : "text-[color:var(--trading-loss)]";
+  const pnlColor = isProfitable ? "text-trading-profit" : "text-trading-loss";
 
   return (
     <Card className="hover:border-primary/30 transition-all duration-200">

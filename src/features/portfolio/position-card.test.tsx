@@ -27,7 +27,7 @@ describe("PositionCard", () => {
   it("renders positive PnL with profit color", () => {
     render(<PositionCard position={mockPosition} />);
     const pnlText = screen.getByText(/250\.00/);
-    expect(pnlText).toHaveClass("text-[color:var(--trading-profit)]");
+    expect(pnlText).toHaveClass("text-trading-profit");
   });
 
   it("renders negative PnL with loss color", () => {
@@ -38,7 +38,7 @@ describe("PositionCard", () => {
     };
     render(<PositionCard position={negativePnL} />);
     const pnlText = screen.getByText(/-100\.00/);
-    expect(pnlText).toHaveClass("text-[color:var(--trading-loss)]");
+    expect(pnlText).toHaveClass("text-trading-loss");
   });
 
   it("renders PnL percentage", () => {

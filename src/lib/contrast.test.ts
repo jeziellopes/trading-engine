@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   CONTRAST_PAIRS,
-  REQUIRED_RATIO,
   contrastRatio,
   meetsRequired,
   oklchToLuminance,
   parseOklch,
+  REQUIRED_RATIO,
   wcagLevel,
 } from "./contrast";
 

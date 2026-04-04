@@ -1,9 +1,13 @@
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useEffect } from "react";
 import { Settings, X } from "lucide-react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Select } from "@/ui/select";
 
 const ALLOWED_SYMBOLS = [
   "BTCUSDT",
@@ -75,67 +79,147 @@ const botConfigSchema = z
   .superRefine((data, ctx) => {
     if (data.strategy === "grid") {
       if (!isPositiveNumber(data.gridLowerPrice)) {
-        ctx.addIssue({ code: "custom", message: "Must be a positive number", path: ["gridLowerPrice"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be a positive number",
+          path: ["gridLowerPrice"],
+        });
       }
       if (!isPositiveNumber(data.gridUpperPrice)) {
-        ctx.addIssue({ code: "custom", message: "Must be a positive number", path: ["gridUpperPrice"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be a positive number",
+          path: ["gridUpperPrice"],
+        });
       }
-      if (isPositiveNumber(data.gridLowerPrice) && isPositiveNumber(data.gridUpperPrice) && Number(data.gridUpperPrice) <= Number(data.gridLowerPrice)) {
-        ctx.addIssue({ code: "custom", message: "Upper price must be greater than lower price", path: ["gridUpperPrice"] });
+      if (
+        isPositiveNumber(data.gridLowerPrice) &&
+        isPositiveNumber(data.gridUpperPrice) &&
+        Number(data.gridUpperPrice) <= Number(data.gridLowerPrice)
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Upper price must be greater than lower price",
+          path: ["gridUpperPrice"],
+        });
       }
       if (!isIntegerInRange(data.gridCount, 2, 100)) {
-        ctx.addIssue({ code: "custom", message: "Must be an integer between 2 and 100", path: ["gridCount"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be an integer between 2 and 100",
+          path: ["gridCount"],
+        });
       }
       if (!isPositiveNumber(data.gridAmountPerGrid)) {
-        ctx.addIssue({ code: "custom", message: "Must be a positive number", path: ["gridAmountPerGrid"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be a positive number",
+          path: ["gridAmountPerGrid"],
+        });
       }
     }
 
     if (data.strategy === "dca") {
       if (!isPositiveNumber(data.dcaBaseAmount)) {
-        ctx.addIssue({ code: "custom", message: "Must be a positive number", path: ["dcaBaseAmount"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be a positive number",
+          path: ["dcaBaseAmount"],
+        });
       }
       if (!isPositiveNumber(data.dcaSafetyAmount)) {
-        ctx.addIssue({ code: "custom", message: "Must be a positive number", path: ["dcaSafetyAmount"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be a positive number",
+          path: ["dcaSafetyAmount"],
+        });
       }
       if (!isIntegerInRange(data.dcaMaxSafetyOrders, 1, 50)) {
-        ctx.addIssue({ code: "custom", message: "Must be an integer between 1 and 50", path: ["dcaMaxSafetyOrders"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be an integer between 1 and 50",
+          path: ["dcaMaxSafetyOrders"],
+        });
       }
       if (!isNumberInRange(data.dcaPriceDeviation, 0.1, 50)) {
-        ctx.addIssue({ code: "custom", message: "Must be between 0.1% and 50%", path: ["dcaPriceDeviation"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be between 0.1% and 50%",
+          path: ["dcaPriceDeviation"],
+        });
       }
     }
 
     if (data.strategy === "rsi") {
       if (!isIntegerInRange(data.rsiPeriod, 2, 100)) {
-        ctx.addIssue({ code: "custom", message: "Must be an integer between 2 and 100", path: ["rsiPeriod"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be an integer between 2 and 100",
+          path: ["rsiPeriod"],
+        });
       }
       if (!isIntegerInRange(data.rsiOversold, 1, 49)) {
-        ctx.addIssue({ code: "custom", message: "Must be an integer between 1 and 49", path: ["rsiOversold"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be an integer between 1 and 49",
+          path: ["rsiOversold"],
+        });
       }
       if (!isIntegerInRange(data.rsiOverbought, 51, 99)) {
-        ctx.addIssue({ code: "custom", message: "Must be an integer between 51 and 99", path: ["rsiOverbought"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be an integer between 51 and 99",
+          path: ["rsiOverbought"],
+        });
       }
       if (!isPositiveNumber(data.rsiPositionSize)) {
-        ctx.addIssue({ code: "custom", message: "Must be a positive number", path: ["rsiPositionSize"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be a positive number",
+          path: ["rsiPositionSize"],
+        });
       }
     }
 
     if (data.strategy === "macd") {
       if (!isIntegerInRange(data.macdFastPeriod, 2, 100)) {
-        ctx.addIssue({ code: "custom", message: "Must be an integer between 2 and 100", path: ["macdFastPeriod"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be an integer between 2 and 100",
+          path: ["macdFastPeriod"],
+        });
       }
       if (!isIntegerInRange(data.macdSlowPeriod, 2, 100)) {
-        ctx.addIssue({ code: "custom", message: "Must be an integer between 2 and 100", path: ["macdSlowPeriod"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be an integer between 2 and 100",
+          path: ["macdSlowPeriod"],
+        });
       }
-      if (isIntegerInRange(data.macdFastPeriod, 2, 100) && isIntegerInRange(data.macdSlowPeriod, 2, 100) && Number(data.macdSlowPeriod) <= Number(data.macdFastPeriod)) {
-        ctx.addIssue({ code: "custom", message: "Slow period must be greater than fast period", path: ["macdSlowPeriod"] });
+      if (
+        isIntegerInRange(data.macdFastPeriod, 2, 100) &&
+        isIntegerInRange(data.macdSlowPeriod, 2, 100) &&
+        Number(data.macdSlowPeriod) <= Number(data.macdFastPeriod)
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Slow period must be greater than fast period",
+          path: ["macdSlowPeriod"],
+        });
       }
       if (!isIntegerInRange(data.macdSignalPeriod, 2, 100)) {
-        ctx.addIssue({ code: "custom", message: "Must be an integer between 2 and 100", path: ["macdSignalPeriod"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be an integer between 2 and 100",
+          path: ["macdSignalPeriod"],
+        });
       }
       if (!isPositiveNumber(data.macdPositionSize)) {
-        ctx.addIssue({ code: "custom", message: "Must be a positive number", path: ["macdPositionSize"] });
+        ctx.addIssue({
+          code: "custom",
+          message: "Must be a positive number",
+          path: ["macdPositionSize"],
+        });
       }
     }
   });
@@ -161,9 +245,7 @@ function FormField({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="text-xs text-muted-foreground block mb-1">
-        {label}
-      </label>
+      <Label htmlFor={id}>{label}</Label>
       {children}
       {error && (
         <p id={`${id}-error`} role="alert" className="text-xs mt-1 text-destructive">
@@ -225,12 +307,6 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
     toast.success("Bot created successfully");
   };
 
-  const inputClasses =
-    "flex w-full rounded-md border border-input bg-input px-3 h-8 py-1 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed";
-
-  const selectClasses =
-    "flex w-full rounded-md border border-input bg-input px-3 h-8 py-1 text-sm text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed";
-
   return (
     <div className="rounded-lg border border-border bg-card text-card-foreground p-4 mb-3">
       {/* Header */}
@@ -239,24 +315,26 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
           <Settings size={16} className="text-muted-foreground" />
           <h3 className="text-sm font-medium">Configure New Bot</h3>
         </div>
-        <button
+        <Button
+          intent="ghost"
+          size="xs"
           type="button"
           onClick={onCancel}
-          className="flex items-center justify-center w-6 h-6 rounded text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          className="w-6 h-6 p-0"
           title="Close"
         >
           <X size={14} />
-        </button>
+        </Button>
       </div>
 
       <form onSubmit={handleSubmit(internalSubmit)} noValidate className="space-y-4">
         {/* Common Fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <FormField label="Bot Name" id="bot-name" error={errors.name?.message}>
-            <input
+            <Input
+              size="sm"
               id="bot-name"
               type="text"
-              className={inputClasses}
               {...register("name")}
               disabled={busy}
               aria-invalid={errors.name ? "true" : undefined}
@@ -265,9 +343,8 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
           </FormField>
 
           <FormField label="Strategy" id="bot-strategy" error={errors.strategy?.message}>
-            <select
+            <Select
               id="bot-strategy"
-              className={selectClasses}
               {...register("strategy")}
               disabled={busy}
               aria-invalid={errors.strategy ? "true" : undefined}
@@ -278,13 +355,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   {s.toUpperCase()}
                 </option>
               ))}
-            </select>
+            </Select>
           </FormField>
 
           <FormField label="Symbol" id="bot-symbol" error={errors.symbol?.message}>
-            <select
+            <Select
               id="bot-symbol"
-              className={selectClasses}
               {...register("symbol")}
               disabled={busy}
               aria-invalid={errors.symbol ? "true" : undefined}
@@ -295,13 +371,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   {s}
                 </option>
               ))}
-            </select>
+            </Select>
           </FormField>
 
           <FormField label="Interval" id="bot-interval" error={errors.interval?.message}>
-            <select
+            <Select
               id="bot-interval"
-              className={selectClasses}
               {...register("interval")}
               disabled={busy}
               aria-invalid={errors.interval ? "true" : undefined}
@@ -312,7 +387,7 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   {i}
                 </option>
               ))}
-            </select>
+            </Select>
           </FormField>
         </div>
 
@@ -324,26 +399,34 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {strategy === "grid" && (
               <>
-                <FormField label="Lower Price" id="grid-lower-price" error={errors.gridLowerPrice?.message}>
-                  <input
+                <FormField
+                  label="Lower Price"
+                  id="grid-lower-price"
+                  error={errors.gridLowerPrice?.message}
+                >
+                  <Input
+                    size="sm"
                     id="grid-lower-price"
                     type="number"
                     step="any"
                     placeholder="0.00"
-                    className={inputClasses}
                     {...register("gridLowerPrice")}
                     disabled={busy}
                     aria-invalid={errors.gridLowerPrice ? "true" : undefined}
                     aria-describedby={errors.gridLowerPrice ? "grid-lower-price-error" : undefined}
                   />
                 </FormField>
-                <FormField label="Upper Price" id="grid-upper-price" error={errors.gridUpperPrice?.message}>
-                  <input
+                <FormField
+                  label="Upper Price"
+                  id="grid-upper-price"
+                  error={errors.gridUpperPrice?.message}
+                >
+                  <Input
+                    size="sm"
                     id="grid-upper-price"
                     type="number"
                     step="any"
                     placeholder="0.00"
-                    className={inputClasses}
                     {...register("gridUpperPrice")}
                     disabled={busy}
                     aria-invalid={errors.gridUpperPrice ? "true" : undefined}
@@ -351,25 +434,29 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
                   />
                 </FormField>
                 <FormField label="Grid Count" id="grid-count" error={errors.gridCount?.message}>
-                  <input
+                  <Input
+                    size="sm"
                     id="grid-count"
                     type="number"
                     step="1"
                     placeholder="10"
-                    className={inputClasses}
                     {...register("gridCount")}
                     disabled={busy}
                     aria-invalid={errors.gridCount ? "true" : undefined}
                     aria-describedby={errors.gridCount ? "grid-count-error" : undefined}
                   />
                 </FormField>
-                <FormField label="Amount Per Grid" id="grid-amount" error={errors.gridAmountPerGrid?.message}>
-                  <input
+                <FormField
+                  label="Amount Per Grid"
+                  id="grid-amount"
+                  error={errors.gridAmountPerGrid?.message}
+                >
+                  <Input
+                    size="sm"
                     id="grid-amount"
                     type="number"
                     step="any"
                     placeholder="0.001"
-                    className={inputClasses}
                     {...register("gridAmountPerGrid")}
                     disabled={busy}
                     aria-invalid={errors.gridAmountPerGrid ? "true" : undefined}
@@ -381,52 +468,72 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
 
             {strategy === "dca" && (
               <>
-                <FormField label="Base Amount" id="dca-base-amount" error={errors.dcaBaseAmount?.message}>
-                  <input
+                <FormField
+                  label="Base Amount"
+                  id="dca-base-amount"
+                  error={errors.dcaBaseAmount?.message}
+                >
+                  <Input
+                    size="sm"
                     id="dca-base-amount"
                     type="number"
                     step="any"
                     placeholder="100"
-                    className={inputClasses}
                     {...register("dcaBaseAmount")}
                     disabled={busy}
                     aria-invalid={errors.dcaBaseAmount ? "true" : undefined}
                     aria-describedby={errors.dcaBaseAmount ? "dca-base-amount-error" : undefined}
                   />
                 </FormField>
-                <FormField label="Safety Amount" id="dca-safety-amount" error={errors.dcaSafetyAmount?.message}>
-                  <input
+                <FormField
+                  label="Safety Amount"
+                  id="dca-safety-amount"
+                  error={errors.dcaSafetyAmount?.message}
+                >
+                  <Input
+                    size="sm"
                     id="dca-safety-amount"
                     type="number"
                     step="any"
                     placeholder="50"
-                    className={inputClasses}
                     {...register("dcaSafetyAmount")}
                     disabled={busy}
                     aria-invalid={errors.dcaSafetyAmount ? "true" : undefined}
-                    aria-describedby={errors.dcaSafetyAmount ? "dca-safety-amount-error" : undefined}
+                    aria-describedby={
+                      errors.dcaSafetyAmount ? "dca-safety-amount-error" : undefined
+                    }
                   />
                 </FormField>
-                <FormField label="Max Safety Orders" id="dca-max-safety" error={errors.dcaMaxSafetyOrders?.message}>
-                  <input
+                <FormField
+                  label="Max Safety Orders"
+                  id="dca-max-safety"
+                  error={errors.dcaMaxSafetyOrders?.message}
+                >
+                  <Input
+                    size="sm"
                     id="dca-max-safety"
                     type="number"
                     step="1"
                     placeholder="5"
-                    className={inputClasses}
                     {...register("dcaMaxSafetyOrders")}
                     disabled={busy}
                     aria-invalid={errors.dcaMaxSafetyOrders ? "true" : undefined}
-                    aria-describedby={errors.dcaMaxSafetyOrders ? "dca-max-safety-error" : undefined}
+                    aria-describedby={
+                      errors.dcaMaxSafetyOrders ? "dca-max-safety-error" : undefined
+                    }
                   />
                 </FormField>
-                <FormField label="Price Deviation (%)" id="dca-price-dev" error={errors.dcaPriceDeviation?.message}>
-                  <input
+                <FormField
+                  label="Price Deviation (%)"
+                  id="dca-price-dev"
+                  error={errors.dcaPriceDeviation?.message}
+                >
+                  <Input
+                    size="sm"
                     id="dca-price-dev"
                     type="number"
                     step="any"
                     placeholder="2.0"
-                    className={inputClasses}
                     {...register("dcaPriceDeviation")}
                     disabled={busy}
                     aria-invalid={errors.dcaPriceDeviation ? "true" : undefined}
@@ -439,55 +546,69 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
             {strategy === "rsi" && (
               <>
                 <FormField label="RSI Period" id="rsi-period" error={errors.rsiPeriod?.message}>
-                  <input
+                  <Input
+                    size="sm"
                     id="rsi-period"
                     type="number"
                     step="1"
                     placeholder="14"
-                    className={inputClasses}
                     {...register("rsiPeriod")}
                     disabled={busy}
                     aria-invalid={errors.rsiPeriod ? "true" : undefined}
                     aria-describedby={errors.rsiPeriod ? "rsi-period-error" : undefined}
                   />
                 </FormField>
-                <FormField label="Oversold Level" id="rsi-oversold" error={errors.rsiOversold?.message}>
-                  <input
+                <FormField
+                  label="Oversold Level"
+                  id="rsi-oversold"
+                  error={errors.rsiOversold?.message}
+                >
+                  <Input
+                    size="sm"
                     id="rsi-oversold"
                     type="number"
                     step="1"
                     placeholder="30"
-                    className={inputClasses}
                     {...register("rsiOversold")}
                     disabled={busy}
                     aria-invalid={errors.rsiOversold ? "true" : undefined}
                     aria-describedby={errors.rsiOversold ? "rsi-oversold-error" : undefined}
                   />
                 </FormField>
-                <FormField label="Overbought Level" id="rsi-overbought" error={errors.rsiOverbought?.message}>
-                  <input
+                <FormField
+                  label="Overbought Level"
+                  id="rsi-overbought"
+                  error={errors.rsiOverbought?.message}
+                >
+                  <Input
+                    size="sm"
                     id="rsi-overbought"
                     type="number"
                     step="1"
                     placeholder="70"
-                    className={inputClasses}
                     {...register("rsiOverbought")}
                     disabled={busy}
                     aria-invalid={errors.rsiOverbought ? "true" : undefined}
                     aria-describedby={errors.rsiOverbought ? "rsi-overbought-error" : undefined}
                   />
                 </FormField>
-                <FormField label="Position Size" id="rsi-position-size" error={errors.rsiPositionSize?.message}>
-                  <input
+                <FormField
+                  label="Position Size"
+                  id="rsi-position-size"
+                  error={errors.rsiPositionSize?.message}
+                >
+                  <Input
+                    size="sm"
                     id="rsi-position-size"
                     type="number"
                     step="any"
                     placeholder="0.01"
-                    className={inputClasses}
                     {...register("rsiPositionSize")}
                     disabled={busy}
                     aria-invalid={errors.rsiPositionSize ? "true" : undefined}
-                    aria-describedby={errors.rsiPositionSize ? "rsi-position-size-error" : undefined}
+                    aria-describedby={
+                      errors.rsiPositionSize ? "rsi-position-size-error" : undefined
+                    }
                   />
                 </FormField>
               </>
@@ -495,56 +616,74 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
 
             {strategy === "macd" && (
               <>
-                <FormField label="Fast Period" id="macd-fast" error={errors.macdFastPeriod?.message}>
-                  <input
+                <FormField
+                  label="Fast Period"
+                  id="macd-fast"
+                  error={errors.macdFastPeriod?.message}
+                >
+                  <Input
+                    size="sm"
                     id="macd-fast"
                     type="number"
                     step="1"
                     placeholder="12"
-                    className={inputClasses}
                     {...register("macdFastPeriod")}
                     disabled={busy}
                     aria-invalid={errors.macdFastPeriod ? "true" : undefined}
                     aria-describedby={errors.macdFastPeriod ? "macd-fast-error" : undefined}
                   />
                 </FormField>
-                <FormField label="Slow Period" id="macd-slow" error={errors.macdSlowPeriod?.message}>
-                  <input
+                <FormField
+                  label="Slow Period"
+                  id="macd-slow"
+                  error={errors.macdSlowPeriod?.message}
+                >
+                  <Input
+                    size="sm"
                     id="macd-slow"
                     type="number"
                     step="1"
                     placeholder="26"
-                    className={inputClasses}
                     {...register("macdSlowPeriod")}
                     disabled={busy}
                     aria-invalid={errors.macdSlowPeriod ? "true" : undefined}
                     aria-describedby={errors.macdSlowPeriod ? "macd-slow-error" : undefined}
                   />
                 </FormField>
-                <FormField label="Signal Period" id="macd-signal" error={errors.macdSignalPeriod?.message}>
-                  <input
+                <FormField
+                  label="Signal Period"
+                  id="macd-signal"
+                  error={errors.macdSignalPeriod?.message}
+                >
+                  <Input
+                    size="sm"
                     id="macd-signal"
                     type="number"
                     step="1"
                     placeholder="9"
-                    className={inputClasses}
                     {...register("macdSignalPeriod")}
                     disabled={busy}
                     aria-invalid={errors.macdSignalPeriod ? "true" : undefined}
                     aria-describedby={errors.macdSignalPeriod ? "macd-signal-error" : undefined}
                   />
                 </FormField>
-                <FormField label="Position Size" id="macd-position-size" error={errors.macdPositionSize?.message}>
-                  <input
+                <FormField
+                  label="Position Size"
+                  id="macd-position-size"
+                  error={errors.macdPositionSize?.message}
+                >
+                  <Input
+                    size="sm"
                     id="macd-position-size"
                     type="number"
                     step="any"
                     placeholder="0.01"
-                    className={inputClasses}
                     {...register("macdPositionSize")}
                     disabled={busy}
                     aria-invalid={errors.macdPositionSize ? "true" : undefined}
-                    aria-describedby={errors.macdPositionSize ? "macd-position-size-error" : undefined}
+                    aria-describedby={
+                      errors.macdPositionSize ? "macd-position-size-error" : undefined
+                    }
                   />
                 </FormField>
               </>
@@ -558,13 +697,17 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
             Risk Controls
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <FormField label="Max Drawdown (%)" id="max-drawdown" error={errors.maxDrawdown?.message}>
-              <input
+            <FormField
+              label="Max Drawdown (%)"
+              id="max-drawdown"
+              error={errors.maxDrawdown?.message}
+            >
+              <Input
+                size="sm"
                 id="max-drawdown"
                 type="number"
                 step="any"
                 placeholder="10"
-                className={inputClasses}
                 {...register("maxDrawdown")}
                 disabled={busy}
                 aria-invalid={errors.maxDrawdown ? "true" : undefined}
@@ -572,12 +715,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
               />
             </FormField>
             <FormField label="Stop Loss (%)" id="stop-loss" error={errors.stopLoss?.message}>
-              <input
+              <Input
+                size="sm"
                 id="stop-loss"
                 type="number"
                 step="any"
                 placeholder="5"
-                className={inputClasses}
                 {...register("stopLoss")}
                 disabled={busy}
                 aria-invalid={errors.stopLoss ? "true" : undefined}
@@ -585,12 +728,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
               />
             </FormField>
             <FormField label="Take Profit (%)" id="take-profit" error={errors.takeProfit?.message}>
-              <input
+              <Input
+                size="sm"
                 id="take-profit"
                 type="number"
                 step="any"
                 placeholder="10"
-                className={inputClasses}
                 {...register("takeProfit")}
                 disabled={busy}
                 aria-invalid={errors.takeProfit ? "true" : undefined}
@@ -602,21 +745,12 @@ export function BotConfigForm({ onSubmit, onCancel, isLoading = false }: BotConf
 
         {/* Action Buttons */}
         <div className="flex justify-end gap-2 pt-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            disabled={busy}
-            className="inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-normal bg-muted text-muted-foreground hover:bg-muted/80 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          <Button intent="ghost" size="sm" type="button" onClick={onCancel} disabled={busy}>
             Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={busy}
-            className="inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          </Button>
+          <Button intent="primary" size="sm" type="submit" disabled={busy}>
             {busy ? "Creating..." : "Create Bot"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

@@ -67,19 +67,30 @@ describe("OrderForm", () => {
     await userEvent.click(screen.getByRole("button", { name: /buy limit/i }));
     await waitFor(() => {
       expect(mockHandleSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({ symbol: TEST_SYMBOL, side: "buy", type: "limit", quantity: "0.5", price: "30000" }),
+        expect.objectContaining({
+          symbol: TEST_SYMBOL,
+          side: "buy",
+          type: "limit",
+          quantity: "0.5",
+          price: "30000",
+        }),
       );
     });
   });
 
   it("does not require price for market orders", async () => {
     render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
-    await userEvent.click(screen.getByRole("button", { name: /market/i }));
+    await userEvent.click(screen.getByRole("tab", { name: /market/i }));
     await userEvent.type(screen.getByLabelText(/quantity/i), "0.1");
     await userEvent.click(screen.getByRole("button", { name: /buy market/i }));
     await waitFor(() => {
       expect(mockHandleSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({ symbol: TEST_SYMBOL, side: "buy", type: "market", quantity: "0.1" }),
+        expect.objectContaining({
+          symbol: TEST_SYMBOL,
+          side: "buy",
+          type: "market",
+          quantity: "0.1",
+        }),
       );
     });
   });
@@ -88,5 +99,46 @@ describe("OrderForm", () => {
     render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
     await userEvent.click(screen.getByRole("button", { name: /^sell$/i }));
     expect(screen.getByRole("button", { name: /sell limit/i })).toBeInTheDocument();
+  });
+
+  it("renders tablist for order type", () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    expect(screen.getByRole("tablist", { name: /order type/i })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /limit/i })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /market/i })).toBeInTheDocument();
+  });
+
+  it("hides price field in market tab", async () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    // Limit tab active by default — price visible
+    expect(screen.getByLabelText(/price/i)).toBeInTheDocument();
+    // Switch to market
+    await userEvent.click(screen.getByRole("tab", { name: /market/i }));
+    expect(screen.queryByLabelText(/price/i)).not.toBeInTheDocument();
+  });
+
+  it("switches tab with ArrowRight keyboard", async () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    const limitTab = screen.getByRole("tab", { name: /limit/i });
+    limitTab.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(screen.getByRole("tab", { name: /market/i })).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("switches tab with ArrowLeft keyboard", async () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    // switch to market first
+    await userEvent.click(screen.getByRole("tab", { name: /market/i }));
+    const marketTab = screen.getByRole("tab", { name: /market/i });
+    marketTab.focus();
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(screen.getByRole("tab", { name: /limit/i })).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("active tab is reflected in submit button label", async () => {
+    render(<OrderForm symbol={TEST_SYMBOL} onSubmit={mockHandleSubmit} />);
+    expect(screen.getByRole("button", { name: /buy limit/i })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("tab", { name: /market/i }));
+    expect(screen.getByRole("button", { name: /buy market/i })).toBeInTheDocument();
   });
 });
