@@ -18,7 +18,7 @@
 
 I'm building a real-time trading terminal simulator as a portfolio project to demonstrate React 19.2, Vite 8, Zustand, and WebSocket data handling with live Binance market data — rendered at 60fps with zero manual memoization.
 
-> **Status: Active development.** Core UI and design system are complete. WebSocket data layer in progress.
+> **Status: Active development.** Core UI, design system, and WebSocket data layer are complete. Symbol routing in progress.
 
 **Live demo:** Vercel preview available on every PR — see the Vercel bot comment for the latest URL.
 
@@ -118,8 +118,9 @@ Active work:
 
 | Priority | Feature | Status |
 |----------|---------|--------|
-| P0 | WebSocket data layer (Binance) | 🔄 In progress |
+| ✅ | WebSocket data layer (Binance) | Merged — [#100](https://github.com/jeziellopes/flow/pull/100) |
 | P0 | Symbol routing with typed params | 🔄 In progress |
+| P0 | Order book UI wired to live data | 📋 Spec ready |
 | P1 | Simulated order entry (fills at live price) | 📋 Spec ready |
 | P1 | Portfolio tracker with live PnL | 📋 Spec ready |
 
