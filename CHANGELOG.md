@@ -1,3 +1,10 @@
+# [1.1.0-next.2](https://github.com/jeziellopes/flow/compare/v1.1.0-next.1...v1.1.0-next.2) (2026-04-04)
+
+
+### Features
+
+* **infra:** WebSocket data layer — Binance live market data ([35791df](https://github.com/jeziellopes/flow/commit/35791df649c46e296cd4f2697df64bb9e34f8fb4)), closes [#99](https://github.com/jeziellopes/flow/issues/99)
+
 # [1.1.0-next.1](https://github.com/jeziellopes/flow/compare/v1.0.0...v1.1.0-next.1) (2026-04-04)
 
 
