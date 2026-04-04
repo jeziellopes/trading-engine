@@ -2,13 +2,13 @@ import { useState } from "react";
 import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import type { BotInstance, BotStatus } from "@/features/bots/types";
 import { RecentTradesTable } from "@/features/trades/recent-trades-table";
-import type { TradingLayoutTrade } from "@/lib/mock-data";
+import type { TerminalTrade } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { Tab, TabList } from "@/ui/tabs";
 
 interface DataPanelProps {
   bots: BotInstance[];
-  trades: TradingLayoutTrade[];
+  trades: TerminalTrade[];
   onBotStatusChange: (id: string, status: BotStatus) => void;
   className?: string;
 }

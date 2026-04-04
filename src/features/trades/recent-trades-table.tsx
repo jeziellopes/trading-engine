@@ -1,8 +1,8 @@
-import type { TradingLayoutTrade } from "@/lib/mock-data";
+import type { TerminalTrade } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 interface RecentTradesTableProps {
-  trades: TradingLayoutTrade[];
+  trades: TerminalTrade[];
 }
 
 const BOT_NAMES: Record<string, string> = { "bot-1": "Grid BTC", "bot-2": "DCA ETH" };

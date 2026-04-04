@@ -116,7 +116,7 @@ function loadLayouts(): ResponsiveLayouts<string> {
 // Hook
 // ---------------------------------------------------------------------------
 
-export interface UseTradingLayoutReturn {
+export interface UseTerminalLayoutReturn {
   layouts: ResponsiveLayouts<string>;
   rowHeight: number;
   onBreakpointChange: (bp: string) => void;
@@ -126,7 +126,7 @@ export interface UseTradingLayoutReturn {
   onResizeStart: () => void;
 }
 
-export function useTradingLayout(): UseTradingLayoutReturn {
+export function useTerminalLayout(): UseTerminalLayoutReturn {
   const [layouts, setLayouts] = useState<ResponsiveLayouts<string>>(loadLayouts);
 
   const windowHeight = useSyncExternalStore(
