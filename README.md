@@ -124,9 +124,9 @@ Active work:
 
 | Priority | Feature | Status |
 |----------|---------|--------|
-| ✅ | WebSocket data layer (Binance) | Shipped |
+| ✅ | WebSocket data layer (Binance) | Merged — [#100](https://github.com/jeziellopes/flow/pull/100) |
 | P0 | Symbol routing with typed params | 🔄 In progress |
-| P0 | Order book UI — wire to live data | 📋 Spec ready |
+| P0 | Order book UI wired to live data | 📋 Spec ready |
 | P1 | Simulated order entry (fills at live price) | 📋 Spec ready |
 | P1 | Portfolio tracker with live PnL | 📋 Spec ready |
 
