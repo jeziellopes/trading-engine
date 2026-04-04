@@ -1,3 +1,16 @@
+# [1.0.0-next.21](https://github.com/jeziellopes/flow/compare/v1.0.0-next.20...v1.0.0-next.21) (2026-04-04)
+
+
+### Bug Fixes
+
+* **grid:** cap rowHeight at 8px on large/4K viewports ([328c61f](https://github.com/jeziellopes/flow/commit/328c61f45a78af3e4c389c19a2164be03faace98))
+* **grid:** lower rowHeight floor to 8px and scale h values to fill 60-row viewport ([7e9cfb8](https://github.com/jeziellopes/flow/commit/7e9cfb82263b30b0c2a78c9c1e239e8d0b89e30a)), closes [#92](https://github.com/jeziellopes/flow/issues/92)
+
+
+### Features
+
+* **grid:** increase row granularity to 30 units and fix CHROME_HEIGHT ([3d42877](https://github.com/jeziellopes/flow/commit/3d42877caa8c6cc0ee8c741e0aaa99d453ee11c4)), closes [#92](https://github.com/jeziellopes/flow/issues/92) [#93](https://github.com/jeziellopes/flow/issues/93) [#92](https://github.com/jeziellopes/flow/issues/92) [#93](https://github.com/jeziellopes/flow/issues/93)
+
 # [1.0.0-next.20](https://github.com/jeziellopes/trading-engine/compare/v1.0.0-next.19...v1.0.0-next.20) (2026-04-03)
 
 
