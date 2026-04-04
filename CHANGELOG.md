@@ -1,3 +1,66 @@
+# [1.1.0](https://github.com/jeziellopes/flow/compare/v1.0.0...v1.1.0) (2026-04-04)
+
+
+### Bug Fixes
+
+* **chart:** canvas-based oklch→sRGB conversion for lightweight-charts ([918c044](https://github.com/jeziellopes/flow/commit/918c04478d949316e1527bad1234619b56f1385a))
+* **chart:** fitContent on first non-zero resize for correct initial zoom ([f81484e](https://github.com/jeziellopes/flow/commit/f81484e2841d91432bcfdbdadd909b162bcfa153)), closes [#79](https://github.com/jeziellopes/flow/issues/79)
+* **chart:** handle possibly undefined candle interval fallback ([19c36ac](https://github.com/jeziellopes/flow/commit/19c36ac0634c3a4b40554d76ada6abb74845ffb0))
+* **chart:** wick colors, grid alpha, interval prop + expanded mock data (closes [#71](https://github.com/jeziellopes/flow/issues/71), closes [#72](https://github.com/jeziellopes/flow/issues/72), closes [#73](https://github.com/jeziellopes/flow/issues/73)) ([bb55c11](https://github.com/jeziellopes/flow/commit/bb55c1160aa8a00cc1b36db4859e84cf21337d59))
+* **ci:** remove invalid biome --check flag from code-quality workflow ([5755ea4](https://github.com/jeziellopes/flow/commit/5755ea45cce165ddb29d9f16132271b05f5f480b))
+* **data-panel:** align tab header spacing with panel chrome ([07a3620](https://github.com/jeziellopes/flow/commit/07a362029d001b6e5270c668af847aaab12af2e2))
+* **design-system:** correct Flowa theme — forest primary, full 3-colour palette, DS page visibility ([243737c](https://github.com/jeziellopes/flow/commit/243737cfd301c877f8431c740543514ec988e2ac)), closes [#12](https://github.com/jeziellopes/flow/issues/12) [#25352D](https://github.com/jeziellopes/flow/issues/25352D) [#c2e189](https://github.com/jeziellopes/flow/issues/c2e189) [#9354BB](https://github.com/jeziellopes/flow/issues/9354BB)
+* **design-system:** differentiate --secondary vs --accent across all themes ([616c8e8](https://github.com/jeziellopes/flow/commit/616c8e8a32a0da8f1e4c393f4c7cda8394db3d9d)), closes [#51](https://github.com/jeziellopes/flow/issues/51) [#51](https://github.com/jeziellopes/flow/issues/51) [#52](https://github.com/jeziellopes/flow/issues/52)
+* **design-system:** enforce cursor-pointer on all interactive UI primitives (closes [#80](https://github.com/jeziellopes/flow/issues/80)) ([ea35eea](https://github.com/jeziellopes/flow/commit/ea35eea03766a6de305cee9fd1e9966e125ba9d0))
+* **design-system:** fix light mode surface depth and Order Entry container ([5bbffaf](https://github.com/jeziellopes/flow/commit/5bbffaf1d8d98912e607e3d64e42a61243c700f4))
+* **design-system:** fix segment control visibility with bg-background inactive state ([591af06](https://github.com/jeziellopes/flow/commit/591af06b8d1c65a4660d96bf140bd0c6b18d0561)), closes [#60](https://github.com/jeziellopes/flow/issues/60)
+* **design-system:** use primitives as source of truth in /design-system ([d55a886](https://github.com/jeziellopes/flow/commit/d55a886f3a122b1236361cbb0d2ba2801151557f))
+* **grid:** cap rowHeight at 8px on large/4K viewports ([328c61f](https://github.com/jeziellopes/flow/commit/328c61f45a78af3e4c389c19a2164be03faace98))
+* **grid:** lower rowHeight floor to 8px and scale h values to fill 60-row viewport ([7e9cfb8](https://github.com/jeziellopes/flow/commit/7e9cfb82263b30b0c2a78c9c1e239e8d0b89e30a)), closes [#92](https://github.com/jeziellopes/flow/issues/92)
+* **header:** merge useRouterState import and fix quote style for Biome ([d4779ac](https://github.com/jeziellopes/flow/commit/d4779ace12f854e7ffbf07b69700437adfe9aac2))
+* **layout:** swap order-entry and portfolio panel positions ([6a81be8](https://github.com/jeziellopes/flow/commit/6a81be8b89bdf7195b9d8e991a76ef3a53e59bd3)), closes [#9](https://github.com/jeziellopes/flow/issues/9)
+* **order-book:** exactOptionalPropertyTypes compat for tickDirection prop ([663202c](https://github.com/jeziellopes/flow/commit/663202c95a9a670b2b1c6e94c3102f41711c266c))
+* **order-entry:** align Limit/Market button height with Buy/Sell ([f4dcaa4](https://github.com/jeziellopes/flow/commit/f4dcaa40b8d2e90340d12481d835f549df5bb292))
+* **order-entry:** fix button spacing and corner radius inside segment tracks ([7597b2f](https://github.com/jeziellopes/flow/commit/7597b2fc8f9261029c36adb971d477af120f13e3))
+* **order-entry:** fix flat inactive segment buttons with segment intent ([295f68a](https://github.com/jeziellopes/flow/commit/295f68a97c5d4f05045b30aa75b68e70fb85c98a))
+* **order-form:** 2-layer justify layout + underline tabs (closes [#67](https://github.com/jeziellopes/flow/issues/67), closes [#68](https://github.com/jeziellopes/flow/issues/68)) ([8e9e68c](https://github.com/jeziellopes/flow/commit/8e9e68c2af071e646e32a6f107ab4e69a299d1bd))
+* **perf:** remove unused MOCK_CANDLE_* imports from trading layout ([2d126d8](https://github.com/jeziellopes/flow/commit/2d126d835f8adc93b4012dc851fd119f9633670f))
+* **store:** individual selectors to prevent infinite re-render loop ([4785d4c](https://github.com/jeziellopes/flow/commit/4785d4ccff8dea1c60563f65e76a935cc39f94f4))
+* **tabs:** adjust header variant height and border style ([d533833](https://github.com/jeziellopes/flow/commit/d533833808d593f77f18d33c33aa9161520bbaec))
+* **tabs:** header variant enforces 36px height with centered text ([04391c4](https://github.com/jeziellopes/flow/commit/04391c4fb5cfacc54563cc259c50352921d390eb))
+* **tabs:** pin header variant line-height to 16px via leading-4 ([bf726f5](https://github.com/jeziellopes/flow/commit/bf726f57d911ab4da06fddafb38da29c8b7c9e25))
+* **test:** replace undefined mockState with MOCK_ORDER_BOOK_STATE in order-book tests ([66315d4](https://github.com/jeziellopes/flow/commit/66315d4cd626c100ba8aa561eff74627080898b9))
+* **theme:** fix invalid CSS in --t-accent-fg and add Logo tests ([b2332e5](https://github.com/jeziellopes/flow/commit/b2332e55242814b56a0bd0b1bef98d1791984192))
+* **trading-grid:** correct xxl column proportions to match Binance layout ([4f61660](https://github.com/jeziellopes/flow/commit/4f61660c6090e23ca0e64b76b7948557be1fe62d))
+* **trading-grid:** fix biome import order and formatting in layout files ([87b11a4](https://github.com/jeziellopes/flow/commit/87b11a48dd662707ccd26a2ae5392a14a4bd1b6f))
+* **trading-grid:** order spans full chart height; DataPanel header matches panel chrome ([01876b7](https://github.com/jeziellopes/flow/commit/01876b7c15be48ad91ce54be6ab1dc9891af3529))
+* **trading-layout:** chart|book|order column order + lazy layout persistence ([701e8c4](https://github.com/jeziellopes/flow/commit/701e8c4a12737becab2a4884c9022e1688eb83d5))
+* **ui:** remove render-time ref mutation in TabList, fix lint ([321283e](https://github.com/jeziellopes/flow/commit/321283e26c337330075e41991cc47dbfec3d55d1))
+
+
+### Features
+
+* **design-system:** add Colour Roles and Containers sections to /design-system ([709f4c5](https://github.com/jeziellopes/flow/commit/709f4c567cc95da40852397cad044ecf899207ff))
+* **design-system:** add on-trading-bid/ask tokens and adopt on-* in button variants ([8744041](https://github.com/jeziellopes/flow/commit/87440411c47971b008003c1c59c5b6d4b4f37ba0))
+* **design-system:** close [@theme](https://github.com/theme) gaps and standardise token usage ([b2b0bd0](https://github.com/jeziellopes/flow/commit/b2b0bd02641480c6c8de407b587b4cdafbb7d11e)), closes [#13](https://github.com/jeziellopes/flow/issues/13)
+* **design-system:** differentiate corpo-ice secondary from primary hue ([a12a6b6](https://github.com/jeziellopes/flow/commit/a12a6b6d643a4fa0e2c8f7d4e1f7adbd0ba33cc8)), closes [#52](https://github.com/jeziellopes/flow/issues/52) [#52](https://github.com/jeziellopes/flow/issues/52)
+* **design-system:** introduce on-* colour roles and container tokens ([#57](https://github.com/jeziellopes/flow/issues/57)) ([97e1239](https://github.com/jeziellopes/flow/commit/97e12396a4edb7f7d9b024fd2f244674b8e27d85))
+* **grid:** increase row granularity to 30 units and fix CHROME_HEIGHT ([3d42877](https://github.com/jeziellopes/flow/commit/3d42877caa8c6cc0ee8c741e0aaa99d453ee11c4)), closes [#92](https://github.com/jeziellopes/flow/issues/92) [#93](https://github.com/jeziellopes/flow/issues/93) [#92](https://github.com/jeziellopes/flow/issues/92) [#93](https://github.com/jeziellopes/flow/issues/93)
+* **header:** route-aware header — logo-only + TickerHeader on symbol route ([c2638e3](https://github.com/jeziellopes/flow/commit/c2638e385aa623aecf354ed19ed12c56cd3e6461)), closes [#84](https://github.com/jeziellopes/flow/issues/84)
+* **order-entry:** extract Tab primitive, wire into OrderForm ([ea245dd](https://github.com/jeziellopes/flow/commit/ea245dd06457b2469dc36a5d25fe213a03f52fa9))
+* **order-entry:** tab-based Limit/Market form switcher ([bd23610](https://github.com/jeziellopes/flow/commit/bd23610fa11609f29bedb6a9b4d7912382e84103)), closes [#60](https://github.com/jeziellopes/flow/issues/60)
+* **ticker-header:** embed SymbolSelector in place of plain symbol text (closes [#70](https://github.com/jeziellopes/flow/issues/70)) ([8dcb925](https://github.com/jeziellopes/flow/commit/8dcb925d1f06f629a36a96d355f9cdea1e1b00a8))
+* **trading-grid:** merge bots + trades into DataPanel with tabs (closes [#76](https://github.com/jeziellopes/flow/issues/76)) ([8f97d78](https://github.com/jeziellopes/flow/commit/8f97d78c971dfcf83eef67601ea292f0d1c389f1))
+* **trading-grid:** xl breakpoint (≥1440px) layout preset ([#65](https://github.com/jeziellopes/flow/issues/65)) ([aba4077](https://github.com/jeziellopes/flow/commit/aba407795b8f484b07c6a4d87dbfa23e3f3e1957))
+* **trading-grid:** xxl preset + Binance-style layout + side-by-side bots/trades ([e0088c6](https://github.com/jeziellopes/flow/commit/e0088c6c72f94376923aa07aea81ae895b60664b))
+* **ui:** add Logo component and integrate into header ([65e81d1](https://github.com/jeziellopes/flow/commit/65e81d17bcddfbc9aedca9165f850bbcf06d28d0))
+* **ui:** add Select, Label, Textarea primitives; wire Button/Input in bot forms ([d53c7be](https://github.com/jeziellopes/flow/commit/d53c7be248a340ea9ba6f4108f6472ab35ee6ca3))
+
+
+### Performance Improvements
+
+* **bundle:** lazy-load recharts and react-grid-layout ([9d845ba](https://github.com/jeziellopes/flow/commit/9d845baf5a81e042bdce25b93c596f7cb1779bf3)), closes [#20](https://github.com/jeziellopes/flow/issues/20)
+
 # [1.1.0-next.1](https://github.com/jeziellopes/flow/compare/v1.0.0...v1.1.0-next.1) (2026-04-04)
 
 
