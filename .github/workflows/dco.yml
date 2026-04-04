@@ -26,6 +26,7 @@ jobs:
             });
 
             const missing = commits
+              .filter(c => c.parents.length < 2) // skip GitHub-generated merge commits
               .filter(c => !c.commit.message.includes('Signed-off-by:'))
               .map(c => `  ${c.sha.slice(0, 7)} ${c.commit.message.split('\n')[0]}`);
 
