@@ -10,45 +10,45 @@ import type {
 // Constants
 // ---------------------------------------------------------------------------
 
-const LAYOUT_KEY = "grid-layout-v9";
+const LAYOUT_KEY = "grid-layout-v11";
 
 export const BREAKPOINTS = { xxl: 1920, xl: 1440, lg: 1200, md: 996, sm: 768 } as const;
 export const COLS = { xxl: 12, xl: 12, lg: 12, md: 10, sm: 6 } as const;
 
-// TOTAL_ROWS: max grid row units across all breakpoints (chart h:10 + bots h:5)
-// CHROME_HEIGHT: navbar + ticker bar (≈80px)
-const TOTAL_ROWS = 15;
-const CHROME_HEIGHT = 80;
+// TOTAL_ROWS: max grid row units (chart h:40 + bottom h:20 = 60 fills viewport)
+// CHROME_HEIGHT: navbar + ticker bar (h-12 header=48px + pb-3=12px = 60px)
+const TOTAL_ROWS = 60;
+const CHROME_HEIGHT = 60;
 const MARGIN_Y = 8;
 
 export const DEFAULT_LAYOUTS: ResponsiveLayouts<string> = {
   xxl: [
-    { i: "chart", x: 0, y: 0, w: 8, h: 10, minW: 4, minH: 5 },
-    { i: "book", x: 8, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
-    { i: "order", x: 10, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
-    { i: "portfolio", x: 10, y: 10, w: 2, h: 5, minW: 2, minH: 3 },
-    { i: "data", x: 0, y: 10, w: 10, h: 5, minW: 6, minH: 3 },
+    { i: "chart", x: 0, y: 0, w: 8, h: 40, minW: 4, minH: 20 },
+    { i: "book", x: 8, y: 0, w: 2, h: 40, minW: 2, minH: 20 },
+    { i: "order", x: 10, y: 0, w: 2, h: 40, minW: 2, minH: 20 },
+    { i: "portfolio", x: 10, y: 40, w: 2, h: 20, minW: 2, minH: 10 },
+    { i: "data", x: 0, y: 40, w: 10, h: 20, minW: 6, minH: 10 },
   ],
   xl: [
-    { i: "chart", x: 0, y: 0, w: 8, h: 10, minW: 4, minH: 5 },
-    { i: "book", x: 8, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
-    { i: "order", x: 10, y: 0, w: 2, h: 10, minW: 2, minH: 6 },
-    { i: "portfolio", x: 10, y: 10, w: 2, h: 4, minW: 2, minH: 3 },
-    { i: "data", x: 0, y: 10, w: 10, h: 4, minW: 6, minH: 3 },
+    { i: "chart", x: 0, y: 0, w: 8, h: 40, minW: 4, minH: 20 },
+    { i: "book", x: 8, y: 0, w: 2, h: 40, minW: 2, minH: 20 },
+    { i: "order", x: 10, y: 0, w: 2, h: 40, minW: 2, minH: 20 },
+    { i: "portfolio", x: 10, y: 40, w: 2, h: 20, minW: 2, minH: 10 },
+    { i: "data", x: 0, y: 40, w: 10, h: 20, minW: 6, minH: 10 },
   ],
   lg: [
-    { i: "chart", x: 0, y: 0, w: 6, h: 10, minW: 4, minH: 5 },
-    { i: "book", x: 6, y: 0, w: 3, h: 10, minW: 2, minH: 6 },
-    { i: "order", x: 9, y: 0, w: 3, h: 10, minW: 2, minH: 6 },
-    { i: "portfolio", x: 9, y: 10, w: 3, h: 4, minW: 2, minH: 3 },
-    { i: "data", x: 0, y: 10, w: 9, h: 4, minW: 6, minH: 3 },
+    { i: "chart", x: 0, y: 0, w: 6, h: 40, minW: 4, minH: 20 },
+    { i: "book", x: 6, y: 0, w: 3, h: 40, minW: 2, minH: 20 },
+    { i: "order", x: 9, y: 0, w: 3, h: 40, minW: 2, minH: 20 },
+    { i: "portfolio", x: 9, y: 40, w: 3, h: 20, minW: 2, minH: 10 },
+    { i: "data", x: 0, y: 40, w: 9, h: 20, minW: 6, minH: 10 },
   ],
   md: [
-    { i: "chart", x: 0, y: 0, w: 5, h: 9, minW: 4, minH: 5 },
-    { i: "book", x: 5, y: 0, w: 2, h: 9, minW: 2, minH: 4 },
-    { i: "order", x: 7, y: 0, w: 3, h: 9, minW: 2, minH: 6 },
-    { i: "portfolio", x: 7, y: 9, w: 3, h: 4, minW: 2, minH: 3 },
-    { i: "data", x: 0, y: 9, w: 7, h: 4, minW: 6, minH: 3 },
+    { i: "chart", x: 0, y: 0, w: 5, h: 38, minW: 4, minH: 18 },
+    { i: "book", x: 5, y: 0, w: 2, h: 38, minW: 2, minH: 16 },
+    { i: "order", x: 7, y: 0, w: 3, h: 38, minW: 2, minH: 20 },
+    { i: "portfolio", x: 7, y: 38, w: 3, h: 22, minW: 2, minH: 10 },
+    { i: "data", x: 0, y: 38, w: 7, h: 22, minW: 6, minH: 10 },
   ],
 };
 
@@ -62,12 +62,12 @@ function subscribeResize(cb: () => void) {
 }
 
 /**
- * rowHeight fills the viewport vertically so the grid uses all available
- * screen space without scrolling.
+ * rowHeight computes the pixel height of one grid row unit.
+ * Capped at 8px so large/4K viewports don't inflate row height.
  */
 function calcRowHeight(windowHeight: number) {
   const available = windowHeight - CHROME_HEIGHT - (TOTAL_ROWS - 1) * MARGIN_Y;
-  return Math.max(30, Math.floor(available / TOTAL_ROWS));
+  return Math.min(8, Math.max(1, Math.floor(available / TOTAL_ROWS)));
 }
 
 /**
