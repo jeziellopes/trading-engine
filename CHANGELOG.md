@@ -1,3 +1,10 @@
+# [1.1.0-next.3](https://github.com/jeziellopes/flow/compare/v1.1.0-next.2...v1.1.0-next.3) (2026-04-04)
+
+
+### Bug Fixes
+
+* **lint:** resolve Biome import-order and noNonNullAssertion violations ([03d7c04](https://github.com/jeziellopes/flow/commit/03d7c04d0837be8fbf8ddc4f30a292c050b99c60))
+
 # [1.1.0-next.2](https://github.com/jeziellopes/flow/compare/v1.1.0-next.1...v1.1.0-next.2) (2026-04-04)
 
 
