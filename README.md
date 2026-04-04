@@ -1,8 +1,20 @@
-# Flow
+<div align="center">
+  <img width="806" height="169" alt="banner" src="https://github.com/user-attachments/assets/a6a17139-76aa-4712-a09d-e480fe67d8a3" />
 
-[![Tests](https://github.com/jeziellopes/flow/actions/workflows/test.yml/badge.svg?branch=develop)](https://github.com/jeziellopes/flow/actions/workflows/test.yml)
-[![Code Quality](https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml/badge.svg?branch=develop)](https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml)
-[![DCO](https://github.com/jeziellopes/flow/actions/workflows/dco.yml/badge.svg?branch=develop)](https://github.com/jeziellopes/flow/actions/workflows/dco.yml)
+  <br>
+
+  <a href="https://github.com/jeziellopes/flow/actions/workflows/test.yml">
+    <img src="https://github.com/jeziellopes/flow/actions/workflows/test.yml/badge.svg?branch=develop" alt="Tests">
+  </a>
+
+  <a href="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml">
+    <img src="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml/badge.svg?branch=develop" alt="Code Quality">
+  </a>
+
+  <a href="https://github.com/jeziellopes/flow/actions/workflows/dco.yml">
+    <img src="https://github.com/jeziellopes/flow/actions/workflows/dco.yml/badge.svg?branch=develop" alt="DCO">
+  </a>
+</div>
 
 I'm building a real-time trading terminal simulator as a portfolio project to demonstrate React 19.2, Vite 8, Zustand, and WebSocket data handling with live Binance market data — rendered at 60fps with zero manual memoization.
 
