@@ -62,12 +62,12 @@ function subscribeResize(cb: () => void) {
 }
 
 /**
- * rowHeight fills the viewport vertically so the grid uses all available
- * screen space without scrolling.
+ * rowHeight computes the pixel height of one grid row unit.
+ * Capped at 8px so large/4K viewports don't inflate row height.
  */
 function calcRowHeight(windowHeight: number) {
   const available = windowHeight - CHROME_HEIGHT - (TOTAL_ROWS - 1) * MARGIN_Y;
-  return Math.max(8, Math.floor(available / TOTAL_ROWS));
+  return Math.min(8, Math.max(1, Math.floor(available / TOTAL_ROWS)));
 }
 
 /**
