@@ -1,5 +1,5 @@
+import type { NormalizedDepthUpdate, NormalizedSnapshot } from "./normalized";
 import type { OrderBook } from "./types";
-import type { NormalizedSnapshot, NormalizedDepthUpdate } from "./normalized";
 
 /**
  * Initialise an OrderBook from a REST depth snapshot.

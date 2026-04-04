@@ -1,28 +1,34 @@
 <div align="center">
-  <img width="806" height="169" alt="banner" src="https://github.com/user-attachments/assets/a6a17139-76aa-4712-a09d-e480fe67d8a3" />
+  <img width="806" height="169" alt="Flow — Real-time Trading Terminal" src="https://github.com/user-attachments/assets/a6a17139-76aa-4712-a09d-e480fe67d8a3" />
 
-  <br>
+  <p><strong>Real-time crypto trading terminal — live Binance data, 60 fps, zero manual memoization.</strong></p>
 
-  <a href="https://github.com/jeziellopes/flow/actions/workflows/test.yml">
-    <img src="https://github.com/jeziellopes/flow/actions/workflows/test.yml/badge.svg?branch=develop" alt="Tests">
-  </a>
-
-  <a href="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml">
-    <img src="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml/badge.svg?branch=develop" alt="Code Quality">
-  </a>
-
-  <a href="https://github.com/jeziellopes/flow/actions/workflows/dco.yml">
-    <img src="https://github.com/jeziellopes/flow/actions/workflows/dco.yml/badge.svg?branch=develop" alt="DCO">
-  </a>
+  <p>
+    <a href="https://github.com/jeziellopes/flow/actions/workflows/test.yml">
+      <img src="https://github.com/jeziellopes/flow/actions/workflows/test.yml/badge.svg?branch=develop" alt="Tests">
+    </a>
+    &nbsp;&nbsp;
+    <a href="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml">
+      <img src="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml/badge.svg?branch=develop" alt="Code Quality">
+    </a>
+    &nbsp;&nbsp;
+    <a href="https://github.com/jeziellopes/flow/releases">
+      <img src="https://img.shields.io/github/v/release/jeziellopes/flow?include_prereleases&label=release&color=00c7ff&logo=github" alt="Latest Release">
+    </a>
+    &nbsp;&nbsp;
+    <img src="https://img.shields.io/badge/React-19.2-61dafb?logo=react&logoColor=white" alt="React 19.2">
+    &nbsp;&nbsp;
+    <img src="https://img.shields.io/badge/TypeScript-5.8-3178c6?logo=typescript&logoColor=white" alt="TypeScript 5.8">
+  </p>
 </div>
 
-I'm building a real-time trading terminal simulator as a portfolio project to demonstrate React 19.2, Vite 8, Zustand, and WebSocket data handling with live Binance market data — rendered at 60fps with zero manual memoization.
+Production-grade trading terminal simulator running entirely in the browser — live order books, real-time depth streams, and a multi-theme design system, built on React 19, Vite 8 (Rolldown + Oxc), and Ports & Adapters architecture.
 
-> **Status: Active development.** Core UI, design system, and WebSocket data layer are complete. Symbol routing in progress.
+> **Status: Active development.** Core UI, design system, and WebSocket data layer are complete. Symbol routing and order book wiring in progress.
 
-**Live demo:** Vercel preview available on every PR — see the Vercel bot comment for the latest URL.
+**Live demo:** Vercel preview on every PR — see the Vercel bot comment for the latest URL.
 
-## What I'm Building
+## What It Does
 
 A cyberpunk-themed crypto trading dashboard that mirrors the architecture of a real exchange frontend:
 

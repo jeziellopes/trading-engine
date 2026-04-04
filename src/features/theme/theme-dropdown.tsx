@@ -11,12 +11,14 @@ const MODE_STORAGE_KEY = "mode";
 
 // One-time migration: copy old keys to new keys then remove old
 (function migrateStorageKeys() {
-  if (localStorage.getItem("trading-theme") && !localStorage.getItem("theme")) {
-    localStorage.setItem("theme", localStorage.getItem("trading-theme")!);
+  const oldTheme = localStorage.getItem("trading-theme");
+  if (oldTheme && !localStorage.getItem("theme")) {
+    localStorage.setItem("theme", oldTheme);
     localStorage.removeItem("trading-theme");
   }
-  if (localStorage.getItem("trading-mode") && !localStorage.getItem("mode")) {
-    localStorage.setItem("mode", localStorage.getItem("trading-mode")!);
+  const oldMode = localStorage.getItem("trading-mode");
+  if (oldMode && !localStorage.getItem("mode")) {
+    localStorage.setItem("mode", oldMode);
     localStorage.removeItem("trading-mode");
   }
 })();

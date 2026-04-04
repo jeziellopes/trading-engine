@@ -1,14 +1,14 @@
 import type { MarketDataSource } from "@/domain/market-data/MarketDataSource";
-import type { ConnectionStatus } from "@/domain/market-data/types";
 import type {
-  NormalizedSnapshot,
   NormalizedDepthUpdate,
+  NormalizedSnapshot,
   NormalizedTrade,
 } from "@/domain/market-data/normalized";
-import { createWsClient } from "./ws-client";
-import { fetchDepthSnapshot } from "./snapshot";
+import type { ConnectionStatus } from "@/domain/market-data/types";
 import { createReconnectManager } from "@/infra/reconnect";
 import type { StreamMessage } from "./schemas";
+import { fetchDepthSnapshot } from "./snapshot";
+import { createWsClient } from "./ws-client";
 
 /**
  * Implements MarketDataSource against the Binance public WebSocket and REST APIs.

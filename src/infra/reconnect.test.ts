@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createReconnectManager } from "./reconnect";
 
 describe("createReconnectManager — AC-5: exponential backoff", () => {

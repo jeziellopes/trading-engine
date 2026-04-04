@@ -1,6 +1,6 @@
+import type { NormalizedSnapshot } from "@/domain/market-data/normalized";
 import { BINANCE_REST_BASE, SNAPSHOT_DEPTH_LIMIT } from "@/lib/constants";
 import { DepthSnapshotSchema } from "./schemas";
-import type { NormalizedSnapshot } from "@/domain/market-data/normalized";
 
 /**
  * Fetches a full L2 order book snapshot from the Binance REST API.

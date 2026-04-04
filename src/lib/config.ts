@@ -1,5 +1,5 @@
-import { BinanceDataSource } from "@/infra/binance/BinanceDataSource";
 import type { MarketDataSource } from "@/domain/market-data/MarketDataSource";
+import { BinanceDataSource } from "@/infra/binance/BinanceDataSource";
 
 /**
  * Module-level singleton — stores never instantiate adapters directly.
