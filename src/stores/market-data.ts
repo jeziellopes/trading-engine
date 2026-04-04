@@ -1,12 +1,12 @@
 import { create } from "zustand";
+import { applyDepthUpdate, bookFromSnapshot } from "@/domain/market-data/book-sync";
 import type { MarketDataSource } from "@/domain/market-data/MarketDataSource";
-import type { ConnectionStatus, OrderBook } from "@/domain/market-data/types";
 import type {
-  NormalizedTrade,
   NormalizedDepthUpdate,
   NormalizedSnapshot,
+  NormalizedTrade,
 } from "@/domain/market-data/normalized";
-import { applyDepthUpdate, bookFromSnapshot } from "@/domain/market-data/book-sync";
+import type { ConnectionStatus, OrderBook } from "@/domain/market-data/types";
 import { RING_BUFFER_SIZE } from "@/lib/constants";
 
 // ---------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 import { BINANCE_WS_BASE, WS_HEARTBEAT_TIMEOUT_MS } from "@/lib/constants";
-import { StreamMessageSchema, type StreamMessage } from "./schemas";
+import { type StreamMessage, StreamMessageSchema } from "./schemas";
 
 export interface WsClientCallbacks {
   onMessage(msg: StreamMessage): void;

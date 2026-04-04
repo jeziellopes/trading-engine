@@ -1,13 +1,13 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { act, renderHook } from "@testing-library/react";
-import { useMarketDataStore, useOrderBook, useTrades, useConnectionStatus } from "./market-data";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MarketDataSource } from "@/domain/market-data/MarketDataSource";
-import type { ConnectionStatus } from "@/domain/market-data/types";
 import type {
-  NormalizedSnapshot,
   NormalizedDepthUpdate,
+  NormalizedSnapshot,
   NormalizedTrade,
 } from "@/domain/market-data/normalized";
+import type { ConnectionStatus } from "@/domain/market-data/types";
+import { useConnectionStatus, useMarketDataStore, useOrderBook, useTrades } from "./market-data";
 
 // State accessors that don't require a React component context
 const getStatus = () => useMarketDataStore.getState().connectionStatus;
