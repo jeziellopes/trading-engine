@@ -39,7 +39,9 @@ function RootComponent() {
           <div className="w-full px-4 h-12 flex items-center gap-4">
             <Link
               // biome-ignore lint/suspicious/noExplicitAny: codegen pending
-              to={"/" as any}
+              to={"/symbol/$symbol" as any}
+              // biome-ignore lint/suspicious/noExplicitAny: codegen pending
+              params={{ symbol: "BTCUSDT" } as any}
               className="font-cypher text-sm font-bold tracking-widest select-none text-primary"
             >
               <Logo className="w-6 h-6" />
