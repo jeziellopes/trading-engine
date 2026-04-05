@@ -38,7 +38,6 @@ export const Route = createFileRoute("/symbol/$symbol" as any)({
 
     // Canonical URL guard — if original was lowercase, redirect to upper (AC-3)
     if (params.symbol !== ticker) {
-      // biome-ignore lint/suspicious/noExplicitAny: TanStack Router codegen pending — matches index.tsx pattern
       throw redirect({ to: "/symbol/$symbol" as never, params: { symbol: ticker } as never });
     }
 
