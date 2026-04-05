@@ -8,6 +8,7 @@ import type {
 } from "@/domain/market-data/normalized";
 import type { ConnectionStatus, OrderBook } from "@/domain/market-data/types";
 import { RING_BUFFER_SIZE } from "@/lib/constants";
+import type { SymbolInfo } from "@/lib/symbols";
 
 // ---------------------------------------------------------------------------
 // State shape
@@ -18,6 +19,7 @@ interface MarketDataState {
   trades: NormalizedTrade[];
   connectionStatus: ConnectionStatus;
   symbol: string | null;
+  symbolInfo: SymbolInfo | null;
 }
 
 interface MarketDataActions {
@@ -25,6 +27,8 @@ interface MarketDataActions {
   initMarketData(source: MarketDataSource, symbol: string): Promise<void>;
   /** Disconnect and clean up. */
   teardown(source: MarketDataSource): void;
+  /** Store SymbolInfo metadata (base, quote, precision, etc.) for the active symbol. */
+  setSymbolInfo(info: SymbolInfo): void;
 }
 
 // ---------------------------------------------------------------------------
@@ -67,6 +71,11 @@ export const useMarketDataStore = create<MarketDataState & MarketDataActions>((s
   trades: [],
   connectionStatus: "disconnected",
   symbol: null,
+  symbolInfo: null,
+
+  setSymbolInfo(info) {
+    set({ symbolInfo: info });
+  },
 
   async initMarketData(source, symbol) {
     // Register callbacks first so buffering starts immediately.
@@ -109,6 +118,7 @@ export const useMarketDataStore = create<MarketDataState & MarketDataActions>((s
       trades: [],
       connectionStatus: "disconnected",
       symbol: null,
+      symbolInfo: null,
     });
   },
 }));
@@ -129,4 +139,33 @@ export function useTrades(): NormalizedTrade[] {
 
 export function useConnectionStatus(): ConnectionStatus {
   return useMarketDataStore((s) => s.connectionStatus);
+}
+
+// ---------------------------------------------------------------------------
+// Symbol metadata selectors
+// ---------------------------------------------------------------------------
+
+/** Full SymbolInfo for the active symbol (null before first navigation). */
+export function useSymbol(): SymbolInfo | null {
+  return useMarketDataStore((s) => s.symbolInfo);
+}
+
+/** Base asset ticker (e.g. "BTC"). Empty string while no symbol is loaded. */
+export function useBaseAsset(): string {
+  return useMarketDataStore((s) => s.symbolInfo?.base ?? "");
+}
+
+/** Quote asset ticker (e.g. "USDT"). */
+export function useQuoteAsset(): string {
+  return useMarketDataStore((s) => s.symbolInfo?.quote ?? "");
+}
+
+/** Price decimal precision for the active symbol. */
+export function usePricePrecision(): number {
+  return useMarketDataStore((s) => s.symbolInfo?.pricePrecision ?? 2);
+}
+
+/** Quantity decimal precision for the active symbol. */
+export function useQtyPrecision(): number {
+  return useMarketDataStore((s) => s.symbolInfo?.qtyPrecision ?? 4);
 }

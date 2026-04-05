@@ -44,6 +44,7 @@ export const Route = createFileRoute("/symbol/$symbol" as any)({
     // Trigger symbol switch (AC-1, AC-6) — fire and forget; component shows loading state
     const source = getDataSource();
     const store = useMarketDataStore.getState();
+    store.setSymbolInfo(meta);
     if (store.symbol !== ticker) {
       if (store.symbol !== null) {
         store.teardown(source);

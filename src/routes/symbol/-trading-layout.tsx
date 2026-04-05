@@ -11,7 +11,7 @@ import { DataPanel } from "@/features/trading/data-panel";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
 
 import { MOCK_PORTFOLIO_SUMMARY } from "@/lib/mock-data";
-import { useTrades } from "@/stores/market-data";
+import { useBaseAsset, useTrades } from "@/stores/market-data";
 import { useTerminalStore } from "@/stores/terminal-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
@@ -49,11 +49,12 @@ function OrderBookPanel({ levels }: OrderBookPanelProps) {
 
 /** Leaf — owns useTrades() subscription; never causes TerminalLayout to re-render. */
 function MarketTradesPanel() {
+  const base = useBaseAsset();
   const trades = useTrades();
   return (
     <div className="flex flex-col h-full min-h-0">
       <div className="flex-1 min-h-0 overflow-y-auto">
-        <MarketTradesFeed trades={trades} />
+        <MarketTradesFeed symbol={base} trades={trades} />
       </div>
     </div>
   );
