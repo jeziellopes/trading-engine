@@ -1,3 +1,17 @@
+# [1.1.0-next.6](https://github.com/jeziellopes/flow/compare/v1.1.0-next.5...v1.1.0-next.6) (2026-04-05)
+
+
+### Bug Fixes
+
+* **layout:** add sm breakpoint for market trades panel + correct DEFAULT_LAYOUTS v13 ([3815c6a](https://github.com/jeziellopes/flow/commit/3815c6af42e1265baa43466b9b33cb3d27cd867a))
+
+
+### Features
+
+* **layout:** market trades as separate grid panel, My Trades for user fills ([7b90b0f](https://github.com/jeziellopes/flow/commit/7b90b0fe34be493857fd8cc9d7c49659b76545c2)), closes [#106](https://github.com/jeziellopes/flow/issues/106)
+* **layout:** market trades under order book, My Trades tab for user fills ([ef19bda](https://github.com/jeziellopes/flow/commit/ef19bdaeed7655b657907fce53a8e1d5307acd14)), closes [#106](https://github.com/jeziellopes/flow/issues/106)
+* **layout:** trades panel below order book (2/3+1/3), Price/Amount/Time columns ([208dce8](https://github.com/jeziellopes/flow/commit/208dce8b6464ba03835efb564907056dcf86283d))
+
 # [1.1.0-next.5](https://github.com/jeziellopes/flow/compare/v1.1.0-next.4...v1.1.0-next.5) (2026-04-05)
 
 
