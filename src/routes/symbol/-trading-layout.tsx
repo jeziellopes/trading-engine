@@ -22,9 +22,11 @@ const TerminalGrid = lazy(() => import("@/features/trading/trading-grid"));
 
 interface TerminalLayoutProps {
   symbol: string;
+  tab?: "book" | "trades" | "depth";
+  levels?: number;
 }
 
-export function TerminalLayout({ symbol }: TerminalLayoutProps) {
+export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const {
     layouts,
@@ -82,7 +84,7 @@ export function TerminalLayout({ symbol }: TerminalLayoutProps) {
 
   return (
     <ErrorBoundary>
-      <div className="w-full pb-3 flex flex-col gap-0">
+      <div className="w-full pb-3 flex flex-col gap-0" data-active-tab={tab}>
         <Suspense
           fallback={
             <div className="w-full h-[600px] grid grid-cols-12 gap-2 p-3">
@@ -108,7 +110,7 @@ export function TerminalLayout({ symbol }: TerminalLayoutProps) {
           >
             <div key="book">
               <ErrorBoundary>
-                <Panel title="Order Book">
+                <Panel title={`Order Book · ${levels}`}>
                   <Panel.Content noScroll>
                     <OrderBook state={MOCK_ORDER_BOOK_STATE} />
                   </Panel.Content>

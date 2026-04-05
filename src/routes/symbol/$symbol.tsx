@@ -1,18 +1,92 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
+import { z } from "zod";
+import { getDataSource } from "@/lib/config";
+import { findSymbol, normalizeSymbol } from "@/lib/symbols";
+import { useMarketDataStore } from "@/stores/market-data";
+import { useUIStore } from "@/stores/ui";
 import { ErrorBoundary } from "@/ui/error-boundary";
 
 import { TerminalLayout } from "./-trading-layout";
 
+// ---------------------------------------------------------------------------
+// Search params schema (AC-4, AC-5)
+// ---------------------------------------------------------------------------
+
+const searchSchema = z.object({
+  tab: z.enum(["book", "trades", "depth"]).catch("book"),
+  levels: z.number().int().min(5).max(100).catch(20),
+});
+
+export type SymbolSearch = z.infer<typeof searchSchema>;
+
+// ---------------------------------------------------------------------------
+// Route
+// ---------------------------------------------------------------------------
+
 export const Route = createFileRoute("/symbol/$symbol" as never)({
+  validateSearch: (search: Record<string, unknown>): SymbolSearch => searchSchema.parse(search),
+
+  loader: async ({ params }) => {
+    // AC-3: normalize to uppercase
+    const ticker = normalizeSymbol(params.symbol);
+
+    // AC-2: throw notFound if unsupported
+    const meta = findSymbol(ticker);
+    if (!meta) throw notFound();
+
+    // AC-8 guard: canonical URL — if original was lowercase, redirect to upper
+    if (params.symbol !== ticker) {
+      throw redirect({ to: "/symbol/$symbol", params: { symbol: ticker } } as never);
+    }
+
+    // Trigger symbol switch (AC-1, AC-6) — fire and forget; component shows loading state
+    const source = getDataSource();
+    const store = useMarketDataStore.getState();
+    if (store.symbol !== ticker) {
+      if (store.symbol !== null) {
+        store.teardown(source);
+      }
+      void store.initMarketData(source, ticker);
+    }
+
+    return meta;
+  },
+
+  notFoundComponent: () => (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 p-8">
+      <p className="text-2xl font-cypher text-primary">Symbol Not Found</p>
+      <p className="text-sm text-muted-foreground">
+        The trading pair you requested is not supported.
+      </p>
+      <a
+        href="/symbol/BTCUSDT"
+        className="px-4 py-2 rounded bg-primary text-primary-foreground font-mono text-sm"
+      >
+        Go to BTCUSDT
+      </a>
+    </div>
+  ),
+
   component: RouteComponent,
 });
 
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
 function RouteComponent() {
-  const { symbol } = Route.useParams();
+  const meta = Route.useLoaderData();
+  const { tab, levels } = Route.useSearch();
+
+  // AC-4, AC-5: sync UI store from URL search params
+  useUIStore.getState().syncFromSearch(tab, levels);
+
   return (
     <ErrorBoundary>
-      <title>{symbol} | Flow</title>
-      <TerminalLayout symbol={symbol} />
+      <title>
+        {meta.base}/{meta.quote} | Flow
+      </title>
+      <TerminalLayout symbol={meta.symbol} tab={tab} levels={levels} />
     </ErrorBoundary>
   );
 }

@@ -3,6 +3,7 @@ import { Toaster, toast } from "sonner";
 import { ThemeDropdown } from "@/features/theme/theme-dropdown";
 import { TickerHeader } from "@/features/trading/ticker-header";
 import { MOCK_BASE_BTC, MOCK_CHANGE_PCT } from "@/lib/mock-data";
+import { useConnectionStatus } from "@/stores/market-data";
 import { useTerminalStore } from "@/stores/terminal-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
@@ -18,6 +19,7 @@ function RootComponent() {
   const isSymbolRoute = pathname.startsWith("/symbol/");
   const totalBalance = useTerminalStore((s) => s.portfolioSummary.totalBalance);
   const dailyProfitPct = useTerminalStore((s) => s.portfolioSummary.dailyProfitPct);
+  const connectionStatus = useConnectionStatus();
 
   return (
     <ErrorBoundary
@@ -57,7 +59,7 @@ function RootComponent() {
             </Link>
             <div className="w-px h-5 bg-border mx-1" />
             <ThemeDropdown />
-            <LiveIndicator status="connected" className="ml-1" />
+            <LiveIndicator status={connectionStatus} className="ml-1" />
           </div>
         </header>
         <main className="flex-1 min-h-0">
