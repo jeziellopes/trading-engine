@@ -1,12 +1,8 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ErrorBoundary } from "@/ui/error-boundary";
 
 // biome-ignore lint/suspicious/noExplicitAny: TanStack Router codegen pending
 export const Route = createFileRoute("/" as any)({
-  // AC-8: redirect root to default symbol
-  beforeLoad: () => {
-    throw redirect({ to: "/symbol/$symbol" as never, params: { symbol: "BTCUSDT" } as never });
-  },
   component: LandingPage,
 });
 
