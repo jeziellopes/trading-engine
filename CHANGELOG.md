@@ -1,3 +1,19 @@
+# [1.1.0-next.4](https://github.com/jeziellopes/flow/compare/v1.1.0-next.3...v1.1.0-next.4) (2026-04-05)
+
+
+### Bug Fixes
+
+* **routing:** cast redirect params as never to satisfy TS strict router types ([5f82204](https://github.com/jeziellopes/flow/commit/5f8220476d74dc4c7d390511cbcc31e7e3c5174d))
+* **routing:** link logo directly to /symbol/BTCUSDT ([cf730eb](https://github.com/jeziellopes/flow/commit/cf730eb45abb5733af3a7bf0f14357511a123d94))
+* **routing:** remove auto-redirect from / — landing page should be visible ([99bedf4](https://github.com/jeziellopes/flow/commit/99bedf477b96f2e0418fa0239aa3d93a6270a109))
+* **routing:** remove stale biome-ignore comment on never cast ([58c9f56](https://github.com/jeziellopes/flow/commit/58c9f561c954d86be2ffd14fe11844eacf8e169c))
+* **routing:** resolve TS errors from 'as never' route cast ([c1b7628](https://github.com/jeziellopes/flow/commit/c1b76288a362c9a4e5689587ee4c79931f4fed34))
+
+
+### Features
+
+* **routing:** symbol route loaders with validation and error states ([014ca0e](https://github.com/jeziellopes/flow/commit/014ca0ef64e6b5fcc8ee9813028351ac8c542cc9)), closes [#96](https://github.com/jeziellopes/flow/issues/96) [#98](https://github.com/jeziellopes/flow/issues/98)
+
 # [1.1.0-next.3](https://github.com/jeziellopes/flow/compare/v1.1.0-next.2...v1.1.0-next.3) (2026-04-04)
 
 
