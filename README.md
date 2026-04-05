@@ -4,20 +4,10 @@
   <p><strong>Real-time crypto trading terminal — live Binance data, 60 fps, zero manual memoization.</strong></p>
 
   <p>
-    <a href="https://github.com/jeziellopes/flow/actions/workflows/test.yml">
-      <img src="https://github.com/jeziellopes/flow/actions/workflows/test.yml/badge.svg?branch=develop" alt="Tests">
-    </a>
-    &nbsp;&nbsp;
-    <a href="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml">
-      <img src="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml/badge.svg?branch=develop" alt="Code Quality">
-    </a>
-    &nbsp;&nbsp;
-    <a href="https://github.com/jeziellopes/flow/releases">
-      <img src="https://img.shields.io/github/v/release/jeziellopes/flow?include_prereleases&label=release&color=00c7ff&logo=github" alt="Latest Release">
-    </a>
-    &nbsp;&nbsp;
+    <a href="https://github.com/jeziellopes/flow/actions/workflows/test.yml"><img src="https://github.com/jeziellopes/flow/actions/workflows/test.yml/badge.svg?branch=develop" alt="Tests"></a>
+    <a href="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml"><img src="https://github.com/jeziellopes/flow/actions/workflows/code-quality.yml/badge.svg?branch=develop" alt="Code Quality"></a>
+    <a href="https://github.com/jeziellopes/flow/releases"><img src="https://img.shields.io/github/v/release/jeziellopes/flow?include_prereleases&label=release&color=00c7ff&logo=github" alt="Latest Release"></a>
     <img src="https://img.shields.io/badge/React-19.2-61dafb?logo=react&logoColor=white" alt="React 19.2">
-    &nbsp;&nbsp;
     <img src="https://img.shields.io/badge/TypeScript-5.8-3178c6?logo=typescript&logoColor=white" alt="TypeScript 5.8">
   </p>
 </div>
