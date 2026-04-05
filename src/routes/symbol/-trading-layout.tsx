@@ -2,15 +2,15 @@ import { lazy, Suspense, useState } from "react";
 import { toast } from "sonner";
 import { CandleChart } from "@/features/chart/candle-chart";
 import { OrderBook } from "@/features/order-book/order-book";
+import { useOrderBookViewState } from "@/features/order-book/use-order-book-data";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
 import { DataPanel } from "@/features/trading/data-panel";
-import { useOrderBookViewState } from "@/features/order-book/use-order-book-data";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
 
 import { MOCK_PORTFOLIO_SUMMARY } from "@/lib/mock-data";
-import { useTerminalStore } from "@/stores/terminal-store";
 import { useTrades } from "@/stores/market-data";
+import { useTerminalStore } from "@/stores/terminal-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { Panel } from "@/ui/panel";
