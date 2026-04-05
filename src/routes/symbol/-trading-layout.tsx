@@ -52,9 +52,6 @@ function MarketTradesPanel() {
   const trades = useTrades();
   return (
     <div className="flex flex-col h-full min-h-0">
-      <div className="px-2 py-0.5 text-[10px] font-medium text-muted-foreground border-b border-border shrink-0 uppercase tracking-wide">
-        Market Trades
-      </div>
       <div className="flex-1 min-h-0 overflow-y-auto">
         <MarketTradesFeed trades={trades} />
       </div>
