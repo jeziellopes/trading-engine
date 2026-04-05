@@ -1,6 +1,7 @@
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 import { z } from "zod";
 import { getDataSource } from "@/lib/config";
+import type { SymbolInfo } from "@/lib/symbols";
 import { findSymbol, normalizeSymbol } from "@/lib/symbols";
 import { useMarketDataStore } from "@/stores/market-data";
 import { useUIStore } from "@/stores/ui";
@@ -23,10 +24,11 @@ export type SymbolSearch = z.infer<typeof searchSchema>;
 // Route
 // ---------------------------------------------------------------------------
 
-export const Route = createFileRoute("/symbol/$symbol" as never)({
+// biome-ignore lint/suspicious/noExplicitAny: TanStack Router codegen pending
+export const Route = createFileRoute("/symbol/$symbol" as any)({
   validateSearch: (search: Record<string, unknown>): SymbolSearch => searchSchema.parse(search),
 
-  loader: async ({ params }) => {
+  loader: async ({ params }: { params: { symbol: string } }): Promise<SymbolInfo> => {
     // AC-3: normalize to uppercase
     const ticker = normalizeSymbol(params.symbol);
 
@@ -34,9 +36,10 @@ export const Route = createFileRoute("/symbol/$symbol" as never)({
     const meta = findSymbol(ticker);
     if (!meta) throw notFound();
 
-    // AC-8 guard: canonical URL — if original was lowercase, redirect to upper
+    // Canonical URL guard — if original was lowercase, redirect to upper (AC-3)
     if (params.symbol !== ticker) {
-      throw redirect({ to: "/symbol/$symbol", params: { symbol: ticker } } as never);
+      // biome-ignore lint/suspicious/noExplicitAny: TanStack Router codegen pending
+      throw redirect({ to: "/symbol/$symbol" as any, params: { symbol: ticker } });
     }
 
     // Trigger symbol switch (AC-1, AC-6) — fire and forget; component shows loading state
@@ -75,8 +78,8 @@ export const Route = createFileRoute("/symbol/$symbol" as never)({
 // ---------------------------------------------------------------------------
 
 function RouteComponent() {
-  const meta = Route.useLoaderData();
-  const { tab, levels } = Route.useSearch();
+  const meta = Route.useLoaderData() as SymbolInfo;
+  const { tab, levels } = Route.useSearch() as SymbolSearch;
 
   // AC-4, AC-5: sync UI store from URL search params
   useUIStore.getState().syncFromSearch(tab, levels);
