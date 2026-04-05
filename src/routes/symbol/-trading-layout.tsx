@@ -5,6 +5,7 @@ import { OrderBook } from "@/features/order-book/order-book";
 import { useOrderBookViewState } from "@/features/order-book/use-order-book-data";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
+import { MarketTradesFeed } from "@/features/trades/market-trades-feed";
 import { TradesFeed } from "@/features/trades/trades-feed";
 import { DataPanel } from "@/features/trading/data-panel";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
@@ -46,10 +47,26 @@ function OrderBookPanel({ levels }: OrderBookPanelProps) {
   );
 }
 
+/** Leaf — owns useTrades() subscription; never causes TerminalLayout to re-render. */
+function MarketTradesPanel() {
+  const trades = useTrades();
+  return (
+    <div className="flex flex-col h-full min-h-0">
+      <div className="px-2 py-0.5 text-[10px] font-medium text-muted-foreground border-b border-border shrink-0 uppercase tracking-wide">
+        Market Trades
+      </div>
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <MarketTradesFeed trades={trades} />
+      </div>
+    </div>
+  );
+}
+
 function TradesFeedPanel() {
   const liveTrades = useTrades();
   return <TradesFeed trades={liveTrades} />;
 }
+
 
 export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);

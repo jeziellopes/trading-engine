@@ -13,7 +13,7 @@ interface DataPanelProps {
 }
 
 const TABS = [
-  { value: "trades", label: "Trades" },
+  { value: "trades", label: "My Trades" },
   { value: "bots", label: "Bots" },
 ] as const;
 
