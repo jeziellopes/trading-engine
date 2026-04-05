@@ -10,7 +10,7 @@ import type {
 // Constants
 // ---------------------------------------------------------------------------
 
-const LAYOUT_KEY = "grid-layout-v11";
+const LAYOUT_KEY = "grid-layout-v12";
 
 export const BREAKPOINTS = { xxl: 1920, xl: 1440, lg: 1200, md: 996, sm: 768 } as const;
 export const COLS = { xxl: 12, xl: 12, lg: 12, md: 10, sm: 6 } as const;
@@ -26,29 +26,33 @@ export const DEFAULT_LAYOUTS: ResponsiveLayouts<string> = {
     { i: "chart", x: 0, y: 0, w: 8, h: 40, minW: 4, minH: 20 },
     { i: "book", x: 8, y: 0, w: 2, h: 40, minW: 2, minH: 20 },
     { i: "order", x: 10, y: 0, w: 2, h: 40, minW: 2, minH: 20 },
+    { i: "data", x: 0, y: 40, w: 8, h: 20, minW: 4, minH: 10 },
+    { i: "trades", x: 8, y: 40, w: 2, h: 20, minW: 2, minH: 10 },
     { i: "portfolio", x: 10, y: 40, w: 2, h: 20, minW: 2, minH: 10 },
-    { i: "data", x: 0, y: 40, w: 10, h: 20, minW: 6, minH: 10 },
   ],
   xl: [
     { i: "chart", x: 0, y: 0, w: 8, h: 40, minW: 4, minH: 20 },
     { i: "book", x: 8, y: 0, w: 2, h: 40, minW: 2, minH: 20 },
     { i: "order", x: 10, y: 0, w: 2, h: 40, minW: 2, minH: 20 },
+    { i: "data", x: 0, y: 40, w: 8, h: 20, minW: 4, minH: 10 },
+    { i: "trades", x: 8, y: 40, w: 2, h: 20, minW: 2, minH: 10 },
     { i: "portfolio", x: 10, y: 40, w: 2, h: 20, minW: 2, minH: 10 },
-    { i: "data", x: 0, y: 40, w: 10, h: 20, minW: 6, minH: 10 },
   ],
   lg: [
     { i: "chart", x: 0, y: 0, w: 6, h: 40, minW: 4, minH: 20 },
     { i: "book", x: 6, y: 0, w: 3, h: 40, minW: 2, minH: 20 },
     { i: "order", x: 9, y: 0, w: 3, h: 40, minW: 2, minH: 20 },
+    { i: "data", x: 0, y: 40, w: 6, h: 20, minW: 4, minH: 10 },
+    { i: "trades", x: 6, y: 40, w: 3, h: 20, minW: 2, minH: 10 },
     { i: "portfolio", x: 9, y: 40, w: 3, h: 20, minW: 2, minH: 10 },
-    { i: "data", x: 0, y: 40, w: 9, h: 20, minW: 6, minH: 10 },
   ],
   md: [
     { i: "chart", x: 0, y: 0, w: 5, h: 38, minW: 4, minH: 18 },
     { i: "book", x: 5, y: 0, w: 2, h: 38, minW: 2, minH: 16 },
     { i: "order", x: 7, y: 0, w: 3, h: 38, minW: 2, minH: 20 },
+    { i: "data", x: 0, y: 38, w: 5, h: 22, minW: 4, minH: 10 },
+    { i: "trades", x: 5, y: 38, w: 2, h: 22, minW: 2, minH: 10 },
     { i: "portfolio", x: 7, y: 38, w: 3, h: 22, minW: 2, minH: 10 },
-    { i: "data", x: 0, y: 38, w: 7, h: 22, minW: 6, minH: 10 },
   ],
 };
 
@@ -79,11 +83,13 @@ function redistributeLayout(layout: LayoutItem[], totalCols: number): LayoutItem
   const get = (id: string) => layout.find((it) => it.i === id);
   const book = get("book");
   const order = get("order");
+  const trades = get("trades");
   if (!book || !order) return layout;
 
   const chartW = Math.max(totalCols - book.w - order.w, 2);
   const bookX = chartW;
   const sideX = chartW + book.w;
+  const tradesW = trades?.w ?? book.w;
 
   return layout.map((item) => {
     switch (item.i) {
@@ -93,10 +99,12 @@ function redistributeLayout(layout: LayoutItem[], totalCols: number): LayoutItem
         return { ...item, x: bookX };
       case "order":
         return { ...item, x: sideX };
+      case "trades":
+        return { ...item, x: bookX, w: tradesW };
       case "portfolio":
         return { ...item, x: sideX, w: order.w };
       case "data":
-        return { ...item, x: 0, w: Math.max(totalCols - order.w, 2) };
+        return { ...item, x: 0, w: Math.max(totalCols - tradesW - order.w, 2) };
       default:
         return item;
     }

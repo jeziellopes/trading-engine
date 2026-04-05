@@ -193,6 +193,15 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
                 </Panel>
               </ErrorBoundary>
             </div>
+            <div key="trades">
+              <ErrorBoundary>
+                <Panel title="Market Trades">
+                  <Panel.Content noScroll>
+                    <MarketTradesPanel />
+                  </Panel.Content>
+                </Panel>
+              </ErrorBoundary>
+            </div>
             <div key="data">
               <ErrorBoundary>
                 <DataPanel
