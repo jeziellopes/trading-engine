@@ -30,8 +30,14 @@ describe("useOrderBookViewState", () => {
     act(() => {
       useMarketDataStore.setState({
         orderBook: makeBook(
-          [["50000.00", "1.0"], ["49999.00", "2.0"]],
-          [["50001.00", "0.5"], ["50002.00", "1.5"]],
+          [
+            ["50000.00", "1.0"],
+            ["49999.00", "2.0"],
+          ],
+          [
+            ["50001.00", "0.5"],
+            ["50002.00", "1.5"],
+          ],
         ),
         connectionStatus: "connected",
         trades: [],
@@ -44,11 +50,11 @@ describe("useOrderBookViewState", () => {
 
     expect(state).not.toBeNull();
     // Bids sorted desc (highest first)
-    expect(state!.bids[0].price).toBe(50000);
-    expect(state!.bids[1].price).toBe(49999);
+    expect(state?.bids[0].price).toBe(50000);
+    expect(state?.bids[1].price).toBe(49999);
     // Asks sorted asc (lowest first in state, though AskTable re-sorts for display)
-    expect(state!.asks[0].price).toBe(50001);
-    expect(state!.asks[1].price).toBe(50002);
+    expect(state?.asks[0].price).toBe(50001);
+    expect(state?.asks[1].price).toBe(50002);
   });
 
   it("limits to requested levels", () => {
@@ -66,7 +72,7 @@ describe("useOrderBookViewState", () => {
     });
 
     const { result } = renderHook(() => useOrderBookViewState(10));
-    expect(result.current!.bids).toHaveLength(10);
+    expect(result.current?.bids).toHaveLength(10);
   });
 
   it("computes correct spread", () => {
@@ -80,6 +86,7 @@ describe("useOrderBookViewState", () => {
     });
 
     const { result } = renderHook(() => useOrderBookViewState());
+    // biome-ignore lint/style/noNonNullAssertion: state is asserted non-null by expect above
     const state = result.current!;
     expect(state.bestBid).toBe(50000);
     expect(state.bestAsk).toBe(50002);
@@ -91,7 +98,11 @@ describe("useOrderBookViewState", () => {
     act(() => {
       useMarketDataStore.setState({
         orderBook: makeBook(
-          [["50000.00", "1.0"], ["49999.00", "2.0"], ["49998.00", "0.5"]],
+          [
+            ["50000.00", "1.0"],
+            ["49999.00", "2.0"],
+            ["49998.00", "0.5"],
+          ],
           [["50001.00", "1.0"]],
         ),
         connectionStatus: "connected",
@@ -101,17 +112,21 @@ describe("useOrderBookViewState", () => {
     });
 
     const { result } = renderHook(() => useOrderBookViewState());
-    const bids = result.current!.bids;
-    expect(bids[0].total).toBeCloseTo(1.0, 5);    // 1.0
-    expect(bids[1].total).toBeCloseTo(3.0, 5);    // 1.0 + 2.0
-    expect(bids[2].total).toBeCloseTo(3.5, 5);    // 1.0 + 2.0 + 0.5
+    const bids = result.current?.bids;
+    expect(bids[0].total).toBeCloseTo(1.0, 5); // 1.0
+    expect(bids[1].total).toBeCloseTo(3.0, 5); // 1.0 + 2.0
+    expect(bids[2].total).toBeCloseTo(3.5, 5); // 1.0 + 2.0 + 0.5
   });
 
   it("computes percent relative to max quantity", () => {
     act(() => {
       useMarketDataStore.setState({
         orderBook: makeBook(
-          [["50000.00", "2.0"], ["49999.00", "4.0"], ["49998.00", "1.0"]],
+          [
+            ["50000.00", "2.0"],
+            ["49999.00", "4.0"],
+            ["49998.00", "1.0"],
+          ],
           [["50001.00", "1.0"]],
         ),
         connectionStatus: "connected",
@@ -121,11 +136,11 @@ describe("useOrderBookViewState", () => {
     });
 
     const { result } = renderHook(() => useOrderBookViewState());
-    const bids = result.current!.bids;
+    const bids = result.current?.bids;
     // max qty = 4.0 (at 49999)
-    expect(bids[0].percent).toBeCloseTo(50, 1);   // 2/4 = 50%
-    expect(bids[1].percent).toBeCloseTo(100, 1);  // 4/4 = 100%
-    expect(bids[2].percent).toBeCloseTo(25, 1);   // 1/4 = 25%
+    expect(bids[0].percent).toBeCloseTo(50, 1); // 2/4 = 50%
+    expect(bids[1].percent).toBeCloseTo(100, 1); // 4/4 = 100%
+    expect(bids[2].percent).toBeCloseTo(25, 1); // 1/4 = 25%
   });
 
   it("derives lastPrice from most recent trade", () => {
@@ -141,7 +156,7 @@ describe("useOrderBookViewState", () => {
     });
 
     const { result } = renderHook(() => useOrderBookViewState());
-    expect(result.current!.lastPrice).toBeCloseTo(50005, 2);
+    expect(result.current?.lastPrice).toBeCloseTo(50005, 2);
   });
 
   it("sets lastPriceTick correctly from trade direction", () => {
@@ -151,21 +166,31 @@ describe("useOrderBookViewState", () => {
         connectionStatus: "connected",
         trades: [
           { id: "2", price: "50010.00", quantity: "0.1", time: Date.now(), isBuyerMaker: false },
-          { id: "1", price: "50005.00", quantity: "0.1", time: Date.now() - 100, isBuyerMaker: false },
+          {
+            id: "1",
+            price: "50005.00",
+            quantity: "0.1",
+            time: Date.now() - 100,
+            isBuyerMaker: false,
+          },
         ],
         symbol: "BTCUSDT",
       });
     });
 
     const { result } = renderHook(() => useOrderBookViewState());
-    expect(result.current!.lastPriceTick).toBe("up");
+    expect(result.current?.lastPriceTick).toBe("up");
   });
 
   it("filters out zero-quantity levels", () => {
     act(() => {
       useMarketDataStore.setState({
         orderBook: makeBook(
-          [["50000.00", "1.0"], ["49999.00", "0.0"], ["49998.00", "0.5"]],
+          [
+            ["50000.00", "1.0"],
+            ["49999.00", "0.0"],
+            ["49998.00", "0.5"],
+          ],
           [["50001.00", "1.0"]],
         ),
         connectionStatus: "connected",
@@ -175,7 +200,7 @@ describe("useOrderBookViewState", () => {
     });
 
     const { result } = renderHook(() => useOrderBookViewState());
-    expect(result.current!.bids).toHaveLength(2);
+    expect(result.current?.bids).toHaveLength(2);
   });
 
   it("passes connectionStatus through to view state", () => {
@@ -189,6 +214,6 @@ describe("useOrderBookViewState", () => {
     });
 
     const { result } = renderHook(() => useOrderBookViewState());
-    expect(result.current!.connectionStatus).toBe("reconnecting");
+    expect(result.current?.connectionStatus).toBe("reconnecting");
   });
 });
