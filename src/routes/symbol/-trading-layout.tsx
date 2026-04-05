@@ -65,7 +65,6 @@ function TradesFeedPanel() {
   return <TradesFeed trades={liveTrades} />;
 }
 
-
 export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const {
