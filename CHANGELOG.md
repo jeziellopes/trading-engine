@@ -1,3 +1,21 @@
+# [1.1.0-next.5](https://github.com/jeziellopes/flow/compare/v1.1.0-next.4...v1.1.0-next.5) (2026-04-05)
+
+
+### Bug Fixes
+
+* **lint:** replace noNonNullAssertion violations in order-book test ([9cd395c](https://github.com/jeziellopes/flow/commit/9cd395cb7ff9c29768f198d248906b63a0c8bffe))
+* **live-indicator:** add undefined to className for exactOptionalPropertyTypes ([34d4f54](https://github.com/jeziellopes/flow/commit/34d4f54f1f2d86b34891ec33b15d717b5aaca445))
+
+
+### Features
+
+* **order-book:** wire Order Book UI to live WebSocket data ([0549859](https://github.com/jeziellopes/flow/commit/0549859ae1c90ce5a41fa8b87492c175f2dcdf5e)), closes [#96](https://github.com/jeziellopes/flow/issues/96)
+
+
+### Performance Improvements
+
+* **root:** scope store subscriptions to leaf components — fix [#104](https://github.com/jeziellopes/flow/issues/104) [#105](https://github.com/jeziellopes/flow/issues/105) ([1404b72](https://github.com/jeziellopes/flow/commit/1404b726a6d0019feb86a726f6f91b883151cb81)), closes [hi#freq](https://github.com/hi/issues/freq)
+
 # [1.1.0-next.4](https://github.com/jeziellopes/flow/compare/v1.1.0-next.3...v1.1.0-next.4) (2026-04-05)
 
 
