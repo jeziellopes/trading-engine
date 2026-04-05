@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import type { BotInstance, BotStatus } from "@/features/bots/types";
-import { RecentTradesTable } from "@/features/trades/recent-trades-table";
-import type { TerminalTrade } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { Tab, TabList } from "@/ui/tabs";
 
 interface DataPanelProps {
   bots: BotInstance[];
-  trades: TerminalTrade[];
+  /** Render slot for the trades tab — caller owns the data subscription. */
+  TradesFeedSlot: ReactNode;
   onBotStatusChange: (id: string, status: BotStatus) => void;
   className?: string;
 }
@@ -21,7 +20,7 @@ const TABS = [
 type TabValue = (typeof TABS)[number]["value"];
 
 /** Self-contained panel — owns its own chrome matching Panel header height/typography. */
-export function DataPanel({ bots, trades, onBotStatusChange, className }: DataPanelProps) {
+export function DataPanel({ bots, TradesFeedSlot, onBotStatusChange, className }: DataPanelProps) {
   const [activeTab, setActiveTab] = useState<TabValue>("trades");
 
   return (
@@ -47,7 +46,7 @@ export function DataPanel({ bots, trades, onBotStatusChange, className }: DataPa
       </div>
 
       <div className="flex-1 min-h-0 overflow-y-auto">
-        {activeTab === "trades" && <RecentTradesTable trades={trades} />}
+        {activeTab === "trades" && TradesFeedSlot}
         {activeTab === "bots" && <BotManagerPanel bots={bots} onStatusChange={onBotStatusChange} />}
       </div>
     </div>

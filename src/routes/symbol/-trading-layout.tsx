@@ -2,16 +2,15 @@ import { lazy, Suspense, useState } from "react";
 import { toast } from "sonner";
 import { CandleChart } from "@/features/chart/candle-chart";
 import { OrderBook } from "@/features/order-book/order-book";
+import { useOrderBookViewState } from "@/features/order-book/use-order-book-data";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
+import { TradesFeed } from "@/features/trades/trades-feed";
 import { DataPanel } from "@/features/trading/data-panel";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
 
-import {
-  MOCK_ORDER_BOOK_STATE,
-  MOCK_PORTFOLIO_SUMMARY,
-  MOCK_TERMINAL_TRADES,
-} from "@/lib/mock-data";
+import { MOCK_PORTFOLIO_SUMMARY } from "@/lib/mock-data";
+import { useTrades } from "@/stores/market-data";
 import { useTerminalStore } from "@/stores/terminal-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
@@ -24,6 +23,32 @@ interface TerminalLayoutProps {
   symbol: string;
   tab?: "book" | "trades" | "depth";
   levels?: number;
+}
+
+// Leaf components — own their own store subscriptions so TerminalLayout
+// never re-renders due to high-frequency market data updates.
+
+interface OrderBookPanelProps {
+  levels: number;
+}
+
+function OrderBookPanel({ levels }: OrderBookPanelProps) {
+  const orderBookState = useOrderBookViewState(levels);
+  return orderBookState ? (
+    <OrderBook state={orderBookState} />
+  ) : (
+    <div className="flex flex-col gap-1 p-2" data-testid="order-book-skeleton">
+      {Array.from({ length: 12 }).map((_, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton
+        <div key={i} className="h-5 rounded bg-muted animate-pulse" />
+      ))}
+    </div>
+  );
+}
+
+function TradesFeedPanel() {
+  const liveTrades = useTrades();
+  return <TradesFeed trades={liveTrades} />;
 }
 
 export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLayoutProps) {
@@ -112,7 +137,7 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
               <ErrorBoundary>
                 <Panel title={`Order Book · ${levels}`}>
                   <Panel.Content noScroll>
-                    <OrderBook state={MOCK_ORDER_BOOK_STATE} />
+                    <OrderBookPanel levels={levels} />
                   </Panel.Content>
                 </Panel>
               </ErrorBoundary>
@@ -155,7 +180,7 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
               <ErrorBoundary>
                 <DataPanel
                   bots={bots}
-                  trades={MOCK_TERMINAL_TRADES}
+                  TradesFeedSlot={<TradesFeedPanel />}
                   onBotStatusChange={(id, s) => setBotStatus(id, s)}
                 />
               </ErrorBoundary>

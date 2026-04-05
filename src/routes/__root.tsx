@@ -14,13 +14,16 @@ export const Route = createRootRoute({
   component: RootComponent,
 });
 
+function LiveIndicatorConnected({ className }: { className?: string }) {
+  const status = useConnectionStatus();
+  return <LiveIndicator status={status} className={className} />;
+}
+
 function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isSymbolRoute = pathname.startsWith("/symbol/");
   const totalBalance = useTerminalStore((s) => s.portfolioSummary.totalBalance);
   const dailyProfitPct = useTerminalStore((s) => s.portfolioSummary.dailyProfitPct);
-  const connectionStatus = useConnectionStatus();
-
   return (
     <ErrorBoundary
       fallback={(error) => (
@@ -59,7 +62,7 @@ function RootComponent() {
             </Link>
             <div className="w-px h-5 bg-border mx-1" />
             <ThemeDropdown />
-            <LiveIndicator status={connectionStatus} className="ml-1" />
+            <LiveIndicatorConnected className="ml-1" />
           </div>
         </header>
         <main className="flex-1 min-h-0">
