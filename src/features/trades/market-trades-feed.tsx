@@ -25,9 +25,9 @@ export function MarketTradesFeed({ trades }: MarketTradesFeedProps) {
     <table className="w-full text-xs font-mono tabular-nums">
       <thead className="sticky top-0 bg-card border-b border-border">
         <tr className="text-muted-foreground text-left">
-          <th className="px-2 py-1 font-medium">Time</th>
           <th className="px-2 py-1 font-medium text-right">Price</th>
-          <th className="px-2 py-1 font-medium text-right">Qty</th>
+          <th className="px-2 py-1 font-medium text-right">Amount</th>
+          <th className="px-2 py-1 font-medium text-right">Time</th>
         </tr>
       </thead>
       <tbody>
@@ -37,13 +37,13 @@ export function MarketTradesFeed({ trades }: MarketTradesFeedProps) {
           const color = isSell ? "text-trading-ask" : "text-trading-bid";
           return (
             <tr key={t.id} className="border-b border-border/30">
-              <td className="px-2 py-0.5 text-muted-foreground">{formatTime(t.time)}</td>
               <td className={cn("px-2 py-0.5 text-right", color)}>
                 {parseFloat(t.price).toFixed(2)}
               </td>
               <td className="px-2 py-0.5 text-right text-muted-foreground">
                 {parseFloat(t.quantity).toFixed(4)}
               </td>
+              <td className="px-2 py-0.5 text-right text-muted-foreground">{formatTime(t.time)}</td>
             </tr>
           );
         })}

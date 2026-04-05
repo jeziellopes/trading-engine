@@ -10,7 +10,7 @@ import type {
 // Constants
 // ---------------------------------------------------------------------------
 
-const LAYOUT_KEY = "grid-layout-v12";
+const LAYOUT_KEY = "grid-layout-v13";
 
 export const BREAKPOINTS = { xxl: 1920, xl: 1440, lg: 1200, md: 996, sm: 768 } as const;
 export const COLS = { xxl: 12, xl: 12, lg: 12, md: 10, sm: 6 } as const;
@@ -89,7 +89,6 @@ function redistributeLayout(layout: LayoutItem[], totalCols: number): LayoutItem
   const chartW = Math.max(totalCols - book.w - order.w, 2);
   const bookX = chartW;
   const sideX = chartW + book.w;
-  const tradesW = trades?.w ?? book.w;
 
   return layout.map((item) => {
     switch (item.i) {
@@ -97,14 +96,15 @@ function redistributeLayout(layout: LayoutItem[], totalCols: number): LayoutItem
         return { ...item, x: 0, w: chartW };
       case "book":
         return { ...item, x: bookX };
+      case "trades":
+        // trades sits directly below book — same column, y = book.h
+        return { ...item, x: bookX, w: book.w, y: trades ? book.h : item.y };
       case "order":
         return { ...item, x: sideX };
-      case "trades":
-        return { ...item, x: bookX, w: tradesW };
       case "portfolio":
         return { ...item, x: sideX, w: order.w };
       case "data":
-        return { ...item, x: 0, w: Math.max(totalCols - tradesW - order.w, 2) };
+        return { ...item, x: 0, w: Math.max(totalCols - order.w, 2) };
       default:
         return item;
     }
