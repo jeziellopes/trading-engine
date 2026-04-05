@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from "react";
+import { Activity, type ReactNode, useState } from "react";
 import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import type { BotInstance, BotStatus } from "@/features/bots/types";
 import { cn } from "@/lib/utils";
@@ -46,8 +46,12 @@ export function DataPanel({ bots, TradesFeedSlot, onBotStatusChange, className }
       </div>
 
       <div className="flex-1 min-h-0 overflow-y-auto">
-        {activeTab === "trades" && TradesFeedSlot}
-        {activeTab === "bots" && <BotManagerPanel bots={bots} onStatusChange={onBotStatusChange} />}
+        <Activity mode={activeTab === "trades" ? "visible" : "hidden"}>
+          {TradesFeedSlot}
+        </Activity>
+        <Activity mode={activeTab === "bots" ? "visible" : "hidden"}>
+          <BotManagerPanel bots={bots} onStatusChange={onBotStatusChange} />
+        </Activity>
       </div>
     </div>
   );

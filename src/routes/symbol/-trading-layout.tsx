@@ -6,12 +6,12 @@ import { useOrderBookViewState } from "@/features/order-book/use-order-book-data
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
 import { MarketTradesFeed } from "@/features/trades/market-trades-feed";
-import { TradesFeed } from "@/features/trades/trades-feed";
+import { MyTradesFeed } from "@/features/trades/my-trades-feed";
 import { DataPanel } from "@/features/trading/data-panel";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
 
 import { MOCK_PORTFOLIO_SUMMARY } from "@/lib/mock-data";
-import { useBaseAsset, useTrades } from "@/stores/market-data";
+import { useBaseAsset } from "@/stores/market-data";
 import { useTerminalStore } from "@/stores/terminal-store";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
@@ -60,9 +60,10 @@ function MarketTradesPanel() {
   );
 }
 
-function TradesFeedPanel() {
-  const liveTrades = useTrades();
-  return <TradesFeed trades={liveTrades} />;
+/** Leaf — owns fills subscription; never causes TerminalLayout to re-render. */
+function MyTradesPanel() {
+  const fills = useTerminalStore((s) => s.fills);
+  return <MyTradesFeed fills={fills} />;
 }
 
 export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLayoutProps) {
@@ -203,7 +204,7 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
               <ErrorBoundary>
                 <DataPanel
                   bots={bots}
-                  TradesFeedSlot={<TradesFeedPanel />}
+                  TradesFeedSlot={<MyTradesPanel />}
                   onBotStatusChange={(id, s) => setBotStatus(id, s)}
                 />
               </ErrorBoundary>
