@@ -1,14 +1,14 @@
 import { useState } from "react";
+import type { NormalizedTrade } from "@/domain/market-data/normalized";
 import { BotManagerPanel } from "@/features/bots/bot-manager-panel";
 import type { BotInstance, BotStatus } from "@/features/bots/types";
-import { RecentTradesTable } from "@/features/trades/recent-trades-table";
-import type { TerminalTrade } from "@/lib/mock-data";
+import { TradesFeed } from "@/features/trades/trades-feed";
 import { cn } from "@/lib/utils";
 import { Tab, TabList } from "@/ui/tabs";
 
 interface DataPanelProps {
   bots: BotInstance[];
-  trades: TerminalTrade[];
+  trades: NormalizedTrade[];
   onBotStatusChange: (id: string, status: BotStatus) => void;
   className?: string;
 }
@@ -47,7 +47,7 @@ export function DataPanel({ bots, trades, onBotStatusChange, className }: DataPa
       </div>
 
       <div className="flex-1 min-h-0 overflow-y-auto">
-        {activeTab === "trades" && <RecentTradesTable trades={trades} />}
+        {activeTab === "trades" && <TradesFeed trades={trades} />}
         {activeTab === "bots" && <BotManagerPanel bots={bots} onStatusChange={onBotStatusChange} />}
       </div>
     </div>

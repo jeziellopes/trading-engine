@@ -4,7 +4,7 @@ import { ConnectionBanner } from "./connection-banner";
 import type { PriceLevel } from "./order-book-row";
 import { SpreadBar } from "./spread-bar";
 
-interface OrderBookState {
+export interface OrderBookState {
   bids: PriceLevel[];
   asks: PriceLevel[];
   bestBid: number;

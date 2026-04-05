@@ -5,14 +5,12 @@ import { OrderBook } from "@/features/order-book/order-book";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
 import { DataPanel } from "@/features/trading/data-panel";
+import { useOrderBookViewState } from "@/features/order-book/use-order-book-data";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
 
-import {
-  MOCK_ORDER_BOOK_STATE,
-  MOCK_PORTFOLIO_SUMMARY,
-  MOCK_TERMINAL_TRADES,
-} from "@/lib/mock-data";
+import { MOCK_PORTFOLIO_SUMMARY } from "@/lib/mock-data";
 import { useTerminalStore } from "@/stores/terminal-store";
+import { useTrades } from "@/stores/market-data";
 import { Button } from "@/ui/button";
 import { ErrorBoundary } from "@/ui/error-boundary";
 import { Panel } from "@/ui/panel";
@@ -39,6 +37,8 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
   } = useTerminalLayout();
   const bots = useTerminalStore((s) => s.bots);
   const setBotStatus = useTerminalStore((s) => s.setBotStatus);
+  const orderBookState = useOrderBookViewState(levels);
+  const liveTrades = useTrades();
   const [activeTimeframe, setActiveTimeframe] = useState("15m");
 
   const handleOrderSubmit = async (data: OrderFormData) => {
@@ -112,7 +112,16 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
               <ErrorBoundary>
                 <Panel title={`Order Book · ${levels}`}>
                   <Panel.Content noScroll>
-                    <OrderBook state={MOCK_ORDER_BOOK_STATE} />
+                    {orderBookState ? (
+                      <OrderBook state={orderBookState} />
+                    ) : (
+                      <div className="flex flex-col gap-1 p-2" data-testid="order-book-skeleton">
+                        {Array.from({ length: 12 }).map((_, i) => (
+                          // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton
+                          <div key={i} className="h-5 rounded bg-muted animate-pulse" />
+                        ))}
+                      </div>
+                    )}
                   </Panel.Content>
                 </Panel>
               </ErrorBoundary>
@@ -155,7 +164,7 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
               <ErrorBoundary>
                 <DataPanel
                   bots={bots}
-                  trades={MOCK_TERMINAL_TRADES}
+                  trades={liveTrades}
                   onBotStatusChange={(id, s) => setBotStatus(id, s)}
                 />
               </ErrorBoundary>
