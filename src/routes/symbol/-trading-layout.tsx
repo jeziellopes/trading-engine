@@ -5,6 +5,7 @@ import { OrderBook } from "@/features/order-book/order-book";
 import { useOrderBookViewState } from "@/features/order-book/use-order-book-data";
 import type { OrderFormData } from "@/features/order-entry/order-form";
 import { OrderForm } from "@/features/order-entry/order-form";
+import { TradesFeed } from "@/features/trades/trades-feed";
 import { DataPanel } from "@/features/trading/data-panel";
 import { PortfolioSummaryWidget } from "@/features/trading/portfolio-summary-widget";
 
@@ -24,6 +25,32 @@ interface TerminalLayoutProps {
   levels?: number;
 }
 
+// Leaf components — own their own store subscriptions so TerminalLayout
+// never re-renders due to high-frequency market data updates.
+
+interface OrderBookPanelProps {
+  levels: number;
+}
+
+function OrderBookPanel({ levels }: OrderBookPanelProps) {
+  const orderBookState = useOrderBookViewState(levels);
+  return orderBookState ? (
+    <OrderBook state={orderBookState} />
+  ) : (
+    <div className="flex flex-col gap-1 p-2" data-testid="order-book-skeleton">
+      {Array.from({ length: 12 }).map((_, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton
+        <div key={i} className="h-5 rounded bg-muted animate-pulse" />
+      ))}
+    </div>
+  );
+}
+
+function TradesFeedPanel() {
+  const liveTrades = useTrades();
+  return <TradesFeed trades={liveTrades} />;
+}
+
 export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLayoutProps) {
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const {
@@ -37,8 +64,6 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
   } = useTerminalLayout();
   const bots = useTerminalStore((s) => s.bots);
   const setBotStatus = useTerminalStore((s) => s.setBotStatus);
-  const orderBookState = useOrderBookViewState(levels);
-  const liveTrades = useTrades();
   const [activeTimeframe, setActiveTimeframe] = useState("15m");
 
   const handleOrderSubmit = async (data: OrderFormData) => {
@@ -112,16 +137,7 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
               <ErrorBoundary>
                 <Panel title={`Order Book · ${levels}`}>
                   <Panel.Content noScroll>
-                    {orderBookState ? (
-                      <OrderBook state={orderBookState} />
-                    ) : (
-                      <div className="flex flex-col gap-1 p-2" data-testid="order-book-skeleton">
-                        {Array.from({ length: 12 }).map((_, i) => (
-                          // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton
-                          <div key={i} className="h-5 rounded bg-muted animate-pulse" />
-                        ))}
-                      </div>
-                    )}
+                    <OrderBookPanel levels={levels} />
                   </Panel.Content>
                 </Panel>
               </ErrorBoundary>
@@ -164,7 +180,7 @@ export function TerminalLayout({ symbol, tab = "book", levels = 20 }: TerminalLa
               <ErrorBoundary>
                 <DataPanel
                   bots={bots}
-                  trades={liveTrades}
+                  TradesFeedSlot={<TradesFeedPanel />}
                   onBotStatusChange={(id, s) => setBotStatus(id, s)}
                 />
               </ErrorBoundary>
