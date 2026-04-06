@@ -1,3 +1,10 @@
+# [1.1.0-next.7](https://github.com/jeziellopes/flow/compare/v1.1.0-next.6...v1.1.0-next.7) (2026-04-06)
+
+
+### Bug Fixes
+
+* **data-panel:** My Trades shows user fills + Activity tab isolation ([1239dac](https://github.com/jeziellopes/flow/commit/1239daca6a93481fa2513802c1995dc1d6d3ac78)), closes [#97](https://github.com/jeziellopes/flow/issues/97) [#108](https://github.com/jeziellopes/flow/issues/108)
+
 # [1.1.0-next.6](https://github.com/jeziellopes/flow/compare/v1.1.0-next.5...v1.1.0-next.6) (2026-04-05)
 
 
