@@ -46,9 +46,7 @@ export function DataPanel({ bots, TradesFeedSlot, onBotStatusChange, className }
       </div>
 
       <div className="flex-1 min-h-0 overflow-y-auto">
-        <Activity mode={activeTab === "trades" ? "visible" : "hidden"}>
-          {TradesFeedSlot}
-        </Activity>
+        <Activity mode={activeTab === "trades" ? "visible" : "hidden"}>{TradesFeedSlot}</Activity>
         <Activity mode={activeTab === "bots" ? "visible" : "hidden"}>
           <BotManagerPanel bots={bots} onStatusChange={onBotStatusChange} />
         </Activity>

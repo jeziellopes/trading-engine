@@ -38,7 +38,10 @@ export function MyTradesFeed({ fills }: MyTradesFeedProps) {
             const isBuy = f.side === "buy";
             const color = isBuy ? "text-trading-bid" : "text-trading-ask";
             return (
-              <tr key={f.id} className="border-b border-border/40 hover:bg-muted/30 transition-colors">
+              <tr
+                key={f.id}
+                className="border-b border-border/40 hover:bg-muted/30 transition-colors"
+              >
                 <td className="px-3 py-1 text-muted-foreground">{formatTime(f.time)}</td>
                 <td className={cn("px-3 py-1 text-right", color)}>
                   {parseFloat(f.price).toFixed(2)}

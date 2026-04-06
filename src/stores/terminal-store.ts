@@ -36,6 +36,5 @@ export const useTerminalStore = create<TerminalState>((set) => ({
     set((state) => ({
       bots: state.bots.map((b) => (b.id === id ? { ...b, status } : b)),
     })),
-  addFill: (fill) =>
-    set((state) => ({ fills: [fill, ...state.fills].slice(0, 200) })),
+  addFill: (fill) => set((state) => ({ fills: [fill, ...state.fills].slice(0, 200) })),
 }));
